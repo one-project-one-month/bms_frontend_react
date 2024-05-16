@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -30,6 +31,18 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      colors :{
+        PrimaryBg : colors.slate[50],
+        secondaryBg : colors.white,
+        cardBg : colors.slate[100],
+        primaryText : colors.black,
+        secondaryText : colors.gray[400],
+        btnText : colors.white,
+        primaryBtn : colors.green[400],
+        secondaryBtn : colors.slate[100],
+        bgHover : colors.slate[200],
+        selected : colors.green[200],
       },
     },
   },
