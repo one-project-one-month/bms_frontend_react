@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import AboutUsPage from './pages/AboutUsPage';
+import AboutUsPage from './pages/UserPage';
 import HomePage from './pages/HomePage';
+import TransactionHistoryPage from './pages/TransactionHistoryPage';
 
 const router = createBrowserRouter([
   {
@@ -13,8 +14,12 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: 'about',
+    path: 'user',
     element: <AboutUsPage />,
+  },
+  {
+    path: 'transactionHistory',
+    element: <TransactionHistoryPage />,
   },
 ]);
 
