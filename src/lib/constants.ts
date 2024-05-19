@@ -1,11 +1,5 @@
-type EndpointType = {
-  [key: string]: {
-    [key: string]: string;
-  };
-};
-
-export const endpoints: EndpointType = {
+export const endpoints = Object.freeze({
   staff: {
     login: '/login',
   },
-};
+});
