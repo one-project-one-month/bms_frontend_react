@@ -1,11 +1,12 @@
 import { navLinks } from "../../lib/constants";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "../../lib/utils";
 
-interface DashboardLayoutProps {
-  children: React.ReactNode | React.ReactNode[];
-}
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+
+// interface DashboardLayoutProps {
+//   children: React.ReactNode | React.ReactNode[];
+// }
+export default function DashboardLayout() {
   return (
     <div className="flex">
       <div className="w-1/5 h-screen bg-gray-800 text-white px-3">
@@ -14,7 +15,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           navLinks.map(navLink => (
             <NavLink
               to={navLink.route}
-              className={({ isActive }) => cn({ "text-green-500 transition-all duration-500": isActive })}>
+              className={({ isActive }) => cn({ "text-green-500 transition-all duration-100": isActive })}>
               <div key={navLink.routeName} className="flex items-center mb-6 gap-3">
                 {<navLink.Icon />}
                 <p>{navLink.routeName}</p>
@@ -23,7 +24,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           ))
         }
       </div>
-      <div className="w-4/5 h-screen bg-gray-200">{children}</div>
+      <Outlet />
     </div>
+
+
   );
 }
