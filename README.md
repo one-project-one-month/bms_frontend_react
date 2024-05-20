@@ -45,7 +45,7 @@ export default {
 
 - react-typescript
 - tailwindCss
-- shadcn ui 
+- shadcn ui
 - react-icons
 - google-fonts
 
@@ -53,3 +53,4 @@ export default {
 ## State management
 - react - query
 - react-router-dom
+```
