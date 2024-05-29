@@ -1,0 +1,32 @@
+{
+  "transactionHistory": [
+    {
+      "transcationHistoryId": 1,
+      "adminName": "Ko Maung",
+      "receiverName": "Ma Khin",
+      "receiverEmail": "khin@gmail.com",
+      "userEmail": "khin@gmail.com",
+      "senderName": "Ko Hla",
+      "senderEmail": "hla555@gmail.com",
+      "type": "transfer",
+      "amount": 500000,
+      "transactionTime": "Apr 22, 2024, 01:17 PM"
+    },
+    {
+      "transcationHistoryId": 2,
+      "adminName": "Ko Maung",
+      "userEmail": "san@gmail.com",
+      "type": "deposit",
+      "amount": 500000,
+      "transactionTime": "Apr 18, 2024, 01:17 PM"
+    },
+    {
+      "transcationHistoryId": 3,
+      "adminName": "Ko Maung",
+      "userEmail": "san@gmail.com",
+      "type": "withdraw",
+      "amount": 500000,
+      "transactionTime": "Apr 15, 2024, 01:17 PM"
+    }
+  ]
+}

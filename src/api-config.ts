@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 const Axios = axios.create();
 
 // add base url
-// Axios.defaults.baseURL = process.env.BASE_URL || 'http://localhost:4000';
+Axios.defaults.baseURL = 'http://localhost:3000';
 
 // interceptors
 

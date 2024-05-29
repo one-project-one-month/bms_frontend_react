@@ -20,3 +20,16 @@ export type User = {
   status: string;
   roles: string;
 };
+
+export type TranscationHistory = {
+  transcationHistoryId: number;
+  adminName: string;
+  receiverName?: 'Ma Khin';
+  receiverEmail?: 'khin@gmail.com';
+  userEmail?: string;
+  senderName?: string;
+  senderEmail?: string;
+  type: 'transfer' | 'deposit' | 'withdraw';
+  amount: number;
+  transactionTime: string;
+};

@@ -14,6 +14,7 @@ export default function DashboardLayout() {
         {
           navLinks.map(navLink => (
             <NavLink
+              key={navLink.route}
               to={navLink.route}
               className={({ isActive }) => cn({ "text-green-500 transition-all duration-100": isActive })}>
               <div key={navLink.routeName} className="flex items-center mb-6 gap-3">
