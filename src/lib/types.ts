@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export type ResponseDataType<T> = {
   status: string;
   message: string;
@@ -19,4 +21,28 @@ export type User = {
   fullName: string;
   status: string;
   roles: string;
+};
+
+type UserName = {
+  name: string;
+};
+
+type AdminCode = {
+  adminCode: string;
+};
+
+export type TranscationHistory = {
+  id: string;
+  amount: number;
+  sender?: UserName;
+  receiver?: UserName;
+  user?: UserName;
+  note?: string;
+  type: 'deposit' | 'withdraw';
+  time: Date;
+  admin?: UserName & AdminCode;
+};
+
+export type TranscationHistoryResponse = {
+  data: TranscationHistory[];
 };
