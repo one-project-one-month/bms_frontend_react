@@ -20,6 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "src/components/ui/data-table.tsx",
+    "src/components/ui/table.tsx",
+    "@/lib/utils.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
