@@ -8,13 +8,8 @@ import {
     getPaginationRowModel
 } from "@tanstack/react-table"
 
-
-
-
 import { Input } from "./input"
 import { Button } from "./button"
-
-
 
 import {
     Table,
@@ -24,17 +19,19 @@ import {
     TableHeader,
     TableRow,
 } from "./table"
-import { useState } from "react"
 
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    data: TData[],
+    error?: Error | null
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    error
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const table = useReactTable({
@@ -60,7 +57,6 @@ export function DataTable<TData, TValue>({
                     }
                 />
             </div>
-
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -97,7 +93,8 @@ export function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    No results.
+                                    {error ? <span className={"font-bold text-l text-red-600"}>{error.message}</span> :
+                                        <span className="dark:text-white">"No result"</span>}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -112,6 +109,13 @@ export function DataTable<TData, TValue>({
                     disabled={!table.getCanPreviousPage()}
                 >
                     Previous
+                </Button>
+                <Button
+                    className="dark:text-white"
+                    variant="outline"
+                    size="sm"
+                >
+                    {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
                 </Button>
                 <Button
                     variant="outline"
