@@ -46,6 +46,7 @@ module.exports = {
         selected : colors.green[200],
         disabledBtn : colors.green[200],
         deleteBtn : colors.red[400],
+        borderColor : colors.gray[200],
       },
     },
   },
