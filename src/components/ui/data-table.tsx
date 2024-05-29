@@ -4,11 +4,16 @@ import {
     getCoreRowModel,
     useReactTable,
     ColumnFiltersState,
-    getFilteredRowModel
+    getFilteredRowModel,
+    getPaginationRowModel
 } from "@tanstack/react-table"
 
 
+
+
 import { Input } from "./input"
+import { Button } from "./button"
+
 
 
 import {
@@ -20,6 +25,7 @@ import {
     TableRow,
 } from "./table"
 import { useState } from "react"
+
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -37,22 +43,24 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         state: {
             columnFilters
         }
     })
 
     return (
-        <div className="flex flex-col p-10">
+        <div className="flex flex-col">
             <div className="w-2/4 mb-4">
                 <Input
-                    placeholder="Filter by emails..."
-                    value={(table.getColumn("userEmail")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter by transaction Id..."
+                    value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("userEmail")?.setFilterValue(event.target.value)
+                        table.getColumn("id")?.setFilterValue(event.target.value)
                     }
                 />
             </div>
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -95,6 +103,24 @@ export function DataTable<TData, TValue>({
                         )}
                     </TableBody>
                 </Table>
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    Previous
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    Next
+                </Button>
             </div>
         </div>
 
