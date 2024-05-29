@@ -47,6 +47,7 @@ module.exports = {
         disabledBtn : colors.green[200],
         deleteBtn : colors.red[400],
         borderColor : colors.gray[200],
+        secondaryBorderColor : colors.slate[300],
       },
     },
   },
