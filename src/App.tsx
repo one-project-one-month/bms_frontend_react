@@ -5,9 +5,10 @@ import AboutUsPage from './pages/UserPage';
 import HomePage from './pages/HomePage';
 import TransactionHistoryPage from './pages/TransactionHistoryPage';
 import DashboardLayout from './components/layouts/DashboardLayout';
-import TransferPage from './pages/TransferPage';
+import TransferPage from './pages/transfer/TransferPage';
 import WithdrawPage from './pages/WithdrawPage';
 import DepositPage from './pages/DepositPage';
+import SuccessMessage from './pages/transfer/SuccessMessage';
 
 const router = createBrowserRouter([
   {
