@@ -31,18 +31,17 @@ const TransferPage = () => {
             transferAmount:convertAmount ,
         },
     };
-    
     // Define your headers
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbkNvZGUiOiJibXNfMWFkNGI2N2UyYjVhN2JlNjA5MTJhYTJkNDc0ZDQxMGEiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTcxNzAxNTQsImV4cCI6MTcxNzI1NjU1NH0.9rTP0JF1ouGcMQ9mjqO8rmY45Zujrylixmgpdw1v6qw'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbkNvZGUiOiJibXNfMWFkNGI2N2UyYjVhN2JlNjA5MTJhYTJkNDc0ZDQxMGEiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTcyMzA1ODAsImV4cCI6MTcxNzMxNjk4MH0.WIvuEAVCxXkZRuyaX2N9tczuh6gDgbNaZC4Xk8K-Bvo'
     };
     
     // Define the request configuration
     const config: AxiosRequestConfig = {
         headers: headers
     };
-    
+  
     const handleOnChange = (field : string,value: string) :void => {
         setAccounts(prevAccounts => ({
             ...prevAccounts,
@@ -53,8 +52,8 @@ const TransferPage = () => {
         }));
     };
 
-    const isCompleted = Object.values(accounts).every((value)=>value.name);  
-
+    const isCompleted = Object.values(accounts).every((value)=>value.name); 
+  
     const clickHandler = async()  => {
 
         try {
@@ -74,10 +73,14 @@ const TransferPage = () => {
                 setData(response.data.data)
                 setSuccess(true)
                 setErrorMessage(null)
+            }else if(response.status !== 200) {
+                console.log(response);
+                
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.error('Axios error:', error.message);
+                setErrorMessage(error)
                 if (error.response) {
                     console.error('Response data:', error.response.data);
                     setErrorMessage(error.response.data)
