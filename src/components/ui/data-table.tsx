@@ -5,7 +5,7 @@ import {
     useReactTable,
     ColumnFiltersState,
     getFilteredRowModel,
-    getPaginationRowModel
+    getPaginationRowModel,
 } from "@tanstack/react-table"
 
 import { Input } from "./input"
@@ -42,8 +42,8 @@ export function DataTable<TData, TValue>({
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         state: {
-            columnFilters
-        }
+            columnFilters,
+        },
     })
 
     return (
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
             </div>
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="bg-green-100">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {

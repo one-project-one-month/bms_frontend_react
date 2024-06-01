@@ -13,13 +13,12 @@ export const columns: ColumnDef<TranscationHistory>[] = [
         accessorKey: "adminName",
         header: "Admin",
         cell: ({ row }) => row.original.admin ? row.original.admin.name : "N/A",
-        filterFn: "includesString"
+
     },
     {
         accessorKey: "user",
         header: "User",
         cell: ({ row }) => row.original.user ? row.original.user.name : "N/A",
-        filterFn: "includesString"
     },
     {
         accessorKey: "time",
@@ -30,7 +29,7 @@ export const columns: ColumnDef<TranscationHistory>[] = [
             const [day, month, dayOfMonth, year, time] = formatData.split(" ")
             const result = `${day} ${month} ${dayOfMonth} ${year} ${time}`;
             return result
-        }
+        },
     },
     {
         accessorKey: "senderName",
@@ -46,7 +45,7 @@ export const columns: ColumnDef<TranscationHistory>[] = [
         accessorKey: "type",
         header: "Type",
         cell: ({ row }) => {
-            return <p className={cn("text-green-600", { "text-red-500": row.original.type === "withdraw" })}>{row.original.type ? row.original.type : "transfer"}</p>
+            return <p className={cn("text-blue-500", { "text-red-500": row.original.type === "withdraw" }, { "text-green-500": row.original.type === "deposit" })}>{row.original.type ? row.original.type : "transfer"}</p>
         }
     },
     {

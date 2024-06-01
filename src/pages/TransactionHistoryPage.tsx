@@ -8,9 +8,8 @@ import { TranscationHistoryResponse } from "../lib/types"
 
 const TransactionHistoryPage = () => {
     const { data, isFetched, error } = useTransactionHistory<TranscationHistoryResponse>()
-
     return (
-        <div>
+        <>
             {
                 isFetched ? (
                     <div className="p-10" >
@@ -18,10 +17,11 @@ const TransactionHistoryPage = () => {
                             columns={columns}
                             data={data?.data ? data?.data : []}
                             error={error}
+
                         />
                     </div >
                 ) : <ListSkeleton className="p-10 w-full" />}
-        </div>
+        </>
 
 
     )
