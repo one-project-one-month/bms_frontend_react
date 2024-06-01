@@ -45,7 +45,7 @@ module.exports = {
         bgHover : colors.slate[200],
         selected : colors.green[200],
         disabledBtn : colors.green[200],
-        deleteBtn : colors.red[400],
+        deleteBtn : colors.red[500],
         borderColor : colors.gray[200],
         secondaryBorderColor : colors.slate[300],
       },

@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState } from "react"
-import {z} from "zod"
 import Inputs from './Inputs';
-import check from '../../assets/check.svg'
-import moment from 'moment';
+import SuccessMessage from './SuccessMessage';
+import { ResponseData,ResponseDataSchema,RequestBody,RequestBodySchema,error } from '../../lib/types';
+import notallowed from '../../assets/notallowed.svg'
 
 const TransferPage = () => {
 
@@ -19,39 +19,6 @@ const TransferPage = () => {
 
     const [errorMessage,setErrorMessage] = useState<error | null> (null)
     console.log(errorMessage);
-    
-
-    const RequestBodySchema = z.object({
-        process: z.literal('transfer'),
-        data: z.object({
-            sender: z.string(),
-            receiver: z.string(),
-            transferAmount: z.number(),
-        }),
-    });
-    
-    // Define the schema for the nested sender/receiver objects in the response data
-    const PersonSchema = z.object({
-        name: z.string(),
-    });
-    
-    // Define the schema for the response data using zod
-    const ResponseDataSchema = z.object({
-            id: z.string().uuid(),
-            amount: z.number(),
-            time: z.string().datetime(),
-            sender: PersonSchema,
-            receiver: PersonSchema,
-    });
-
-    const errorSchema = z.object({
-      message : z.string()
-});
-    
-    // Define TypeScript types for request and response using the zod schemas
-    type RequestBody = z.infer<typeof RequestBodySchema>;
-    type ResponseData = z.infer<typeof ResponseDataSchema>;
-    type error = z.infer<typeof errorSchema>;
     
     // Define your request body
     const convertAmount = parseInt(accounts.amount.name,10)
@@ -129,33 +96,15 @@ const TransferPage = () => {
                         {!success && !errorMessage?.message && <Inputs accounts={accounts} handleOnChange={handleOnChange} 
                         isCompleted={isCompleted} clickHandler={clickHandler}/>}
 
-                        {success && <div className='w-full flex flex-col items-center justify-center gap-2'>
-                         <div className='w-full flex items-center justify-center gap-2'>
-                            <img src={check} alt="check" />
-                            <p className=' text-primaryBtn font-semibold'>Successful transfer</p>
-                         </div>
-                         {data?.time && (
-                            <p className='text-xs text-secondaryText'>
-                            {moment(data.time).format('D MMMM YYYY')}
-                            </p>
-                         )}
-                         <p className='text-xs text-secondaryText'>Ref ID : {data?.id}</p>
-                         <div className='border-b border-secondaryBorderColor w-full'></div>
-                         <div className='w-full flex items-center justify-between mt-2'>
-                            <p>From</p>
-                            <p className=''>{data?.sender.name.toLocaleUpperCase()}</p>
-                         </div>
-                         <div className='w-full flex items-center justify-between mt-2'>
-                            <p>To</p>
-                            <p className=''>{data?.receiver.name.toLocaleUpperCase()}</p>
-                         </div>
-                         <div className='border-b border-secondaryBorderColor mt-2 w-full'></div>
-                         <div className='w-full flex items-center justify-between mt-2'>
-                            <p>Amount</p>
-                            <p className=''>{data?.amount}</p>
-                         </div>
-                       </div>}
-                    {errorMessage && <div className='w-full text-center'>{errorMessage.message}</div> }
+                        {success && <SuccessMessage data={data}/>}
+                        {errorMessage && (
+                        <div className='w-full flex items-center justify-center gap-2'>
+                            <img src={notallowed} alt="notallowed" className='w-4' />
+                            <p className='text-sm text-center text-deleteBtn'>
+                            {errorMessage.message}
+                            </p> 
+                        </div>
+                        )}
                 </form>
             </div>
         </div>

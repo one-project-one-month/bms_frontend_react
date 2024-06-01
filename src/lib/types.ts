@@ -1,4 +1,37 @@
 import exp from 'constants';
+import { z } from 'zod';
+
+const PersonSchema = z.object({
+  name: z.string(),
+});
+
+export const ResponseDataSchema = z.object({
+  id: z.string().uuid(),
+  amount: z.number(),
+  time: z.string().datetime(),
+  sender: PersonSchema,
+  receiver: PersonSchema,
+});
+
+export type ResponseData = z.infer<typeof ResponseDataSchema>;
+
+export const RequestBodySchema = z.object({
+  process: z.literal('transfer'),
+  data: z.object({
+      sender: z.string(),
+      receiver: z.string(),
+      transferAmount: z.number(),
+  }),
+});
+
+const errorSchema = z.object({
+message : z.string()
+});
+
+// Define TypeScript types for request and response using the zod schemas
+export type RequestBody = z.infer<typeof RequestBodySchema>;
+export type error = z.infer<typeof errorSchema>;
+
 
 export type ResponseDataType<T> = {
   status: string;
