@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import AboutUsPage from './pages/UserPage';
@@ -8,7 +7,6 @@ import DashboardLayout from './components/layouts/DashboardLayout';
 import TransferPage from './pages/transfer/TransferPage';
 import WithdrawPage from './pages/WithdrawPage';
 import DepositPage from './pages/DepositPage';
-import SuccessMessage from './pages/transfer/SuccessMessage';
 
 const router = createBrowserRouter([
   {
@@ -17,23 +15,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />
-      },
-      {
-        path: 'login',
-        element: <LoginPage />,
+        element: <HomePage />,
       },
       {
         path: 'transfer',
         element: <TransferPage />,
       },
       {
-        path: "withdraw",
-        element: <WithdrawPage />
+        path: 'withdraw',
+        element: <WithdrawPage />,
       },
       {
-        path: "deposit",
-        element: <DepositPage />
+        path: 'deposit',
+        element: <DepositPage />,
       },
       {
         path: 'user',
@@ -43,7 +37,11 @@ const router = createBrowserRouter([
         path: 'transactionHistory',
         element: <TransactionHistoryPage />,
       },
-    ]
+    ],
+  },
+  {
+    path: 'login',
+    element: <LoginPage />,
   },
 ]);
 

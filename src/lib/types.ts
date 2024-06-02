@@ -1,4 +1,3 @@
-import exp from 'constants';
 import { z } from 'zod';
 
 const PersonSchema = z.object({
@@ -18,20 +17,19 @@ export type ResponseData = z.infer<typeof ResponseDataSchema>;
 export const RequestBodySchema = z.object({
   process: z.literal('transfer'),
   data: z.object({
-      sender: z.string(),
-      receiver: z.string(),
-      transferAmount: z.number(),
+    sender: z.string(),
+    receiver: z.string(),
+    transferAmount: z.number(),
   }),
 });
 
 const errorSchema = z.object({
-message : z.string()
+  message: z.string(),
 });
 
 // Define TypeScript types for request and response using the zod schemas
 export type RequestBody = z.infer<typeof RequestBodySchema>;
 export type error = z.infer<typeof errorSchema>;
-
 
 export type ResponseDataType<T> = {
   status: string;
@@ -64,7 +62,7 @@ type AdminCode = {
   adminCode: string;
 };
 
-export type TranscationHistory = {
+export type TransactionHistory = {
   id: string;
   amount: number;
   sender?: UserName;
@@ -76,6 +74,6 @@ export type TranscationHistory = {
   admin?: UserName & AdminCode;
 };
 
-export type TranscationHistoryResponse = {
-  data: TranscationHistory[];
+export type TransactionHistoryResponse = {
+  data: TransactionHistory[];
 };
