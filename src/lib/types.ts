@@ -31,7 +31,7 @@ type AdminCode = {
   adminCode: string;
 };
 
-export type TranscationHistory = {
+export type TransactionHistory = {
   id: string;
   amount: number;
   sender?: UserName;
@@ -43,6 +43,6 @@ export type TranscationHistory = {
   admin?: UserName & AdminCode;
 };
 
-export type TranscationHistoryResponse = {
-  data: TranscationHistory[];
+export type TransactionHistoryResponse = {
+  data: TransactionHistory[];
 };
