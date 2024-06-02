@@ -46,10 +46,9 @@ export default function DashboardLayout() {
             </button>
           </div>
         )}
-        <Outlet />
-      </div>
-      <div className="w-4/5">
-        <Outlet />
+        <div className="p-3">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
