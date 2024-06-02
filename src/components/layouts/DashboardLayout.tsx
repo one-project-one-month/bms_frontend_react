@@ -13,7 +13,7 @@ export default function DashboardLayout() {
   };
   return (
     <div className="flex">
-      <div className="w-1/5 h-screen bg-gray-800 text-white px-3">
+      <div className="w-1/5 min-h-[100vh] bg-gray-800 text-white px-3">
         <h1 className="text-xl mb-12 mt-6 text-center">Bank Management</h1>
         {navLinks.map((navLink) => (
           <NavLink
@@ -46,6 +46,9 @@ export default function DashboardLayout() {
             </button>
           </div>
         )}
+        <Outlet />
+      </div>
+      <div className="w-4/5">
         <Outlet />
       </div>
     </div>
