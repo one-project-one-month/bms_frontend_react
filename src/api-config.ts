@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 const Axios = axios.create();
 
 // add base url
-Axios.defaults.baseURL = 'https://bms-backend-nodejs.vercel.app/api/v1';
+Axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
 // interceptors
 

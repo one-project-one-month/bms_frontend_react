@@ -10,7 +10,7 @@ import {
 // endpoints
 export const endpoints = Object.freeze({
   staff: {
-    login: '/login',
+    login: '/admins/login',
   },
 });
 

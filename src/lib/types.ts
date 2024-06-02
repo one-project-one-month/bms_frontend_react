@@ -31,22 +31,6 @@ const errorSchema = z.object({
 export type RequestBody = z.infer<typeof RequestBodySchema>;
 export type error = z.infer<typeof errorSchema>;
 
-export type ResponseDataType<T> = {
-  status: string;
-  message: string;
-  data?: T[];
-  error?: string | string[] | null;
-  time?: string;
-};
-
-export type PaginationResponseType<T> = {
-  current_page: number;
-  total: number;
-  per_page: number;
-  size: number;
-  dtoList: T[];
-};
-
 export type User = {
   id: number | null;
   fullName: string;
@@ -76,4 +60,14 @@ export type TransactionHistory = {
 
 export type TransactionHistoryResponse = {
   data: TransactionHistory[];
+};
+
+// type for login process
+export type LoginMutationParams = {
+  adminCode: string;
+  password: string;
+};
+
+export type LoginResponseType = {
+  data: string;
 };
