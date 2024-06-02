@@ -22,8 +22,8 @@
   },
   "include": [
     "src",
-    "src/components/ui/data-table.tsx",
-    "src/components/ui/table.tsx",
+    "src/components/ui/DataTable.tsx",
+    "src/components/ui/Table.tsx",
     "@/lib/utils.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]

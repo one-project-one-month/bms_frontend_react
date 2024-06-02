@@ -1,21 +1,40 @@
+import { useEffect, useState } from 'react';
 import { columns } from '../components/TransactionHistory/column';
-import { DataTable } from '../components/ui/data-table';
-import ListSkeleton from '../components/ui/table-skeleton';
+import { DataTable } from '../components/ui/DataTable';
+import ListSkeleton from '../components/ui/TableSkeleton';
 import { useTransactionHistory } from '../hooks/useTransactionHistory';
-import { TransactionHistoryResponse } from '../lib/types';
+import { TransactionHistory, TransactionHistoryResponse } from '../lib/types';
 
 const TransactionHistoryPage = () => {
-  const { data, isFetched, error } =
+  const [transactionData, setTransactionData] = useState<TransactionHistory[]>(
+    [],
+  );
+  const GetTransactionQuery =
     useTransactionHistory<TransactionHistoryResponse>();
+
+  useEffect(() => {
+    if (GetTransactionQuery.isSuccess && GetTransactionQuery.data) {
+      console.log(GetTransactionQuery.data);
+
+      // response.data is an array of TransactionHistory
+      setTransactionData(GetTransactionQuery.data.data);
+    } else if (GetTransactionQuery.isError) {
+      console.log(GetTransactionQuery.error);
+    }
+  }, [
+    GetTransactionQuery.isError,
+    GetTransactionQuery.isSuccess,
+    GetTransactionQuery.isPending,
+  ]);
 
   return (
     <div>
-      {isFetched ? (
+      {transactionData ? (
         <div className="p-10">
           <DataTable
             columns={columns}
-            data={data?.data ? data?.data : []}
-            error={error}
+            data={transactionData}
+            error={GetTransactionQuery.error}
           />
         </div>
       ) : (

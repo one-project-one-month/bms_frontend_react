@@ -16,12 +16,12 @@ interface TransferFormProps {
   clickHandler: () => void;
 }
 
-const Inputs = ({
+export default function TransferForm({
   accounts,
   handleOnChange,
   isCompleted,
   clickHandler,
-}: TransferFormProps) => {
+}: TransferFormProps) {
   return (
     <>
       <div className="mb-4">
@@ -100,6 +100,4 @@ const Inputs = ({
       </div>
     </>
   );
-};
-
-export default Inputs;
+}
