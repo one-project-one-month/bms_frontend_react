@@ -11,10 +11,11 @@ Axios.defaults.baseURL = 'https://bms-backend-nodejs.vercel.app/api/v1';
 // need to check the jwt token from cookies and add it to the request header
 Axios.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // const token = Cookies.get('token');
+    // if (token) {
+    //   config.headers.Authorization = `Bearer ${token}`;
+    // }
+    config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbkNvZGUiOiJibXNfYjI5NGViOWE3ZWNjNDAwOTkyZDNmODBhODUwODYzZDAiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTcxODA5MzMsImV4cCI6MTcxNzI2NzMzM30.Co1JqZKW-TDeEDBE_nNFH4d80trdtUj_r3RrYlHoL6I`;
     return config;
   },
   (error) => {
