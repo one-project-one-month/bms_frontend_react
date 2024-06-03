@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { Button } from '../ui/button';
+import Axios from '@/api-config';
 
 const ActionButton = ({
   username,
@@ -13,18 +13,10 @@ const ActionButton = ({
 }) => {
   const mutation = useMutation({
     mutationFn: async () => {
-      return await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/users/actions`,
-        {
-          username,
-          process,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_ADMIN_TOKEN}`,
-          },
-        },
-      );
+      return await Axios.post('/users/actions', {
+        username,
+        process,
+      });
     },
     onSuccess() {
       changeStatus && changeStatus();

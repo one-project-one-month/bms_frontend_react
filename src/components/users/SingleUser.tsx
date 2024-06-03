@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 const SingleUser = ({ user }: { user: UserForm }) => {
   const [deactivated, setDeactivated] = useState<boolean>();
-  console.log(deactivated);
 
   return (
     <div className="flex flex-row space-x-3">

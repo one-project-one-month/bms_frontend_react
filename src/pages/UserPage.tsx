@@ -1,13 +1,10 @@
-import axios from 'axios';
 import { UserForm } from '../lib/types';
 import { useQuery } from '@tanstack/react-query';
 import SingleUser from '@/components/users/SingleUser';
+import Axios from '@/api-config';
 
 const getUsers = async () => {
-  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/users/`, {
-    headers: { Authorization: `Bearer ${import.meta.env.VITE_ADMIN_TOKEN}` },
-  });
-
+  const res = await Axios.get('/users/');
   return res.data.data;
 };
 

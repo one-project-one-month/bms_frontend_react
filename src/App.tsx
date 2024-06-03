@@ -37,24 +37,20 @@ const router = createBrowserRouter([
         element: <DepositPage />,
       },
       {
-        path: 'user',
-        element: <UserPage />,
-      },
-      {
-        path: 'user/create',
-        element: <CreateUserPage />,
-      },
-      {
-        path: 'user/update',
-        element: <UpdateUserPage />,
-      },
-      {
         path: 'transactionHistory',
         element: <TransactionHistoryPage />,
       },
       {
         path: 'users',
         element: <UserPage />,
+      },
+      {
+        path: 'users/create',
+        element: <CreateUserPage />,
+      },
+      {
+        path: 'users/update',
+        element: <UpdateUserPage />,
       },
     ],
   },

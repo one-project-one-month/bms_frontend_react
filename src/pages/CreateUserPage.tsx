@@ -1,17 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import Form from '../components/users/Form';
 import { UserForm } from '../lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Axios from '@/api-config';
 
 const createUser = async (newUser: UserForm) => {
-  await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/v1/admins/users/registrations`,
-    newUser,
-    {
-      headers: { Authorization: `Bearer ${import.meta.env.VITE_ADMIN_TOKEN}` },
-    },
-  );
+  await Axios.post('/admins/users/registrations', newUser);
 };
 
 const CreateUserPage = () => {

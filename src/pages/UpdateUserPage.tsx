@@ -1,14 +1,12 @@
+import Axios from '@/api-config';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import Form from '../components/users/Form';
 import { UserForm } from '../lib/types';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { useLocation } from 'react-router-dom';
 
 const updateUser = async (userData: UserForm) => {
-  await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/users`, userData, {
-    headers: { Authorization: `Bearer ${import.meta.env.VITE_ADMIN_TOKEN}` },
-  });
+  await Axios.post(`/users`, userData);
 };
 
 const UpdateUserPage = () => {
