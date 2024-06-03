@@ -1,12 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, selectCounter } from "../store";
-import { increaseCount } from "../store/slices/counterSlice";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, selectCounter } from '../store';
+import { increaseCount } from '../store/slices/counterSlice';
 
 export default function HomePage() {
-  const dispatch: AppDispatch = useDispatch()
-  const counter = useSelector((state: RootState) => selectCounter(state))
-
+  const dispatch: AppDispatch = useDispatch();
+  const counter = useSelector((state: RootState) => selectCounter(state));
 
   return (
     <div>

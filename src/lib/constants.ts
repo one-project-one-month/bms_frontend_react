@@ -4,15 +4,17 @@ import {
   Forward,
   History,
   Home,
-  UsersRound,
+  User,
 } from 'lucide-react';
 
+// endpoints
 export const endpoints = Object.freeze({
   staff: {
-    login: '/login',
+    login: '/admins/login',
   },
 });
 
+// side bar navigation links
 export const navLinks = Object.freeze([
   {
     route: '/',
@@ -40,8 +42,8 @@ export const navLinks = Object.freeze([
     routeName: 'TransactionHistory',
   },
   {
-    route: '/user',
-    Icon: UsersRound,
+    route: '/users',
+    Icon: User,
     routeName: 'Users',
   },
 ]);

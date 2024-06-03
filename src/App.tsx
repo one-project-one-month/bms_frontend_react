@@ -52,7 +52,15 @@ const router = createBrowserRouter([
         path: 'transactionHistory',
         element: <TransactionHistoryPage />,
       },
+      {
+        path: 'users',
+        element: <UserPage />,
+      },
     ],
+  },
+  {
+    path: 'login',
+    element: <LoginPage />,
   },
 ]);
 

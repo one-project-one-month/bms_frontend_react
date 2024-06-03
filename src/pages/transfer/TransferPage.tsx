@@ -1,17 +1,17 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState } from 'react';
-import SuccessMessage from '../components/transfer/SuccessMessage';
+import Inputs from './Inputs';
+import SuccessMessage from './SuccessMessage';
 import {
   ResponseData,
   ResponseDataSchema,
   RequestBody,
   RequestBodySchema,
   error,
-} from '../lib/types';
-import TransferForm from '../components/transfer/TransferForm';
+} from '../../lib/types';
+import notallowed from '../../assets/notallowed.svg';
 
 const TransferPage = () => {
-  // form initial state
   const [accounts, setAccounts] = useState({
     sender: { name: '', isTouched: false },
     recipient: { name: '', isTouched: false },
@@ -101,7 +101,7 @@ const TransferPage = () => {
       <div className="w-full max-w-lg mx-auto mt-20">
         <form className="bg-secondaryBg border border-borderColor rounded-md px-8 pt-6 pb-8 mb-4">
           {!success && !errorMessage?.message && (
-            <TransferForm
+            <Inputs
               accounts={accounts}
               handleOnChange={handleOnChange}
               isCompleted={isCompleted}
@@ -112,7 +112,7 @@ const TransferPage = () => {
           {success && <SuccessMessage data={data} />}
           {errorMessage && (
             <div className="w-full flex items-center justify-center gap-2">
-              {/* <img src={notallowed} alt="notallowed" className="w-4" /> */}
+              <img src={notallowed} alt="notallowed" className="w-4" />
               <p className="text-sm text-center text-deleteBtn">
                 {errorMessage.message}
               </p>
