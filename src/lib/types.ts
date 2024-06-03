@@ -20,3 +20,16 @@ export type User = {
   status: string;
   roles: string;
 };
+
+export type UserForm = {
+  id?: string;
+  name: string;
+  username?: string;
+
+  email: string;
+  balance: number;
+  isDeleted?: boolean;
+  isDeactivated?: boolean;
+  stateCode: string;
+  townshipCode: string;
+};

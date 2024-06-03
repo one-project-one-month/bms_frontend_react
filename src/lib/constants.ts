@@ -4,6 +4,7 @@ import {
   Forward,
   History,
   Home,
+  UsersRound,
 } from 'lucide-react';
 
 export const endpoints = Object.freeze({
@@ -37,5 +38,10 @@ export const navLinks = Object.freeze([
     route: '/transactionHistory',
     Icon: History,
     routeName: 'TransactionHistory',
+  },
+  {
+    route: '/user',
+    Icon: UsersRound,
+    routeName: 'Users',
   },
 ]);

@@ -1,13 +1,15 @@
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import AboutUsPage from './pages/UserPage';
 import HomePage from './pages/HomePage';
 import TransactionHistoryPage from './pages/TransactionHistoryPage';
 import DashboardLayout from './components/layouts/DashboardLayout';
 import TransferPage from './pages/TransferPage';
 import WithdrawPage from './pages/WithdrawPage';
 import DepositPage from './pages/DepositPage';
+
+import UserPage from './pages/UserPage';
+import CreateUserPage from './pages/CreateUserPage';
+import UpdateUserPage from './pages/UpdateUserPage';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />
+        element: <HomePage />,
       },
       {
         path: 'login',
@@ -27,22 +29,30 @@ const router = createBrowserRouter([
         element: <TransferPage />,
       },
       {
-        path: "withdraw",
-        element: <WithdrawPage />
+        path: 'withdraw',
+        element: <WithdrawPage />,
       },
       {
-        path: "deposit",
-        element: <DepositPage />
+        path: 'deposit',
+        element: <DepositPage />,
       },
       {
         path: 'user',
-        element: <AboutUsPage />,
+        element: <UserPage />,
+      },
+      {
+        path: 'user/create',
+        element: <CreateUserPage />,
+      },
+      {
+        path: 'user/update',
+        element: <UpdateUserPage />,
       },
       {
         path: 'transactionHistory',
         element: <TransactionHistoryPage />,
       },
-    ]
+    ],
   },
 ]);
 
