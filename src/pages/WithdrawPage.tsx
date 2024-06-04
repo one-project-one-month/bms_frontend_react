@@ -1,9 +1,5 @@
-
-
 const WithdrawPage = () => {
-    return (
-        <div>WithdrawPage</div>
-    )
-}
+  return <div>WithdrawPage</div>;
+};
 
-export default WithdrawPage
+export default WithdrawPage;

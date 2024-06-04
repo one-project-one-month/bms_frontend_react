@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 const Axios = axios.create();
 
 // add base url
+// Axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 Axios.defaults.baseURL = 'https://bms-backend-nodejs.vercel.app/api/v1';
 
 // interceptors
@@ -15,6 +16,7 @@ Axios.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    // config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbkNvZGUiOiJibXNfYjI5NGViOWE3ZWNjNDAwOTkyZDNmODBhODUwODYzZDAiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTcxODA5MzMsImV4cCI6MTcxNzI2NzMzM30.Co1JqZKW-TDeEDBE_nNFH4d80trdtUj_r3RrYlHoL6I`;
     return config;
   },
   (error) => {

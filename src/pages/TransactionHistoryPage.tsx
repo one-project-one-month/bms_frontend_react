@@ -1,30 +1,46 @@
-import { columns } from "../components/TransactionHistory/column"
-import { DataTable } from "../components/ui/data-table"
-import ListSkeleton from "../components/ui/table-skeleton"
-import { useTransactionHistory } from "../hooks/useTransactionHistory"
-import { TranscationHistoryResponse } from "../lib/types"
-
-
+import { useEffect, useState } from 'react';
+import { columns } from '../components/TransactionHistory/column';
+import { DataTable } from '../components/ui/DataTable';
+import ListSkeleton from '../components/ui/TableSkeleton';
+import { useTransactionHistory } from '../hooks/useTransactionHistory';
+import { TransactionHistory, TransactionHistoryResponse } from '../lib/types';
 
 const TransactionHistoryPage = () => {
-    const { data, isFetched, error } = useTransactionHistory<TranscationHistoryResponse>()
+  const [transactionData, setTransactionData] = useState<TransactionHistory[]>(
+    [],
+  );
+  const GetTransactionQuery =
+    useTransactionHistory<TransactionHistoryResponse>();
 
-    return (
-        <div>
-            {
-                isFetched ? (
-                    <div className="p-10" >
-                        <DataTable
-                            columns={columns}
-                            data={data?.data ? data?.data : []}
-                            error={error}
-                        />
-                    </div >
-                ) : <ListSkeleton className="p-10 w-full" />}
+  useEffect(() => {
+    if (GetTransactionQuery.isSuccess && GetTransactionQuery.data) {
+
+      // response.data is an array of TransactionHistory
+      setTransactionData(GetTransactionQuery.data.data);
+    } else if (GetTransactionQuery.isError) {
+      console.log(GetTransactionQuery.error);
+    }
+  }, [
+    GetTransactionQuery.isError,
+    GetTransactionQuery.isSuccess,
+    GetTransactionQuery.isPending,
+  ]);
+
+  return (
+    <div>
+      {GetTransactionQuery.isSuccess ? (
+        <div className="p-10">
+          <DataTable
+            columns={columns}
+            data={transactionData}
+            error={GetTransactionQuery.error}
+          />
         </div>
+      ) : (
+        <ListSkeleton className="p-10 w-full" />
+      )}
+    </div>
+  );
+};
 
-
-    )
-}
-
-export default TransactionHistoryPage
+export default TransactionHistoryPage;

@@ -1,49 +1,64 @@
-
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import AboutUsPage from './pages/UserPage';
 import HomePage from './pages/HomePage';
 import TransactionHistoryPage from './pages/TransactionHistoryPage';
 import DashboardLayout from './components/layouts/DashboardLayout';
-import TransferPage from './pages/transfer/TransferPage';
+import TransferPage from './pages/TransferPage';
 import WithdrawPage from './pages/WithdrawPage';
 import DepositPage from './pages/DepositPage';
-import SuccessMessage from './pages/transfer/SuccessMessage';
+
+import UserPage from './pages/UserPage';
+import CreateUserPage from './pages/CreateUserPage';
+import UpdateUserPage from './pages/UpdateUserPage';
+import ProtectedRoute from './components/layouts/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
-        element: <HomePage />
-      },
-      {
-        path: 'login',
-        element: <LoginPage />,
+        element: <HomePage />,
       },
       {
         path: 'transfer',
         element: <TransferPage />,
       },
       {
-        path: "withdraw",
-        element: <WithdrawPage />
+        path: 'withdraw',
+        element: <WithdrawPage />,
       },
       {
-        path: "deposit",
-        element: <DepositPage />
-      },
-      {
-        path: 'user',
-        element: <AboutUsPage />,
+        path: 'deposit',
+        element: <DepositPage />,
       },
       {
         path: 'transactionHistory',
         element: <TransactionHistoryPage />,
       },
-    ]
+      {
+        path: 'users',
+        element: <UserPage />,
+      },
+      {
+        path: 'users/create',
+        element: <CreateUserPage />,
+      },
+      {
+        path: 'users/update',
+        element: <UpdateUserPage />,
+      },
+    ],
+  },
+  {
+    path: 'login',
+    element: <LoginPage />,
   },
 ]);
 

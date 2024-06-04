@@ -1,9 +1,5 @@
-
-
 const DepositPage = () => {
-    return (
-        <div>DepositPage</div>
-    )
-}
+  return <div>DepositPage</div>;
+};
 
-export default DepositPage
+export default DepositPage;

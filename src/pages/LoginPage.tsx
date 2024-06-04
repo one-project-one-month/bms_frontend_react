@@ -1,22 +1,28 @@
-import LoginForm from '../components/login/LoginForm';
 import useLoginMutation from '../hooks/useLoginMutation';
+import { SubmitHandler } from 'react-hook-form';
+import { LoginMutationParams } from '../lib/types';
+import { useEffect } from 'react';
+import LoginForm from '../components/login/LoginForm';
+import Cookies from 'js-cookie';
 
 export default function LoginPage() {
   const LoginMutation = useLoginMutation();
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // get form items' value from event.target
-    LoginMutation.mutate({
-      email: '',
-      password: '',
-    });
+  const onSubmit: SubmitHandler<LoginMutationParams> = (data) => {
+    LoginMutation.mutate(data);
   };
 
+  useEffect(() => {
+    if (LoginMutation.data && LoginMutation.isSuccess) {
+      Cookies.set('token', LoginMutation.data.data);
+      // push to login route with react router
+      window.location.href = '/';
+    }
+  }, [LoginMutation.data, LoginMutation.error, LoginMutation.isPending]);
+
   return (
-    <div>
-      <h1>Login</h1>
-      <LoginForm onSubmit={submitHandler} />
+    <div className="w-full h-screen bg-red border-2 rounded">
+      <LoginForm onSubmit={onSubmit} isLoading={LoginMutation.isPending} />
     </div>
   );
 }
