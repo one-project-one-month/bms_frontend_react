@@ -12,15 +12,16 @@ const TransferPage = () => {
         recipient: { name: '', isTouched: false },
         amount: { name: '', isTouched: false },
     })
-
+    
     const [data, setData] = useState<ResponseData | null>(null)
 
     const [success,setSuccess] = useState (false)
 
+    const [loading,setLoading] = useState(false)
+
     const [errorMessage,setErrorMessage] = useState<error | null> (null)
     console.log(errorMessage);
     
-    // Define your request body
     const convertAmount = parseInt(accounts.amount.name,10)
     
     const requestBody: RequestBody = {
@@ -31,13 +32,13 @@ const TransferPage = () => {
             transferAmount:convertAmount ,
         },
     };
-    // Define your headers
+
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbkNvZGUiOiJibXNfMWFkNGI2N2UyYjVhN2JlNjA5MTJhYTJkNDc0ZDQxMGEiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTcyMzA1ODAsImV4cCI6MTcxNzMxNjk4MH0.WIvuEAVCxXkZRuyaX2N9tczuh6gDgbNaZC4Xk8K-Bvo'
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbkNvZGUiOiJibXNfMWFkNGI2N2UyYjVhN2JlNjA5MTJhYTJkNDc0ZDQxMGEiLCJyb2xlIjoiQWRtaW4iLCJpYXQiOjE3MTc1MTg5NDEsImV4cCI6MTcxNzYwNTM0MX0.8V3HpknIudVV1mv7R0-9ZVVH_er8sDeUPn8o4ke23fw'
     };
     
-    // Define the request configuration
+
     const config: AxiosRequestConfig = {
         headers: headers
     };
@@ -57,7 +58,8 @@ const TransferPage = () => {
     const clickHandler = async()  => {
 
         try {
-            // Validate the request body before making the request
+            setLoading(true)
+
             RequestBodySchema.parse(requestBody);
 
             const response: AxiosResponse<{ data: ResponseData }> = await axios.post<{ data: ResponseData }>(
@@ -65,7 +67,7 @@ const TransferPage = () => {
                 requestBody,
                 config
             );
-            // Validate the response data
+
             ResponseDataSchema.parse(response.data.data);
     
             console.log('Response data:', response.data.data);
@@ -73,6 +75,7 @@ const TransferPage = () => {
                 setData(response.data.data)
                 setSuccess(true)
                 setErrorMessage(null)
+                setLoading(false)
             }else if(response.status !== 200) {
                 console.log(response);
                 
@@ -81,10 +84,12 @@ const TransferPage = () => {
             if (axios.isAxiosError(error)) {
                 console.error('Axios error:', error.message);
                 setErrorMessage(error)
+                setLoading(false)
                 if (error.response) {
                     console.error('Response data:', error.response.data);
                     setErrorMessage(error.response.data)
                     setSuccess(false)
+                    setLoading(false)
                 }
             } else {
                 console.error('Unexpected error:', error);
@@ -96,11 +101,13 @@ const TransferPage = () => {
         <div className="w-full bg-PrimaryBg mx-auto h-screen">
             <div className="w-full max-w-lg mx-auto mt-20">
                 <form className="bg-secondaryBg border border-borderColor rounded-md px-8 pt-6 pb-8 mb-4">
-                        {!success && !errorMessage?.message && <Inputs accounts={accounts} handleOnChange={handleOnChange} 
+                        {!success && !errorMessage?.message && !loading &&
+                         <Inputs accounts={accounts} handleOnChange={handleOnChange} 
                         isCompleted={isCompleted} clickHandler={clickHandler}/>}
 
                         {success && <SuccessMessage data={data}/>}
-                        {errorMessage && (
+                        {loading && <p className=' text-center'>Processing your transfer...</p> }
+                        {errorMessage &&  (
                         <div className='w-full flex items-center justify-center gap-2'>
                             <img src={notallowed} alt="notallowed" className='w-4' />
                             <p className='text-sm text-center text-deleteBtn'>

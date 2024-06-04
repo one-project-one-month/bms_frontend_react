@@ -40,7 +40,7 @@ const Inputs = ({ accounts,
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="sender">
                 Amount
             </label>
-            <input className={`appearance-none border rounded w-full py-2 px-3 ${accounts.amount.isTouched && accounts.amount.name.length== 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}name="amount" id="amount" type="text" placeholder="0.00" value={accounts.amount.name} onChange={(e)=> handleOnChange(e.target.name,e.target.value)} />
+            <input className={`appearance-none border rounded w-full py-2 px-3 ${accounts.amount.isTouched && accounts.amount.name.length== 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}name="amount" id="amount" type="number" placeholder="0.00" value={accounts.amount.name} onChange={(e)=> handleOnChange(e.target.name,e.target.value)} />
             {accounts.amount.isTouched && accounts.amount.name.length ==0 && <p className="text-red-500 text-xs italic">Please enter amount</p>}
         </div>
         <div className="flex items-center justify-between">
