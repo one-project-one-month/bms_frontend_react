@@ -14,7 +14,6 @@ const TransactionHistoryPage = () => {
 
   useEffect(() => {
     if (GetTransactionQuery.isSuccess && GetTransactionQuery.data) {
-      console.log(GetTransactionQuery.data);
 
       // response.data is an array of TransactionHistory
       setTransactionData(GetTransactionQuery.data.data);
@@ -29,7 +28,7 @@ const TransactionHistoryPage = () => {
 
   return (
     <div>
-      {transactionData ? (
+      {GetTransactionQuery.isSuccess ? (
         <div className="p-10">
           <DataTable
             columns={columns}
