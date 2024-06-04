@@ -10,19 +10,20 @@ import DepositPage from './pages/DepositPage';
 import UserPage from './pages/UserPage';
 import CreateUserPage from './pages/CreateUserPage';
 import UpdateUserPage from './pages/UpdateUserPage';
+import ProtectedRoute from './components/layouts/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
         element: <HomePage />,
-      },
-      {
-        path: 'login',
-        element: <LoginPage />,
       },
       {
         path: 'transfer',

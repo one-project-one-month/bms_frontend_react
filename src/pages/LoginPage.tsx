@@ -22,7 +22,7 @@ export default function LoginPage() {
 
   return (
     <div className="w-full h-screen bg-red border-2 rounded">
-      <LoginForm onSubmit={onSubmit} />
+      <LoginForm onSubmit={onSubmit} isLoading={LoginMutation.isPending} />
     </div>
   );
 }

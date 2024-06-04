@@ -3,9 +3,10 @@ import { LoginMutationParams } from '../../lib/types';
 
 interface LoginFormProps {
   onSubmit: SubmitHandler<LoginMutationParams>;
+  isLoading: boolean;
 }
 
-export default function LoginForm({ onSubmit }: LoginFormProps) {
+export default function LoginForm({ onSubmit, isLoading }: LoginFormProps) {
   const {
     register,
     handleSubmit,
@@ -16,7 +17,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
       <div className="w-1/3">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5 w-full p-5 bg-white rounded-lg shadow-lg mt-5"
+          className="flex flex-col gap-5 w-full px-5 py-10 bg-white rounded-lg shadow-lg mt-5"
         >
           <h1 className="text-2xl font-bold">Login Here</h1>
           <div className="flex flex-col gap-1">
@@ -54,7 +55,8 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
           </div>
           <input
             type="submit"
-            className={`w-full bg-primaryBtn hover:bg-green-700 cursor-default text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+            value={isLoading ? 'Loading...' : 'Login'}
+            className={`w-full bg-primaryBtn hover:bg-green-700 cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
           />
         </form>
       </div>

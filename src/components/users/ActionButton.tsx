@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 import Axios from '@/api-config';
 
 const ActionButton = ({
