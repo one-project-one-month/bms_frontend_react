@@ -1,6 +1,5 @@
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/Button';
 import { UserForm } from '@/lib/types';
 import {
   Select,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/select';
 import { stateCodes, townshipCodes } from '@/lib/postal';
 import { useState } from 'react';
+import { Button } from '../ui/button';
 
 const Form = ({
   initialData,

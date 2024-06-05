@@ -59,14 +59,5 @@ export const columns: ColumnDef<TransactionHistory>[] = [
   {
     accessorKey: 'amount',
     header: 'Amount',
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'));
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'MMK',
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
   },
 ];
