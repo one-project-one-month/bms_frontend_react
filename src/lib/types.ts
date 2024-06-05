@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
 
 const PersonSchema = z.object({
@@ -58,6 +59,10 @@ type UserName = {
 type AdminCode = {
   adminCode: string;
 };
+
+export type SliceData = {
+  data:any
+}
 
 export type TransactionHistory = {
   data: any;

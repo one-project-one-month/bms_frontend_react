@@ -48,7 +48,7 @@ export const columns: ColumnDef<TransactionHistory>[] = [
       return (
         <p
           className={cn('text-green-600', {
-            'text-red-500': row.original.type === 'withdraw',
+            'text-red-600': row.original.type === 'withdraw',
           })}
         >
           {row.original.type ? row.original.type : 'transfer'}
