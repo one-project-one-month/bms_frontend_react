@@ -60,6 +60,7 @@ type AdminCode = {
 };
 
 export type TransactionHistory = {
+  data: any;
   id: string;
   amount: number;
   sender?: UserName;
