@@ -14,7 +14,7 @@ const UpdateUserPage = () => {
     mutationFn: updateUser,
   });
 
-  let {
+  const {
     state: { initialData },
   }: { state: { initialData: UserForm } } = useLocation();
 
@@ -22,11 +22,11 @@ const UpdateUserPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    let name = formData.get('name') as string;
-    let email = formData.get('email') as string;
-    let balance = formData.get('balance') as unknown as number;
-    let stateCode = formData.get('stateCode') as string;
-    let townshipCode = formData.get('townshipCode') as string;
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const balance = formData.get('balance') as unknown as number;
+    const stateCode = formData.get('stateCode') as string;
+    const townshipCode = formData.get('townshipCode') as string;
 
     mutation.mutate({
       name,
