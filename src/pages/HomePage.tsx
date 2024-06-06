@@ -1,15 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, selectCounter } from '../store';
-import { increaseCount } from '../store/slices/counterSlice';
+import Card from '../components/Home/Card.js';
+import RecentHistory from '../components/Home/RecentHistory.js';
+import RecentUser from '../components/Home/RecentUser.js';
 
 export default function HomePage() {
-  const dispatch: AppDispatch = useDispatch();
-  const counter = useSelector((state: RootState) => selectCounter(state));
-
   return (
-    <div>
-      <p>{counter.count}</p>
-      <button onClick={() => dispatch(increaseCount())}>Increment</button>
+    <div className="flex flex-col w-[100%] p-8">
+      <div className="w-[100%] h-[200px] grid grid-flow-row grid-cols-3">
+        <Card />
+        <RecentUser />
+      </div>
+      <div className="mt-4">
+        <RecentHistory />
+      </div>
     </div>
   );
 }

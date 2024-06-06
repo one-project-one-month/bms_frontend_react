@@ -1,30 +1,32 @@
-import { useMutation } from '@tanstack/react-query';
-import { Button } from '../ui/Button';
-import Axios from '@/api-config';
+import { Button } from '../ui/button';
+import { useUserActionMutation } from '@/hooks/useUserMutation';
+
+interface ActionButtonProps {
+  username: string;
+  process: string;
+  changeStatus?: () => void;
+}
 
 const ActionButton = ({
   username,
   process,
   changeStatus,
-}: {
-  username: string;
-  process: string;
-  changeStatus?: () => void;
-}) => {
-  const mutation = useMutation({
-    mutationFn: async () => {
-      return await Axios.post('/users/actions', {
-        username,
-        process,
-      });
-    },
-    onSuccess() {
-      changeStatus && changeStatus();
-    },
-  });
+}: ActionButtonProps) => {
+  const UserActionMutation = useUserActionMutation();
+
+  if (UserActionMutation.isSuccess) {
+    changeStatus && changeStatus();
+  }
 
   return (
-    <Button onClick={() => mutation.mutate()} className="capitalize">
+    <Button
+      onClick={() => UserActionMutation.mutate({ username, process })}
+      className={
+        process === 'activate'
+          ? 'capitalize bg-green-700 hover:bg-green-800 text-white'
+          : 'capitalize bg-[#ed2929] hover:bg-[#df1818]'
+      }
+    >
       {process}
     </Button>
   );

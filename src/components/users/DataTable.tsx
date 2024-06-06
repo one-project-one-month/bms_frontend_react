@@ -15,11 +15,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './table';
+} from '@/components/ui/table';
 
 import { useState } from 'react';
-import { Button } from './button';
-import { Input } from './input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import CreateUserModal from './CreateUserModal';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,15 +48,20 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col">
-      <div className="w-2/4 mb-4">
+      <div className="flex flex-row mb-4 gap-x-5">
         <Input
-          placeholder="Filter by transaction Id..."
+          placeholder="Filter by user Id..."
+          className="basis-1/2"
           value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('id')?.setFilterValue(event.target.value)
           }
         />
+        <div className="basis-1/2">
+          <CreateUserModal />
+        </div>
       </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -63,16 +69,13 @@ export function DataTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                      key={header.id}
-                      className='bg-green-200/60'
-                    >
+                    <TableHead key={header.id} className="bg-green-200/60">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}

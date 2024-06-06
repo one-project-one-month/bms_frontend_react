@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React from 'react';
 import { cn } from '../../lib/utils';
 import { Skeleton } from './Skeleton';
+=======
+import { cn } from '../../lib/utils.ts';
+import { Skeleton } from './skeleton';
+>>>>>>> upstream/main
 
 export default function ListSkeleton({ className }: { className: string }) {
   return (

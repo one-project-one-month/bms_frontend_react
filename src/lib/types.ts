@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+/* eslint-disable @typescript-eslint/no-explicit-any */
+>>>>>>> upstream/main
 import { z } from 'zod';
 
 const PersonSchema = z.object({
@@ -63,6 +67,25 @@ export type User = {
   roles: string;
 };
 
+<<<<<<< HEAD
+=======
+export type UserForm = {
+  id?: string;
+  name: string;
+  username?: string;
+  email: string;
+  balance: number;
+  isDeleted?: boolean;
+  isDeactivated?: boolean;
+  stateCode: string;
+  townshipCode: string;
+  admin?: {
+    name: string;
+    adminCode: string;
+  };
+};
+
+>>>>>>> upstream/main
 type UserName = {
   name: string;
 };
@@ -71,7 +94,16 @@ type AdminCode = {
   adminCode: string;
 };
 
+<<<<<<< HEAD
 export type TranscationHistory = {
+=======
+export type SliceData = {
+  data: any;
+};
+
+export type TransactionHistory = {
+  data: any;
+>>>>>>> upstream/main
   id: string;
   amount: number;
   sender?: UserName;
@@ -86,3 +118,39 @@ export type TranscationHistory = {
 export type TranscationHistoryResponse = {
   data: TranscationHistory[];
 };
+
+export type UserList = {
+  admin?: UserName & AdminCode;
+  adminId: string;
+  balance: number;
+  email: string;
+  id: string;
+  isDeactivated: true | false;
+  isDeleted: true | false;
+  name: string;
+  stateCode: string;
+  townshipCode: string;
+  username: string;
+}
+
+export type UserListResponse = {
+  data: UserList[]
+}
+
+export type UserNameList = {
+  value: string,
+  label: string
+}
+
+export type transactionMutationBody = {
+  "process": string,
+  "data": {
+    "username": string,
+    "amount": number
+  }
+}
+
+export type transactionResponse = {
+  data: object;
+  status: number;
+}
