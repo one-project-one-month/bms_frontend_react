@@ -1,9 +1,9 @@
 import React from 'react';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { useState,useEffect } from 'react';
 import SuccessMessage from '../components/transfer/SuccessMessage';
 import TransferForm from '../components/transfer/TransferForm';
-import { ResponseData,ResponseDataSchema,RequestBody,RequestBodySchema,error } from '../lib/types';
+import { Response,RequestBody} from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
 import Cookies from 'js-cookie';
 
@@ -19,16 +19,15 @@ const TransferPage = () => {
         amount: { name: '', isTouched: false },
     })
 
-    const [data, setData] = useState<ResponseData | null>(null)
+    const [data, setData] = useState<Response |null>(null)
 
     const [success,setSuccess] = useState (false)
 
-    const [errorMessage,setErrorMessage] = useState<error | null> (null)
+    const [errorMessage,setErrorMessage] = useState(null)
     
-    // Define your request body
     const convertAmount = parseInt(accounts.amount.name,10)
     
-    const requestBody: RequestBody = {
+    const body: RequestBody = {
         process: 'transfer',
         data: {
             sender: accounts.sender.name,
@@ -36,8 +35,7 @@ const TransferPage = () => {
             transferAmount:convertAmount ,
         },
     };
-    
-    // Define your headers
+
     const jwt = Cookies.get('token')
     console.log('jwt' ,jwt);
     
@@ -46,7 +44,6 @@ const TransferPage = () => {
         'Authorization': `Bearer ${jwt}`
     };
     
-    // Define the request configuration
     const config: AxiosRequestConfig = {
         headers: headers
     };
@@ -63,71 +60,78 @@ const TransferPage = () => {
 
     const isCompleted = Object.values(accounts).every((value)=>value.name);  
 
-    const clickHandler = async()  => {
+    // const clickHandler = async()  => {
 
-        try {
+    //     try {
 
-            RequestBodySchema.parse(requestBody);
+    //         RequestBodySchema.parse(requestBody);
 
-            const response: AxiosResponse<{ data: ResponseData }> = await axios.post<{ data: ResponseData }>(
-                'https://bms-backend-nodejs.vercel.app/api/v1/admins/users/transactions',
-                requestBody,
-                config
-            );
+    //         const response: AxiosResponse<{ data: ResponseData }> = await axios.post<{ data: ResponseData }>(
+    //             'https://bms-backend-nodejs.vercel.app/api/v1/admins/users/transactions',
+    //             requestBody,
+    //             config
+    //         );
 
-            ResponseDataSchema.parse(response.data.data);
+    //         ResponseDataSchema.parse(response.data.data);
     
-            console.log('Response data:', response.data.data);
-            if(response.status == 200) {
-                setData(response.data.data)
-                setSuccess(true)
-                setErrorMessage(null)
-            }
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error('Axios error:', error.message);
-                if (error.response) {
-                    console.error('Response data:', error.response.data);
-                    setErrorMessage(error.response.data)
-                    setSuccess(false)
-                }
-            } else {
-                console.error('Unexpected error:', error);
-            }
-        }
-    }
-
-    // const submitTransaction = useSubmitTransaction()
-
-    // const clickHandler = () => {
-    //     submitTransaction.mutate(requestBody)
+    //         console.log('Response data:', response.data.data);
+    //         if(response.status == 200) {
+    //             setData(response.data.data)
+    //             setSuccess(true)
+    //             setErrorMessage(null)
+    //         }
+    //     } catch (error) {
+    //         if (axios.isAxiosError(error)) {
+    //             console.error('Axios error:', error.message);
+    //             if (error.response) {
+    //                 console.error('Response data:', error.response.data);
+    //                 setErrorMessage(error.response.data)
+    //                 setSuccess(false)
+    //             }
+    //         } else {
+    //             console.error('Unexpected error:', error);
+    //         }
+    //     }
     // }
 
-    // useEffect(() => {
-    //     if (submitTransaction.isSuccess && submitTransaction.data) {
-    //       setData(submitTransaction.data);
-    //     } else if (submitTransaction.isError) {
-    //       console.log(submitTransaction.error);
-    //     }
-    //   }, [
-    //     submitTransaction.isError,
-    //     submitTransaction.isSuccess,
-    //     submitTransaction.isPending,
-    //   ]);
+    const submitTransactionMutation = useSubmitTransaction();
+
+    const clickHandler = () => {
+      console.log('Request Body for Mutation:', body);
+      submitTransactionMutation.mutate(body);
+    };
+    
+    useEffect(() => {
+      if (submitTransactionMutation.isSuccess && submitTransactionMutation.data) {
+        console.log('Mutation Success Data:', submitTransactionMutation);
+        setData(submitTransactionMutation.data)
+        setSuccess(true)
+      } else if (submitTransactionMutation.isError) {
+        console.log('Mutation Error:', submitTransactionMutation.error);
+        setErrorMessage(submitTransactionMutation.error.response.data.message)
+      }
+    }, [
+      submitTransactionMutation.isError,
+      submitTransactionMutation.isSuccess,
+      submitTransactionMutation.isPending,
+    ]);
+
+    console.log(errorMessage);
+    
 
     return (
         <div className="w-full mx-auto h-screen">
-            <div className={`w-full ${success || errorMessage?.message ? 'mx-auto mt-20 max-w-xl' : 'ml-4 mt-8'}`}>
+            <div className={`w-full ${success || errorMessage ? 'mx-auto mt-20 max-w-xl' : 'ml-4 mt-8'}`}>
                 <form className="bg-secondaryBg border border-borderColor rounded-md px-8 pt-6 pb-6">
-                        {!success && !errorMessage?.message && <TransferForm accounts={accounts} handleOnChange={handleOnChange} 
+                        {!success && !errorMessage && <TransferForm accounts={accounts} handleOnChange={handleOnChange} 
                         isCompleted={isCompleted} clickHandler={clickHandler}/>}
 
-                        {success && <SuccessMessage data={data}/>}
+                        {success && <SuccessMessage data={data?.data}/>}
                         {errorMessage && (
                         <div className='w-full flex items-center justify-center gap-2'>
                             <NotAllowed/>
                             <p className='text-sm text-center text-deleteBtn'>
-                            {errorMessage.message}
+                            {errorMessage}
                             </p> 
                         </div>
                         )}

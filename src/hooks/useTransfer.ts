@@ -1,49 +1,45 @@
 import { useMutation } from '@tanstack/react-query';
 import Axios from '../api-config';
-import { RequestBody,RequestBodySchema,ResponseData,ResponseDataSchema} from '../lib/types';
+import { RequestBody,RequestBodySchema,responseSchema} from '../lib/types';
+import { ZodError } from 'zod';
 
 const endpoints = {
     transactions: 'https://bms-backend-nodejs.vercel.app/api/v1/admins/users/transactions',
   };
   
-  const submitTransaction = async (requestBody: RequestBody) => {
-    
-    RequestBodySchema.parse(requestBody);
   
-    const response : ResponseData = await Axios.post(
-      endpoints.transactions,
-      requestBody,
-    );
+  const submitTransaction = async (gg: RequestBody) => {
+    console.log('Request Body:', gg);
   
-    ResponseDataSchema.parse(response);
+    try {
+      RequestBodySchema.parse(gg);
   
-    return response;
+      const response  = await Axios.post(endpoints.transactions, gg);
+      console.log('Raw Axios Response:', response);
+  
+      const responseData = response.data;
+      console.log('Response Data:', responseData);
+
+      responseSchema.parse(responseData);
+  
+      return responseData;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.error('Zod Validation Error:', error.errors);
+      } else {
+        console.error('Unknown Error:', error);
+      }
+      throw error;
+    }
   };
   
   const useSubmitTransaction = () =>
-    useMutation({
-      mutationKey: ['submitTransaction'],
-      mutationFn: (requestBody: RequestBody) => {
-        return submitTransaction(requestBody);
-      },
-    //   onSuccess: (data) => {
-    //     console.log('Response data:', data);
-    //     setData(data.data);  // Ensure setData is properly defined in your component
-    //     setSuccess(true);  // Ensure setSuccess is properly defined in your component
-    //     setErrorMessage(null);  // Ensure setErrorMessage is properly defined in your component
-    //   },
-    //   onError: (error) => {
-    //     if (axios.isAxiosError(error)) {
-    //       console.error('Axios error:', error.message);
-    //       if (error.response) {
-    //         console.error('Response data:', error.response.data);
-    //         setErrorMessage(error.response.data);  // Ensure setErrorMessage is properly defined in your component
-    //         setSuccess(false);  // Ensure setSuccess is properly defined in your component
-    //       }
-    //     } else {
-    //       console.error('Unexpected error:', error);
-    //     }
-    //   },
-    });
+  useMutation({
+    mutationKey: ['submitTransaction'],
+    mutationFn: (requestBody: RequestBody) => {
+      return submitTransaction(requestBody);
+    },
+  });
+
   
-  export default useSubmitTransaction;
+   export default useSubmitTransaction;
