@@ -8,8 +8,6 @@ import WithdrawPage from './pages/WithdrawPage';
 import DepositPage from './pages/DepositPage';
 
 import UserPage from './pages/UserPage';
-import CreateUserPage from './pages/CreateUserPage';
-import UpdateUserPage from './pages/UpdateUserPage';
 import ProtectedRoute from './components/layouts/ProtectedRoute';
 import TransactionPage from './pages/TransactionPage';
 
@@ -41,14 +39,6 @@ const router = createBrowserRouter([
       {
         path: 'users',
         element: <UserPage />,
-      },
-      {
-        path: 'users/create',
-        element: <CreateUserPage />,
-      },
-      {
-        path: 'users/update',
-        element: <UpdateUserPage />,
       },
     ],
   },

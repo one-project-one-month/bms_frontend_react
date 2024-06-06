@@ -43,13 +43,16 @@ export type UserForm = {
   id?: string;
   name: string;
   username?: string;
-
   email: string;
   balance: number;
   isDeleted?: boolean;
   isDeactivated?: boolean;
   stateCode: string;
   townshipCode: string;
+  admin?: {
+    name: string;
+    adminCode: string;
+  };
 };
 
 type UserName = {
@@ -61,8 +64,8 @@ type AdminCode = {
 };
 
 export type SliceData = {
-  data:any
-}
+  data: any;
+};
 
 export type TransactionHistory = {
   data: any;
