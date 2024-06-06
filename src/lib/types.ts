@@ -93,3 +93,39 @@ export type LoginMutationParams = {
 export type LoginResponseType = {
   data: string;
 };
+
+export type UserList = {
+  admin?: UserName & AdminCode;
+  adminId: string;
+  balance: number;
+  email: string;
+  id: string;
+  isDeactivated: true | false;
+  isDeleted: true | false;
+  name: string;
+  stateCode: string;
+  townshipCode: string;
+  username: string;
+}
+
+export type UserListResponse = {
+  data: UserList[]
+}
+
+export type UserNameList = {
+  value: string,
+  label: string
+}
+
+export type transactionMutationBody = {
+  "process": string,
+  "data": {
+    "username": string,
+    "amount": number
+  }
+}
+
+export type transactionResponse = {
+  data: object;
+  status: number;
+}
