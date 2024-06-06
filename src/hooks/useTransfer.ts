@@ -7,7 +7,6 @@ const endpoints = {
   };
   
   const submitTransaction = async (requestBody: RequestBody) => {
-    console.log(requestBody);
     
     RequestBodySchema.parse(requestBody);
   
