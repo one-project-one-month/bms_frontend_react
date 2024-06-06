@@ -1,6 +1,5 @@
 import {
-  ArrowDownToDot,
-  ArrowUpFromDot,
+  ArrowRightLeft,
   Forward,
   History,
   Home,
@@ -27,14 +26,9 @@ export const navLinks = Object.freeze([
     routeName: 'Transfer',
   },
   {
-    route: '/deposit',
-    Icon: ArrowDownToDot,
-    routeName: 'Deposit',
-  },
-  {
-    route: '/withdraw',
-    Icon: ArrowUpFromDot,
-    routeName: 'Withdraw',
+    route: '/transaction',
+    Icon: ArrowRightLeft,
+    routeName: 'Deposit/Withdraw'
   },
   {
     route: '/transactionHistory',
