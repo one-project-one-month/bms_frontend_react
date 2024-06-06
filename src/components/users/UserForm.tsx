@@ -1,13 +1,8 @@
-<<<<<<< HEAD:src/components/users/Form.tsx
 import React from 'react';
-import { Input } from '../ui/Input';
-import { Label } from '../ui/label';
-import { Button } from '../ui/Button';
-import { UserForm } from '../../lib/types';
-=======
+// import { Label } from '../ui/label';
+// import { UserForm } from '../../lib/types';
 import { Label } from '@/components/ui/label';
 import { UserForm } from '@/lib/types';
->>>>>>> upstream/main:src/components/users/UserForm.tsx
 import {
   Select,
   SelectContent,
@@ -17,7 +12,7 @@ import {
 } from '../ui/select';
 import { stateCodes, townshipCodes } from '../../lib/postal';
 import { useState } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 
 interface FormProps {
   initialData?: UserForm;

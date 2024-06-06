@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
-=======
 /* eslint-disable @typescript-eslint/no-explicit-any */
->>>>>>> upstream/main
 import { z } from 'zod';
 
 const PersonSchema = z.object({
@@ -67,8 +64,6 @@ export type User = {
   roles: string;
 };
 
-<<<<<<< HEAD
-=======
 export type UserForm = {
   id?: string;
   name: string;
@@ -85,7 +80,6 @@ export type UserForm = {
   };
 };
 
->>>>>>> upstream/main
 type UserName = {
   name: string;
 };
@@ -94,16 +88,12 @@ type AdminCode = {
   adminCode: string;
 };
 
-<<<<<<< HEAD
-export type TranscationHistory = {
-=======
 export type SliceData = {
   data: any;
 };
 
 export type TransactionHistory = {
   data: any;
->>>>>>> upstream/main
   id: string;
   amount: number;
   sender?: UserName;

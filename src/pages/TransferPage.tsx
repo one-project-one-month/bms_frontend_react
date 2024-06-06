@@ -98,7 +98,9 @@ const TransferPage = () => {
 
     const clickHandler = () => {
       console.log('Request Body for Mutation:', body);
-      submitTransactionMutation.mutate(body);
+      if(isCompleted) {
+        submitTransactionMutation.mutate(body);
+      }
     };
     
     useEffect(() => {
@@ -121,8 +123,8 @@ const TransferPage = () => {
 
     return (
         <div className="w-full mx-auto h-screen">
-            <div className={`w-full ${success || errorMessage ? 'mx-auto mt-20 max-w-xl' : 'ml-4 mt-8'}`}>
-                <form className="bg-secondaryBg border border-borderColor rounded-md px-8 pt-6 pb-6">
+            <div className={`max-w-6xl ${success || errorMessage ? 'mx-auto mt-20 max-w-xl' : 'ml-4 mt-8'}`}>
+                <form className="bg-PrimaryBg border border-secondaryBorderColor rounded-md px-8 pt-6 pb-6">
                         {!success && !errorMessage && <TransferForm accounts={accounts} handleOnChange={handleOnChange} 
                         isCompleted={isCompleted} clickHandler={clickHandler}/>}
 

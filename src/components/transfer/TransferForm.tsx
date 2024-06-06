@@ -44,7 +44,7 @@ export default function TransferForm({
           />
         </div>
          {accounts.sender.isTouched && accounts.sender.name.length == 0 && (
-          <p className='text-red-500 text-xs italic ml-[330px]'>
+          <p className='text-red-500 text-xs italic ml-[336px]'>
             Incomplete information.Please try again
           </p>
         )}
@@ -69,7 +69,7 @@ export default function TransferForm({
         </div>
         {accounts.recipient.isTouched &&
           accounts.recipient.name.length == 0 && (
-            <p className="text-red-500 text-xs italic ml-[330px]">
+            <p className="text-red-500 text-xs italic ml-[336px]">
               Incomplete information.Please try again
             </p>
           )}
@@ -93,7 +93,7 @@ export default function TransferForm({
           />
         </div>
         {accounts.amount.isTouched && accounts.amount.name.length == 0 && (
-          <p className="text-red-500 text-xs italic ml-[330px]">Please enter amount</p>
+          <p className="text-red-500 text-xs italic ml-[336px]">Please enter amount</p>
         )}
       </div>
       <div className="w-[72%] text-right">
