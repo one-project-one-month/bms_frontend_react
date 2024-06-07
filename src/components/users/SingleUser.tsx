@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { UserForm } from '@/lib/types';
 import ActionButton from './ActionButton';
 import { useState } from 'react';
@@ -16,8 +16,8 @@ const SingleUser = ({ user }: { user: UserForm }) => {
               ? 'text-slate-500'
               : ''
             : user.isDeactivated
-            ? 'text-slate-500'
-            : ''
+              ? 'text-slate-500'
+              : ''
         }
       >
         {user.username + ',' + user.isDeleted}
@@ -39,8 +39,8 @@ const SingleUser = ({ user }: { user: UserForm }) => {
               ? 'activate'
               : 'deactivate'
             : user.isDeactivated
-            ? 'activate'
-            : 'deactivate'
+              ? 'activate'
+              : 'deactivate'
         }
       />
       <ActionButton

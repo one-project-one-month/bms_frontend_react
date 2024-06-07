@@ -1,6 +1,5 @@
 import Form from './UserForm';
 import { useUpdateUserMutation } from '@/hooks/useUserMutation';
-import { Button } from '../ui/Button';
 import {
   Dialog,
   DialogContent,
@@ -9,6 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { UserForm } from '@/lib/types';
+import { Button } from '../ui/button';
 
 const UpdateUserModal = ({ initialData }: { initialData: UserForm }) => {
   const UpdateUserMutation = useUpdateUserMutation();

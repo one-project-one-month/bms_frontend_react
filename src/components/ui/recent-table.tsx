@@ -12,7 +12,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "./Table"
+} from "./table"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -36,9 +36,9 @@ export function RecentTable<TData, TValue>({
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup,index) => (
+                        {table.getHeaderGroups().map((headerGroup, index) => (
                             <TableRow key={index}>
-                                {headerGroup.headers.map((header,index) => {
+                                {headerGroup.headers.map((header, index) => {
                                     return (
                                         <TableHead key={index}>
                                             {header.isPlaceholder
@@ -55,11 +55,11 @@ export function RecentTable<TData, TValue>({
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row,index) => (
+                            table.getRowModel().rows.map((row, index) => (
                                 <TableRow
                                     key={index}
                                 >
-                                    {row.getVisibleCells().map((cell,index) => (
+                                    {row.getVisibleCells().map((cell, index) => (
                                         <TableCell key={index}>
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
@@ -77,5 +77,6 @@ export function RecentTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            </div>
-    )}
+        </div>
+    )
+}

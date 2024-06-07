@@ -1,4 +1,4 @@
-import { UseFormReturn} from 'react-hook-form'
+import { UseFormReturn } from 'react-hook-form'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import {
   Card,
@@ -8,8 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '../components/ui/card'
-import { Input } from '../components/ui/Input'
-import { Button } from '../components/ui/Button'
+
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "../lib/utils"
@@ -36,6 +35,8 @@ import {
 } from "../components/ui/form"
 import useTransactionForm from '../hooks/useTransactionForm';
 import { UserNameList } from '../lib/types';
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 interface FormProps {
   form: UseFormReturn<{ account: string, amount: number }, any, undefined>;
