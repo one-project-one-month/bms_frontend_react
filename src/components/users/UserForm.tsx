@@ -1,3 +1,6 @@
+import React from 'react';
+// import { Label } from '../ui/label';
+// import { UserForm } from '../../lib/types';
 import { Label } from '@/components/ui/label';
 import { UserForm } from '@/lib/types';
 import {
@@ -6,10 +9,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { stateCodes, townshipCodes } from '@/lib/postal';
+} from '../ui/select';
+import { stateCodes, townshipCodes } from '../../lib/postal';
 import { useState } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 
 interface FormProps {
   initialData?: UserForm;

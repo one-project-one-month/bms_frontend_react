@@ -15,11 +15,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '../ui/Table';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
 import CreateUserModal from './CreateUserModal';
 
 interface DataTableProps<TData, TValue> {

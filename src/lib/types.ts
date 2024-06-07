@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from 'zod';
 
@@ -13,24 +14,48 @@ export const ResponseDataSchema = z.object({
   receiver: PersonSchema,
 });
 
-export type ResponseData = z.infer<typeof ResponseDataSchema>;
+export const responseSchema = z.object({
+  data: ResponseDataSchema
+});
+export type Response = z.infer<typeof responseSchema>;
 
 export const RequestBodySchema = z.object({
   process: z.literal('transfer'),
   data: z.object({
-    sender: z.string(),
-    receiver: z.string(),
-    transferAmount: z.number(),
+      sender: z.string(),
+      receiver: z.string(),
+      transferAmount: z.number(),
   }),
 });
 
 const errorSchema = z.object({
-  message: z.string(),
+  response : z.object({
+    data : z.object({
+      message : z.string()
+    })
+  })
 });
 
 // Define TypeScript types for request and response using the zod schemas
 export type RequestBody = z.infer<typeof RequestBodySchema>;
 export type error = z.infer<typeof errorSchema>;
+
+
+export type ResponseDataType<T> = {
+  status: string;
+  message: string;
+  data?: T[];
+  error?: string | string[] | null;
+  time?: string;
+};
+
+export type PaginationResponseType<T> = {
+  current_page: number;
+  total: number;
+  per_page: number;
+  size: number;
+  dtoList: T[];
+};
 
 export type User = {
   id: number | null;
@@ -80,18 +105,8 @@ export type TransactionHistory = {
   admin?: UserName & AdminCode;
 };
 
-export type TransactionHistoryResponse = {
-  data: TransactionHistory[];
-};
-
-// type for login process
-export type LoginMutationParams = {
-  adminCode: string;
-  password: string;
-};
-
-export type LoginResponseType = {
-  data: string;
+export type TranscationHistoryResponse = {
+  data: TranscationHistory[];
 };
 
 export type UserList = {

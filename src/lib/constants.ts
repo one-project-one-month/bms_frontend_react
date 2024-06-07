@@ -11,6 +11,9 @@ export const endpoints = Object.freeze({
   staff: {
     login: '/admins/login',
   },
+  transfer : {
+    submit : 'admins/transfer'
+  }
 });
 
 // side bar navigation links
