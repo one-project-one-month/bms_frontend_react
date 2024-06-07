@@ -4,11 +4,9 @@ import HomePage from './pages/HomePage';
 import TransactionHistoryPage from './pages/TransactionHistoryPage';
 import DashboardLayout from './components/layouts/DashboardLayout';
 import TransferPage from './pages/TransferPage';
-import WithdrawPage from './pages/WithdrawPage';
-import DepositPage from './pages/DepositPage';
-
 import UserPage from './pages/UserPage';
 import ProtectedRoute from './components/layouts/ProtectedRoute';
+import TransactionPage from './pages/TransactionPage';
 
 const router = createBrowserRouter([
   {
@@ -28,12 +26,8 @@ const router = createBrowserRouter([
         element: <TransferPage />,
       },
       {
-        path: 'withdraw',
-        element: <WithdrawPage />,
-      },
-      {
-        path: 'deposit',
-        element: <DepositPage />,
+        path: 'transaction',
+        element: <TransactionPage />,
       },
       {
         path: 'transactionHistory',

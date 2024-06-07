@@ -13,7 +13,10 @@ export const ResponseDataSchema = z.object({
   receiver: PersonSchema,
 });
 
-export type ResponseData = z.infer<typeof ResponseDataSchema>;
+export const responseSchema = z.object({
+  data: ResponseDataSchema,
+});
+export type Response = z.infer<typeof responseSchema>;
 
 export const RequestBodySchema = z.object({
   process: z.literal('transfer'),
@@ -25,12 +28,32 @@ export const RequestBodySchema = z.object({
 });
 
 const errorSchema = z.object({
-  message: z.string(),
+  response: z.object({
+    data: z.object({
+      message: z.string(),
+    }),
+  }),
 });
 
 // Define TypeScript types for request and response using the zod schemas
 export type RequestBody = z.infer<typeof RequestBodySchema>;
 export type error = z.infer<typeof errorSchema>;
+
+export type ResponseDataType<T> = {
+  status: string;
+  message: string;
+  data?: T[];
+  error?: string | string[] | null;
+  time?: string;
+};
+
+export type PaginationResponseType<T> = {
+  current_page: number;
+  total: number;
+  per_page: number;
+  size: number;
+  dtoList: T[];
+};
 
 export type User = {
   id: number | null;
@@ -80,16 +103,42 @@ export type TransactionHistory = {
   admin?: UserName & AdminCode;
 };
 
-export type TransactionHistoryResponse = {
+export type TranscationHistoryResponse = {
   data: TransactionHistory[];
 };
 
-// type for login process
-export type LoginMutationParams = {
-  adminCode: string;
-  password: string;
+export type UserList = {
+  admin?: UserName & AdminCode;
+  adminId: string;
+  balance: number;
+  email: string;
+  id: string;
+  isDeactivated: true | false;
+  isDeleted: true | false;
+  name: string;
+  stateCode: string;
+  townshipCode: string;
+  username: string;
 };
 
-export type LoginResponseType = {
-  data: string;
+export type UserListResponse = {
+  data: UserList[];
+};
+
+export type UserNameList = {
+  value: string;
+  label: string;
+};
+
+export type transactionMutationBody = {
+  process: string;
+  data: {
+    username: string;
+    amount: number;
+  };
+};
+
+export type transactionResponse = {
+  data: object;
+  status: number;
 };

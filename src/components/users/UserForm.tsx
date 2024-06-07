@@ -6,10 +6,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { stateCodes, townshipCodes } from '@/lib/postal';
+} from '../ui/select';
+import { stateCodes, townshipCodes } from '../../lib/postal';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+
 
 interface FormProps {
   initialData?: UserForm;

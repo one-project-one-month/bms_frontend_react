@@ -4,12 +4,11 @@ import { TransactionHistory } from '../../lib/types.js';
 import { columns } from '../TransactionHistory/column';
 import { RecentTable } from '../ui/recent-table.js';
 import ListSkeleton from '../ui/TableSkeleton.js';
-import { SliceData } from '../../lib/types.js';
 
 const RecentHistory = () => {
   const { data, error, isFetched } =
     useTransactionHistory<TransactionHistory>();
-  const [sliceData, setSliceData] = useState<SliceData[]>([]);
+  const [sliceData, setSliceData] = useState<TransactionHistory[]>([]);
 
   useEffect(() => {
     console.log(data?.data);
