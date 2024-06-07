@@ -13,11 +13,11 @@ const UserPage = () => {
   const [deactivatedUsers, setDeactivatedUsers] = useState<
     (string | null | undefined)[]
   >([]);
-  // if (isLoading) return <div>Fetching users...</div>;
-  // if (error) return <div>An error occurred: {error.message}</div>;
+  const [userData, setUserData] = useState<UserForm[]>();
 
   useEffect(() => {
-    if (GetUser.data) {
+    if (GetUser.isSuccess && GetUser.data) {
+      setUserData(GetUser.data);
       setDeactivatedUsers(
         GetUser.data?.map((user) => {
           if (user.isDeactivated) {
@@ -26,8 +26,10 @@ const UserPage = () => {
           return;
         }),
       );
+    } else if (GetUser.isError) {
+      console.log(GetUser.error);
     }
-  }, [GetUser.data]);
+  }, [GetUser.data, GetUser.isError, GetUser.isSuccess, GetUser.isPending]);
 
   function addDeactivatedUser(username: string) {
     setDeactivatedUsers([...deactivatedUsers, username]);
@@ -37,7 +39,7 @@ const UserPage = () => {
     setDeactivatedUsers(deactivatedUsers.filter((user) => user !== username));
   }
 
-  // I move columns to here because I wanted the reactive effect of chaning the status(activate or deactivate).I can't use useMemo hook because status don't change if I use useMemo.
+  // I moved columns to here because I wanted the reactive effect of chaning the status(activate or deactivate).I can't use useMemo hook because status doesn't change if I use useMemo.
   const columns: ColumnDef<UserForm>[] =
     // useMemo(
     //     () =>
@@ -104,7 +106,13 @@ const UserPage = () => {
         cell: ({ row }) => {
           const user = row.original;
 
-          return <UpdateUserModal initialData={user} />;
+          return userData ? (
+            <UpdateUserModal
+              initialData={user}
+              userData={userData}
+              setUserData={setUserData}
+            />
+          ) : null;
         },
       },
       {
@@ -127,7 +135,6 @@ const UserPage = () => {
                   (deactivatedUsers.includes(row.original.username)
                     ? removeDeactivatedUser(row.original.username)
                     : addDeactivatedUser(row.original.username));
-               
               }}
             />
           );
@@ -155,13 +162,15 @@ const UserPage = () => {
   // I need to discuss about how we will show the deleted and deactivated users and how to reduce the load of this file.
   return (
     <div>
-      {!GetUser.isPending && GetUser.data ? (
+      {!GetUser.isPending && userData ? (
         <div className="flex flex-col space-y-3">
           <div className="p-10">
             <DataTable
               columns={columns}
-              data={GetUser.data}
+              data={userData}
               error={GetUser.error}
+              userData={userData}
+              setUserData={setUserData}
             />
           </div>
         </div>

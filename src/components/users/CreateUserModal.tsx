@@ -8,10 +8,19 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
+import { UserForm } from '@/lib/types';
 
 import { useCreateUserMutation } from '@/hooks/useUserMutation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-const CreateUserModal = () => {
+const CreateUserModal = ({
+  userData,
+  setUserData,
+}: {
+  userData: UserForm[];
+  setUserData: Dispatch<SetStateAction<UserForm[] | undefined>>;
+}) => {
+  const [open, setOpen] = useState(false);
   const CreateUserMutation = useCreateUserMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +29,7 @@ const CreateUserModal = () => {
 
     let name = formData.get('name') as string;
     let email = formData.get('email') as string;
-    let balance = formData.get('balance') as unknown as number;
+    let balance = parseInt(formData.get('balance') as string);
     let stateCode = formData.get('stateCode') as string;
     let townshipCode = formData.get('townshipCode') as string;
 
@@ -33,18 +42,24 @@ const CreateUserModal = () => {
     });
   };
 
-  // if (mutation.isError) {
-  //   return <span>Error: {mutation.error.message}</span>;
-  // }
+  // I think there is still something wrong with this effect
+  useEffect(() => {
+    if (CreateUserMutation.isSuccess) {
+      setUserData([CreateUserMutation.data, ...userData]);
+      setOpen(false);
+    }
+  }, [CreateUserMutation.isSuccess]);
 
-  if (CreateUserMutation.isSuccess) {
-    return <span>User Created!</span>;
+  if (CreateUserMutation.isError) {
+    console.log(CreateUserMutation.isError);
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className='float-right me-5' variant="outline">Create</Button>
+        <Button className="float-right me-5" variant="outline">
+          Create New User
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

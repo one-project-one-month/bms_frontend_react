@@ -6,15 +6,17 @@ export const useCreateUserMutation = () =>
   useMutation({
     mutationKey: ['create-user'],
     mutationFn: async (newUser: UserForm) => {
-      await Axios.post('/admins/users/registrations', newUser);
+      const res = await Axios.post('/admins/users/registrations', newUser);
+      return res.data.data;
     },
   });
 
 export const useUpdateUserMutation = () =>
   useMutation({
     mutationKey: ['update-user'],
-    mutationFn: async (userData: UserForm) => {
-      await Axios.post(`/users`, userData);
+    mutationFn: async (userData: { username: string; data: UserForm }) => {
+      const res = await Axios.put(`/users`, userData);
+      return res.data.data;
     },
   });
 

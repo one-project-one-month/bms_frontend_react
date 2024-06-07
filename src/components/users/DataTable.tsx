@@ -1,11 +1,11 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  ColumnFiltersState,
   getFilteredRowModel,
   getPaginationRowModel,
+  useReactTable,
 } from '@tanstack/react-table';
 
 import {
@@ -17,21 +17,26 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { UserForm } from '@/lib/types';
+import { Dispatch, SetStateAction, useState } from 'react';
 import CreateUserModal from './CreateUserModal';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   error?: Error | null;
+  userData: UserForm[];
+  setUserData: Dispatch<SetStateAction<UserForm[] | undefined>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   error,
+  userData,
+  setUserData,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -58,7 +63,7 @@ export function DataTable<TData, TValue>({
           }
         />
         <div className="basis-1/2">
-          <CreateUserModal />
+          <CreateUserModal userData={userData} setUserData={setUserData} />
         </div>
       </div>
 
