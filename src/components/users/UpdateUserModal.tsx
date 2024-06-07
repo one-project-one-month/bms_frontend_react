@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { UserForm } from '@/lib/types';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { Button } from '../ui/button';
 
 const UpdateUserModal = ({
   initialData,
