@@ -11,6 +11,10 @@ const NotAllowed = () => (
     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="24px" height="24px"><path fill="#f44336" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/><path fill="#fff" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/><path fill="#fff" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/></svg>
 )
 
+const InfoIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="24px" height="24px"><path fill="#2196f3" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/><path fill="#fff" d="M22 22h4v11h-4V22zM26.5 16.5c0 1.379-1.121 2.5-2.5 2.5s-2.5-1.121-2.5-2.5S22.621 14 24 14 26.5 15.121 26.5 16.5z"/></svg>
+)
+
 const TransferPage = () => {
 
     const [accounts,setAccounts] = useState ({
@@ -24,6 +28,8 @@ const TransferPage = () => {
     const [success,setSuccess] = useState (false)
 
     const [errorMessage,setErrorMessage] = useState(null)
+
+    const [loading,setLoading] = useState(false)
     
     const convertAmount = parseInt(accounts.amount.name,10)
     
@@ -34,18 +40,6 @@ const TransferPage = () => {
             receiver: accounts.recipient.name,
             transferAmount:convertAmount ,
         },
-    };
-
-    const jwt = Cookies.get('token')
-    console.log('jwt' ,jwt);
-    
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwt}`
-    };
-    
-    const config: AxiosRequestConfig = {
-        headers: headers
     };
     
     const handleOnChange = (field : string,value: string) :void => {
@@ -108,9 +102,13 @@ const TransferPage = () => {
         console.log('Mutation Success Data:', submitTransactionMutation);
         setData(submitTransactionMutation.data)
         setSuccess(true)
-      } else if (submitTransactionMutation.isError) {
+        setLoading(false)
+      } else if (submitTransactionMutation.isPending) {
+        setLoading(true)
+      }else if (submitTransactionMutation.isError) {
         console.log('Mutation Error:', submitTransactionMutation.error);
         setErrorMessage(submitTransactionMutation.error.response.data.message)
+        setLoading(false)
       }
     }, [
       submitTransactionMutation.isError,
@@ -118,17 +116,26 @@ const TransferPage = () => {
       submitTransactionMutation.isPending,
     ]);
 
-    console.log(errorMessage);
+    console.log(submitTransactionMutation.isPending);
     
 
     return (
         <div className="w-full mx-auto h-screen">
-            <div className={`max-w-6xl ${success || errorMessage ? 'mx-auto mt-20 max-w-xl' : 'ml-4 mt-8'}`}>
+            <div className={`max-w-6xl ${success || errorMessage || loading ? 'mx-auto mt-20 max-w-md' : 'ml-4 mt-8'}`}>
                 <form className="bg-PrimaryBg border border-secondaryBorderColor rounded-md px-8 pt-6 pb-6">
-                        {!success && !errorMessage && <TransferForm accounts={accounts} handleOnChange={handleOnChange} 
+                        {!success && !errorMessage && !loading && <TransferForm accounts={accounts} handleOnChange={handleOnChange} 
                         isCompleted={isCompleted} clickHandler={clickHandler}/>}
 
                         {success && <SuccessMessage data={data?.data}/>}
+
+                        {loading && (
+                        <div className='w-full flex items-center justify-center gap-2'>
+                            <InfoIcon/>
+                            <p className='text-sm text-center'>
+                            Submitting the transfer...
+                            </p> 
+                        </div>
+                        )}
                         {errorMessage && (
                         <div className='w-full flex items-center justify-center gap-2'>
                             <NotAllowed/>
