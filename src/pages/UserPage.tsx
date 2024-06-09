@@ -17,6 +17,7 @@ const UserPage = () => {
     }
   }, [GetUser.data, GetUser.isError, GetUser.isSuccess, GetUser.isPending]);
 
+
   return (
     <div>
       {!GetUser.isPending && userData ? (

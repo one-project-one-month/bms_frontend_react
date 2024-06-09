@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 export const columns: ColumnDef<TransactionHistory>[] = [
   {
     accessorKey: 'id',
-    header: 'Id',
+    header: 'AccoutNo',
   },
   {
     accessorKey: 'adminName',
