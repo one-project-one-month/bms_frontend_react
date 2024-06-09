@@ -8,24 +8,22 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { UserForm } from '@/lib/types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../ui/button';
+import { Spinner } from '../ui/spinner';
+import { toast } from 'react-toastify';
 
-const UpdateUserModal = ({
-  initialData,
-  userData,
-  setUserData,
-}: {
-  initialData: UserForm;
-  userData: UserForm[];
-  setUserData: Dispatch<SetStateAction<UserForm[] | undefined>>;
-}) => {
+const UpdateUserModal = ({ initialData }: { initialData: UserForm }) => {
   const [open, setOpen] = useState(false);
-  const UpdateUserMutation = useUpdateUserMutation();
+  const {
+    mutateAsync: updateUser,
+    isSuccess,
+    isPending,
+  } = useUpdateUserMutation();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setOpen(false);
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
@@ -33,8 +31,8 @@ const UpdateUserModal = ({
     const stateCode = formData.get('stateCode') as string;
     const townshipCode = formData.get('townshipCode') as string;
 
-    initialData?.username &&
-      UpdateUserMutation.mutate({
+    if (initialData?.username) {
+      const res = await updateUser({
         username: initialData?.username,
         data: {
           name,
@@ -44,29 +42,24 @@ const UpdateUserModal = ({
           townshipCode,
         },
       });
+      if (res.data && res.status === 200) {
+        toast.success(`You have successfully updated user info.`);
+      } else {
+        toast.error(`Updating user failed!`);
+      }
+    }
   };
-
-  if (UpdateUserMutation.isSuccess && UpdateUserMutation.data) {
-    setUserData(
-      userData.map((user) => {
-        if (user.username === UpdateUserMutation.data.username) {
-          return UpdateUserMutation.data;
-        } else {
-          return user;
-        }
-      }),
-    );
-    setOpen(false);
-  }
-
-  if (UpdateUserMutation.isError) {
-    return <span>Error: {UpdateUserMutation.error.message}</span>;
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button variant="outline">
+          {isPending && !isSuccess ? (
+            <Spinner className="mx-auto text-slate-400" />
+          ) : (
+            'Edit'
+          )}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

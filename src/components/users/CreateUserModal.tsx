@@ -8,57 +8,55 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
-import { UserForm } from '@/lib/types';
 
 import { useCreateUserMutation } from '@/hooks/useUserMutation';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'react-toastify';
 
-const CreateUserModal = ({
-  userData,
-  setUserData,
-}: {
-  userData: UserForm[];
-  setUserData: Dispatch<SetStateAction<UserForm[] | undefined>>;
-}) => {
+const CreateUserModal = () => {
   const [open, setOpen] = useState(false);
-  const CreateUserMutation = useCreateUserMutation();
+  const {
+    mutateAsync: createUser,
+    isSuccess,
+    isPending,
+  } = useCreateUserMutation();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    setOpen(false);
 
+    const formData = new FormData(e.currentTarget);
     let name = formData.get('name') as string;
     let email = formData.get('email') as string;
     let balance = parseInt(formData.get('balance') as string);
     let stateCode = formData.get('stateCode') as string;
     let townshipCode = formData.get('townshipCode') as string;
 
-    CreateUserMutation.mutate({
+    const res = await createUser({
       name,
       email,
       balance,
       stateCode,
       townshipCode,
     });
-  };
 
-  // I think there is still something wrong with this effect
-  useEffect(() => {
-    if (CreateUserMutation.isSuccess) {
-      setUserData([CreateUserMutation.data, ...userData]);
-      setOpen(false);
+    if (res.data && res.status === 201) {
+      toast.success(`You have successfully created the user.`);
+    } else {
+      toast.error(`Creating user failed!`);
     }
-  }, [CreateUserMutation.isSuccess]);
-
-  if (CreateUserMutation.isError) {
-    console.log(CreateUserMutation.isError);
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="float-right me-5" variant="outline">
-          Create New User
+          {isPending && !isSuccess ? (
+            <Spinner className="mx-auto text-slate-400" />
+          ) : (
+            ' Create New User'
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">

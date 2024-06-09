@@ -19,24 +19,19 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { UserForm } from '@/lib/types';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import CreateUserModal from './CreateUserModal';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   error?: Error | null;
-  userData: UserForm[];
-  setUserData: Dispatch<SetStateAction<UserForm[] | undefined>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   error,
-  userData,
-  setUserData,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -55,15 +50,15 @@ export function DataTable<TData, TValue>({
     <div className="flex flex-col">
       <div className="flex flex-row mb-4 gap-x-5">
         <Input
-          placeholder="Filter by user Id..."
+          placeholder="Search by user Name..."
           className="basis-1/2"
-          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('id')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
         />
         <div className="basis-1/2">
-          <CreateUserModal userData={userData} setUserData={setUserData} />
+          <CreateUserModal />
         </div>
       </div>
 
@@ -78,9 +73,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
