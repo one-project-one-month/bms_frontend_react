@@ -14,9 +14,12 @@ const TransactionHistoryPage = () => {
 
   useEffect(() => {
     if (GetTransactionQuery.isSuccess && GetTransactionQuery.data) {
-
-      // response.data is an array of TransactionHistory
-      setTransactionData(GetTransactionQuery.data.data);
+      const sortedData = GetTransactionQuery.data.data.sort(
+        (a, b) => {
+          return new Date(b.time).valueOf() - new Date(a.time).valueOf();
+        },
+      );
+      setTransactionData(sortedData);
     } else if (GetTransactionQuery.isError) {
       console.log(GetTransactionQuery.error);
     }

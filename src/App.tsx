@@ -22,6 +22,10 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: 'users',
+        element: <UserPage />,
+      },
+      {
         path: 'transfer',
         element: <TransferPage />,
       },
@@ -32,10 +36,6 @@ const router = createBrowserRouter([
       {
         path: 'transactionHistory',
         element: <TransactionHistoryPage />,
-      },
-      {
-        path: 'users',
-        element: <UserPage />,
       },
     ],
   },
