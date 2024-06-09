@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserData, UserNameList } from '../lib/types';
+
 import useTransactionMutation from './useTransactionMutation';
+import { useFetchUser } from './useFetchUser';
 
 const formSchema = z.object({
-    account: z.string({
-        required_error: "Please select an account.",
-    }),
-    amount: z.coerce.number().min(2, "Amount must be at least 2")
+  account: z.string().min(1,{message: 'Please select an account.'}),
+  amount: z.coerce.number().min(2, "Amount must be at least 2")
 })
 
 const useTransactionForm = (process: 'deposit' | 'withdraw') => {
@@ -20,21 +20,24 @@ const useTransactionForm = (process: 'deposit' | 'withdraw') => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+          account: '',
+          amount: 0
+        }
     })
 
-    const {data, isLoading, isSuccess,isError, error} = useFetchUser<UserForm[]>();
+    const {data, isLoading, isSuccess,isError, error} = useFetchUser<UserData[]>();
     
     const { mutateAsync: deposit, isPending }= useTransactionMutation();
 
     useEffect(() => {
-        if (isSuccess &&data) {
-            const nameList = data.data.data.map(user => {
-                return {
-                    "value": user.username,
-                    "label": user.username
-                }
-
-            })
+        if (isSuccess && data) {          
+            const nameList = data.filter(user => !user.isDeactivated && !user.isDeleted).map(user => (
+              {
+                value: user.username!,
+                label: user.username!
+              }
+            ))
             setUserNameList(nameList)
         } else if (isError) {
             console.log(error);
@@ -58,7 +61,6 @@ const useTransactionForm = (process: 'deposit' | 'withdraw') => {
           
           if(response.data && response.status === 200){
               form.reset();
-              form.setValue('amount',0)
               toast.success(`You have successfully ${process}ed.`)
           }
        }catch (error) {
