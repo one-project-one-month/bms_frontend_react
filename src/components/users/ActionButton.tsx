@@ -16,7 +16,7 @@ const ActionButton = ({ username, process }: ActionButtonProps) => {
   } = useUserActionMutation();
 
   return isPending && !isSuccess ? (
-    <Spinner className="mx-auto text-slate-400" size="small" />
+    <Spinner className="mx-auto text-slate-400" />
   ) : (
     <Button
       onClick={async () => {
