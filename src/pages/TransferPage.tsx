@@ -31,7 +31,7 @@ const TransferPage = () => {
     const convertAmount = parseInt(accounts.amount.name,10)
     
     useEffect(() => {
-        const storedAccounts = localStorage.getItem('accounts');  
+        const storedAccounts = localStorage.getItem('accounts');
          
         if (storedAccounts) {
           const parsedAccounts = JSON.parse(storedAccounts);
@@ -55,7 +55,7 @@ const TransferPage = () => {
 
           localStorage.setItem('accounts', JSON.stringify({      
             sender: {
-              name: updatedAccounts.sender.name,
+              name: updatedAccounts.sender.name, 
               isPressed: updatedAccounts.sender.isTouched
             },
             recipient: {
@@ -71,9 +71,7 @@ const TransferPage = () => {
           return updatedAccounts;
         });
       };
-    console.log(accounts.sender.isTouched);
-    
-     
+
     const body: RequestBody = {
         process: 'transfer',
         data: {
