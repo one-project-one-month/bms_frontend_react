@@ -53,6 +53,15 @@ interface FormProps {
   handleSubmit: (values: { account: string; amount: number }) => void;
 }
 
+const formatNumber = (value:any) => {
+  return new Intl.NumberFormat('en-US').format(value)
+}
+
+const parseNumber = (value:any) => {
+  const cleanedValue = value.replace(/,/g, '');
+  return isNaN(parseFloat(cleanedValue)) ? '' : parseFloat(cleanedValue);
+};
+
 const TransactionPage = () => {
   const depositForm = useTransactionForm('deposit');
   const withdrawForm = useTransactionForm('withdraw');
@@ -77,7 +86,7 @@ const TransactionPage = () => {
               name="account"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>User Account Number</FormLabel>
+                  <FormLabel>User Name</FormLabel>
                   <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -91,17 +100,19 @@ const TransactionPage = () => {
                           )}
                         >
                           {field.value
-                            ? userNameList.find(
-                                (name) => name.value === field.value,
-                              )?.label
-                            : 'Select User Account'}
+                            ? `${userNameList.find(
+                              (name) => name.value === field.value,
+                            )?.label}(${userNameList.find(
+                              (name) => name.value === field.value,
+                            )?.value})`
+                            : 'Select User Name'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="p-0">
+                    <PopoverContent className="w-[400px] p-0">
                       <Command>
-                        <CommandInput placeholder="Search User Account" />
+                        <CommandInput placeholder="Search User Name" />
                         <CommandList>
                           {isLoading ? (
                             <p className="text-center font-bold py-4">
@@ -110,13 +121,13 @@ const TransactionPage = () => {
                           ) : (
                             <>
                               <CommandEmpty>
-                                No Account Name found.
+                                No User Name found.
                               </CommandEmpty>
                               <CommandGroup>
                                 {userNameList.map((name) => (
                                   <CommandItem
                                     key={name.value}
-                                    value={name.value}
+                                    value={name.label}
                                     onSelect={() => {
                                       form.setValue('account', name.value);
                                       setOpen(false);
@@ -131,7 +142,7 @@ const TransactionPage = () => {
                                           : 'opacity-0',
                                       )}
                                     />
-                                    {name.label}
+                                    {`${name.label}(${name.value})`}
                                   </CommandItem>
                                 ))}
                               </CommandGroup>
@@ -153,12 +164,13 @@ const TransactionPage = () => {
                   <FormLabel>Amount</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      step="1"
-                      min="1"
                       placeholder="Enter Amount"
                       {...field}
-                      value={field.value === 0 ? '' : field.value}
+                      value={field.value === 0 ? '' : formatNumber(field.value)}
+                      onChange={(e) => {
+                        const value = parseNumber(e.target.value);
+                        field.onChange(value);
+                      }}
                       className="border-gray-200 shadow-none focus:border-none focus:ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-gray-300 sm:text-sm"
                     />
                   </FormControl>
@@ -180,7 +192,7 @@ const TransactionPage = () => {
 
   return (
     <div className="w-2/5 mx-auto mt-20">
-      <Tabs defaultValue="deposit" className="w-[400px]">
+      <Tabs defaultValue="deposit" className="w-[500px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="deposit">Deposit</TabsTrigger>
           <TabsTrigger value="withdraw">Withdraw</TabsTrigger>
