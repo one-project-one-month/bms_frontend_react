@@ -1,4 +1,4 @@
-
+import React,{useEffect} from "react";
 interface AccountField {
   name: string;
   isTouched: boolean;
@@ -23,9 +23,11 @@ export default function TransferForm({
   isCompleted,
   clickHandler,
 }: TransferFormProps) {
+  
+     
   return (
     <>
-      <div className="mb-8">
+      <div className="mb-12">
         <div className="w-full flex items-center gap-4">
           <label
             className="text-gray-700 text-sm font-bold w-[30%]"
@@ -34,7 +36,7 @@ export default function TransferForm({
             Sender account number
           </label>
           <input
-            className={`appearance-none border rounded w-[40%] py-2 px-3 ${accounts.sender.isTouched && accounts.sender.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+            className={`appearance-none border rounded w-[50%] py-2 px-3 ${accounts.sender.isTouched && accounts.sender.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700  leading-tight focus:outline-none focus:shadow-outline`}
             name="sender"
             id="sender"
             type="text"
@@ -43,13 +45,13 @@ export default function TransferForm({
             onChange={(e) => handleOnChange(e.target.name, e.target.value)}
           />
         </div>
-        {accounts.sender.isTouched && accounts.sender.name.length == 0 && (
-          <p className='text-red-500 text-xs italic ml-[336px]'>
+         {accounts.sender.isTouched && accounts.sender.name.length == 0 && (
+          <p className='text-red-500 text-xs italic ml-[266px] mt-2'>
             Incomplete information.Please try again
           </p>
         )}
       </div>
-      <div className="mb-8">
+      <div className="mb-12">
         <div className="w-full flex items-center gap-4">
           <label
             className="block text-gray-700 text-sm font-bold w-[30%]"
@@ -58,7 +60,7 @@ export default function TransferForm({
             Recipient account number
           </label>
           <input
-            className={`appearance-none border rounded w-[40%] py-2 px-3 ${accounts.recipient.isTouched && accounts.recipient.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+            className={`appearance-none border rounded w-[50%] py-2 px-3 ${accounts.recipient.isTouched && accounts.recipient.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             id="recipient"
             name="recipient"
             type="text"
@@ -69,7 +71,7 @@ export default function TransferForm({
         </div>
         {accounts.recipient.isTouched &&
           accounts.recipient.name.length == 0 && (
-            <p className="text-red-500 text-xs italic ml-[336px]">
+            <p className="text-red-500 text-xs italic ml-[266px] mt-2">
               Incomplete information.Please try again
             </p>
           )}
@@ -83,7 +85,7 @@ export default function TransferForm({
             Amount
           </label>
           <input
-            className={`appearance-none border rounded w-[40%] py-2 px-3 ${accounts.amount.isTouched && accounts.amount.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+            className={`appearance-none border rounded w-[50%] py-2 px-3 ${accounts.amount.isTouched && accounts.amount.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             name="amount"
             id="amount"
             type="number"
@@ -93,10 +95,10 @@ export default function TransferForm({
           />
         </div>
         {accounts.amount.isTouched && accounts.amount.name.length == 0 && (
-          <p className="text-red-500 text-xs italic ml-[336px]">Please enter amount</p>
+          <p className="text-red-500 text-xs italic ml-[266px] mt-2">Please enter amount</p>
         )}
       </div>
-      <div className="w-[72%] text-right">
+      <div className="w-[82%] text-right">
         <button
           className={`${isCompleted ? 'bg-primaryBtn hover:bg-green-700' : 'bg-disabledBtn cursor-default'} text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline`}
           type="button"
