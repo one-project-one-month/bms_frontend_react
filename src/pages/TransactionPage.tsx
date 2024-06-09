@@ -57,7 +57,7 @@ const TransactionPage = () => {
   const depositForm = useTransactionForm('deposit');
   const withdrawForm = useTransactionForm('withdraw');
 
-  const renderForm = (formProps: FormProps) => {
+  const renderForm = (type:string,formProps: FormProps) => {
     const {
       form,
       open,
@@ -92,8 +92,8 @@ const TransactionPage = () => {
                         >
                           {field.value
                             ? userNameList.find(
-                                (name) => name.value === field.value,
-                              )?.label
+                              (name) => name.value === field.value,
+                            )?.label
                             : 'Select User Account'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
@@ -113,28 +113,27 @@ const TransactionPage = () => {
                                 No Account Name found.
                               </CommandEmpty>
                               <CommandGroup>
-                                <>
-                                  {userNameList.map((name) => (
-                                    <CommandItem
-                                      key={name.value}
-                                      value={name.value}
-                                      onSelect={() => {
-                                        form.setValue('account', name.value),
-                                          setOpen(false);
-                                      }}
-                                    >
-                                      <Check
-                                        className={cn(
-                                          'mr-2 h-4 w-4',
-                                          field.value === name.value
-                                            ? 'opacity-100'
-                                            : 'opacity-0',
-                                        )}
-                                      />
-                                      {name.label}
-                                    </CommandItem>
-                                  ))}
-                                </>
+                                {userNameList.map((name) => (
+                                  <CommandItem
+                                    key={name.value}
+                                    value={name.value}
+                                    onSelect={() => {
+                                      form.setValue('account', name.value)
+                                      setOpen(false);
+                                      form.clearErrors('account')
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        'mr-2 h-4 w-4',
+                                        field.value === name.value
+                                          ? 'opacity-100'
+                                          : 'opacity-0',
+                                      )}
+                                    />
+                                    {name.label}
+                                  </CommandItem>
+                                ))}
                               </CommandGroup>
                             </>
                           )}
@@ -142,10 +141,10 @@ const TransactionPage = () => {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  <FormMessage />
+                  <FormMessage/>
                 </FormItem>
               )}
-            ></FormField>
+            />
             <FormField
               control={form.control}
               name="amount"
@@ -157,19 +156,20 @@ const TransactionPage = () => {
                       type="number"
                       step="1"
                       min="1"
-                      placeholder="0.00"
+                      placeholder="Enter Amount"
                       {...field}
+                      value={field.value === 0 ? '' : field.value}
                       className="border-gray-200 shadow-none focus:border-none focus:ring-offset-0 focus-visible:ring-offset-0 focus-visible:ring-gray-300 sm:text-sm"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            ></FormField>
+            />
           </CardContent>
           <CardFooter className="justify-center">
-            <Button type="submit" disabled={isPending}>
-              {isPending ? 'Loading...' : 'Submit'}
+            <Button type="submit" disabled={isPending} className='bg-primaryBtn hover:bg-green-700  text-white'>
+            {`${isPending ? 'Loading...' : type === 'deposit' ? 'Deposit' : 'Withdraw'}`}
             </Button>
           </CardFooter>
         </form>
@@ -192,7 +192,7 @@ const TransactionPage = () => {
                 Add funds to your account easily and quickly.
               </CardDescription>
             </CardHeader>
-            {renderForm(depositForm)}
+            {renderForm('deposit',depositForm)}
           </Card>
         </TabsContent>
         <TabsContent value="withdraw">
@@ -203,7 +203,7 @@ const TransactionPage = () => {
                 Withdraw funds from your account securely and quickly.
               </CardDescription>
             </CardHeader>
-            {renderForm(withdrawForm)}
+            {renderForm('withdraw',withdrawForm)}
           </Card>
         </TabsContent>
       </Tabs>
