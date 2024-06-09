@@ -1,5 +1,5 @@
 import { cn } from '../../lib/utils';
-import { Skeleton } from './Skeleton';
+import { Skeleton } from './skeleton.tsx';
 
 export default function ListSkeleton({ className }: { className: string }) {
   return (

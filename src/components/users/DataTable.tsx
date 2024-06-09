@@ -15,10 +15,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/Table';
+} from '../ui/table.tsx';
 
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
+import { Button } from '../ui/button.tsx';
+import { Input } from '../ui/input.tsx';
 import { useState } from 'react';
 import CreateUserModal from './CreateUserModal';
 

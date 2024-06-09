@@ -3,7 +3,7 @@ import { useTransactionHistory } from '../../hooks/useTransactionHistory';
 import { TransactionHistory } from '../../lib/types.js';
 import { columns } from '../TransactionHistory/column';
 import { RecentTable } from '../ui/recent-table.js';
-import ListSkeleton from '../ui/TableSkeleton.js';
+import { Spinner } from '../ui/spinner.js';
 
 const RecentHistory = () => {
   const { data, error, isFetched } =
@@ -31,7 +31,7 @@ const RecentHistory = () => {
           <RecentTable columns={columns} data={sliceData} error={error} />
         </div>
       ) : (
-        <ListSkeleton className="p-10 w-full" />
+        <Spinner className="mx-auto text-slate-400" />
       )}
     </div>
   );
