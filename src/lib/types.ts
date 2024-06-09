@@ -62,8 +62,16 @@ export type User = {
   roles: string;
 };
 
-export type UserForm = {
-  sort(arg0: (a: { id: number; }, b: { id: number; }) => 1 | -1): unknown;
+export type UserFormData = {
+  name: string;
+  email: string;
+  balance: number;
+  stateCode: string;
+  townshipCode: string;
+};
+
+export type UserData = {
+  sort(arg0: (a: { id: number }, b: { id: number }) => 1 | -1): UserData[];
   map: any;
   id?: string;
   name: string;
@@ -150,16 +158,16 @@ export type transactionResponse = {
 };
 
 export type recentUser = {
- id:string,
- data:string[] | undefined
-}
+  id: string;
+  data: string[] | undefined;
+};
 
 export type recent = {
-  data:{
-    name:string,
-    amount:number
-  }
-}
+  data: {
+    name: string;
+    amount: number;
+  };
+};
 // type for login process
 export type LoginMutationParams = {
   adminCode: string;

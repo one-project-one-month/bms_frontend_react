@@ -1,4 +1,4 @@
-import { UserForm } from '@/lib/types';
+import { UserFormData } from '@/lib/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Axios from '@/api-config';
 
@@ -7,7 +7,7 @@ export const useCreateUserMutation = () => {
 
   return useMutation({
     mutationKey: ['create-user'],
-    mutationFn: async (newUser: UserForm) => {
+    mutationFn: async (newUser: UserFormData) => {
       const res = await Axios.post('/admins/users/registrations', newUser);
       return res;
     },
@@ -22,8 +22,8 @@ export const useUpdateUserMutation = () => {
 
   return useMutation({
     mutationKey: ['update-user'],
-    mutationFn: async (userData: { username: string; data: UserForm }) => {
-      const res = await Axios.put(`/users`, userData);
+    mutationFn: async (data: { username: string; data: UserFormData }) => {
+      const res = await Axios.put(`/users`, data);
       return res;
     },
     onSuccess: () => {

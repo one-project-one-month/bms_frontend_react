@@ -2,9 +2,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { stateCodes, townshipCodes } from '@/lib/postal';
 import ActionButton from './ActionButton';
 import UpdateUserModal from './UpdateUserModal';
-import { UserForm } from '../../lib/types';
+import { UserData } from '../../lib/types';
 
-export const columns: ColumnDef<UserForm>[] = [
+export const columns: ColumnDef<UserData>[] = [
   {
     accessorKey: 'id',
     header: 'Id',

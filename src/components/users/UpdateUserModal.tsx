@@ -7,13 +7,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { UserForm } from '@/lib/types';
+import { UserData } from '@/lib/types';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import { toast } from 'react-toastify';
 
-const UpdateUserModal = ({ initialData }: { initialData: UserForm }) => {
+const UpdateUserModal = ({ initialData }: { initialData: UserData }) => {
   const [open, setOpen] = useState(false);
   const {
     mutateAsync: updateUser,
