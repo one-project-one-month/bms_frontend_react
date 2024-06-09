@@ -45,7 +45,15 @@ export const columns: ColumnDef<UserData>[] = [
   {
     accessorKey: 'balance',
     header: 'Balance',
-    cell: ({ row }) => (row.original.balance ? row.original.balance : 'N/A'),
+    cell: ({ row }) => (
+      <div className="text-right">
+        {row.original.balance
+          ? row.original.balance
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          : '0'}
+      </div>
+    ),
   },
   {
     header: 'Action',
