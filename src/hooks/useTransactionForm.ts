@@ -4,7 +4,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserForm, UserNameList } from '../lib/types';
+import { UserData, UserNameList } from '../lib/types';
+
 import useTransactionMutation from './useTransactionMutation';
 import { useFetchUser } from './useFetchUser';
 
@@ -25,7 +26,7 @@ const useTransactionForm = (process: 'deposit' | 'withdraw') => {
         }
     })
 
-    const {data, isLoading, isSuccess,isError, error} = useFetchUser<UserForm[]>();
+    const {data, isLoading, isSuccess,isError, error} = useFetchUser<UserData[]>();
     
     const { mutateAsync: deposit, isPending }= useTransactionMutation();
 

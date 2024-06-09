@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label';
-import { UserForm } from '@/lib/types';
+import { UserData } from '@/lib/types';
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 
 interface FormProps {
-  initialData?: UserForm;
+  initialData?: UserData;
   submitFn: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 

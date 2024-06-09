@@ -1,12 +1,12 @@
 import { useFetchUser } from '@/hooks/useFetchUser';
-import { UserForm } from '@/lib/types';
+import { UserData } from '@/lib/types';
 import RecentCart from './RecentCart.js';
 import { useState, useEffect } from 'react';
 import { LoaderIcon } from 'lucide-react';
 
 export default function RecentUser() {
-  const { data, error, isFetched } = useFetchUser<UserForm>();
-  const [sliceData, setSliceData] = useState<UserForm[]>([]);
+  const { data, error, isFetched } = useFetchUser<UserData>();
+  const [sliceData, setSliceData] = useState<UserData[]>([]);
 
   useEffect(() => {
     if (data) {
