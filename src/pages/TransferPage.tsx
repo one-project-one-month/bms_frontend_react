@@ -1,11 +1,8 @@
-import React from 'react';
-import axios, { AxiosRequestConfig } from 'axios';
 import { useState,useEffect } from 'react';
 import SuccessMessage from '../components/transfer/SuccessMessage';
 import TransferForm from '../components/transfer/TransferForm';
 import { Response,RequestBody} from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
-import Cookies from 'js-cookie';
 
 const NotAllowed = () => (
     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="24px" height="24px"><path fill="#f44336" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/><path fill="#fff" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"/><path fill="#fff" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"/></svg>
@@ -16,7 +13,7 @@ const InfoIcon = () => (
 )
 
 const TransferPage = () => {
-
+    
     const [accounts,setAccounts] = useState ({
         sender: { name: '', isTouched: false },
         recipient: { name: '', isTouched: false },
@@ -33,6 +30,50 @@ const TransferPage = () => {
     
     const convertAmount = parseInt(accounts.amount.name,10)
     
+    useEffect(() => {
+        const storedAccounts = localStorage.getItem('accounts');  
+         
+        if (storedAccounts) {
+          const parsedAccounts = JSON.parse(storedAccounts);
+          setAccounts({
+            sender: { name: parsedAccounts.sender.name, isTouched: false},
+            recipient: { name: parsedAccounts.recipient.name, isTouched: false},
+            amount: { name: parsedAccounts.amount.name, isTouched: false }
+          });
+        }
+      }, []); 
+    
+      const handleOnChange = (field: string, value: string): void => {
+        setAccounts(prevAccounts => {
+          const updatedAccounts = {
+            ...prevAccounts,
+            [field]: {
+              name: value,
+              isTouched:true
+            }
+          };
+
+          localStorage.setItem('accounts', JSON.stringify({      
+            sender: {
+              name: updatedAccounts.sender.name,
+              isPressed: updatedAccounts.sender.isTouched
+            },
+            recipient: {
+              name: updatedAccounts.recipient.name,
+              isPressed: updatedAccounts.recipient.isTouched
+            },
+            amount: {
+              name: updatedAccounts.amount.name,
+              isPressed: updatedAccounts.amount.isTouched
+            }
+          }));
+    
+          return updatedAccounts;
+        });
+      };
+    console.log(accounts.sender.isTouched);
+    
+     
     const body: RequestBody = {
         process: 'transfer',
         data: {
@@ -40,16 +81,6 @@ const TransferPage = () => {
             receiver: accounts.recipient.name,
             transferAmount:convertAmount ,
         },
-    };
-    
-    const handleOnChange = (field : string,value: string) :void => {
-        setAccounts(prevAccounts => ({
-            ...prevAccounts,
-            [field]: {
-                name :value,
-                isTouched : true
-            },
-        }));
     };
 
     const isCompleted = Object.values(accounts).every((value)=>value.name);  
@@ -91,9 +122,9 @@ const TransferPage = () => {
     const submitTransactionMutation = useSubmitTransaction();
 
     const clickHandler = () => {
-      console.log('Request Body for Mutation:', body);
       if(isCompleted) {
         submitTransactionMutation.mutate(body);
+        localStorage.removeItem('accounts');
       }
     };
     
@@ -115,13 +146,11 @@ const TransferPage = () => {
       submitTransactionMutation.isSuccess,
       submitTransactionMutation.isPending,
     ]);
-
-    console.log(submitTransactionMutation.isPending);
     
 
     return (
         <div className="w-full mx-auto h-screen">
-            <div className={`max-w-6xl ${success || errorMessage || loading ? 'mx-auto mt-20 max-w-md' : 'ml-4 mt-8'}`}>
+            <div className={`max-w-4xl ${success || errorMessage || loading ? 'mx-auto mt-20 max-w-md' : 'mt-8'}`}>
                 <form className="bg-PrimaryBg border border-secondaryBorderColor rounded-md px-8 pt-6 pb-6">
                         {!success && !errorMessage && !loading && <TransferForm accounts={accounts} handleOnChange={handleOnChange} 
                         isCompleted={isCompleted} clickHandler={clickHandler}/>}
