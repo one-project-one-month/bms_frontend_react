@@ -92,8 +92,8 @@ const TransactionPage = () => {
                         >
                           {field.value
                             ? userNameList.find(
-                              (name) => name.value === field.value,
-                            )?.label
+                                (name) => name.value === field.value,
+                              )?.label
                             : 'Select User Account'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
@@ -118,9 +118,9 @@ const TransactionPage = () => {
                                     key={name.value}
                                     value={name.value}
                                     onSelect={() => {
-                                      form.setValue('account', name.value)
+                                      form.setValue('account', name.value);
                                       setOpen(false);
-                                      form.clearErrors('account')
+                                      form.clearErrors('account');
                                     }}
                                   >
                                     <Check
@@ -170,6 +170,7 @@ const TransactionPage = () => {
           <CardFooter className="justify-center">
             <Button type="submit" disabled={isPending} className='bg-primaryBtn hover:bg-green-700  text-white'>
               {`${isPending ? 'Loading...' : type === 'deposit' ? 'Deposit' : 'Withdraw'}`}
+
             </Button>
           </CardFooter>
         </form>
