@@ -62,7 +62,17 @@ export type User = {
   roles: string;
 };
 
-export type UserForm = {
+export type UserFormData = {
+  name: string;
+  email: string;
+  balance: number;
+  stateCode: string;
+  townshipCode: string;
+};
+
+export type UserData = {
+  sort(arg0: (a: { id: number }, b: { id: number }) => 1 | -1): UserData[];
+  map: any;
   id?: string;
   name: string;
   username?: string;
@@ -109,26 +119,6 @@ export type TransactionHistoryResponse = {
   data: TransactionHistory[];
 };
 
-//
-
-export type UserList = {
-  admin?: UserName & AdminCode;
-  adminId: string;
-  balance: number;
-  email: string;
-  id: string;
-  isDeactivated: true | false;
-  isDeleted: true | false;
-  name: string;
-  stateCode: string;
-  townshipCode: string;
-  username: string;
-};
-
-export type UserListResponse = {
-  data: UserList[];
-};
-
 export type UserNameList = {
   value: string;
   label: string;
@@ -147,6 +137,17 @@ export type transactionResponse = {
   status: number;
 };
 
+export type recentUser = {
+  id: string;
+  data: string[] | undefined;
+};
+
+export type recent = {
+  data: {
+    name: string;
+    amount: number;
+  };
+};
 // type for login process
 export type LoginMutationParams = {
   adminCode: string;
