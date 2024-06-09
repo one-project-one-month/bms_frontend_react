@@ -65,7 +65,7 @@ export type User = {
 export type UserFormData = {
   name: string;
   email: string;
-  balance: number;
+  balance?: number;
   stateCode: string;
   townshipCode: string;
 };
