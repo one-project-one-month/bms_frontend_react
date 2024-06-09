@@ -22,13 +22,13 @@ export const columns: ColumnDef<TransactionHistory>[] = [
   {
     accessorKey: 'time',
     header: 'Time',
-    // cell: ({ row }) => {
-    //   const date = row.original.time;
-    //   const formatData = new Date(date).toString();
-    //   const [day, month, dayOfMonth, year, time] = formatData.split(' ');
-    //   const result = `${day} ${month} ${dayOfMonth} ${year} ${time}`;
-    //   return result;
-    // },
+    cell: ({ row }) => {
+      const date = row.original.time;
+      const formatData = new Date(date).toString();
+      const [day, month, dayOfMonth, year, time] = formatData.split(' ');
+      const result = `${day} ${month} ${dayOfMonth} ${year} ${time}`;
+      return result;
+    },
   },
   {
     accessorKey: 'senderName',

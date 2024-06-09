@@ -1,4 +1,4 @@
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { useUserActionMutation } from '@/hooks/useUserMutation';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'react-toastify';

@@ -40,8 +40,8 @@ import {
 } from '../components/ui/form';
 import useTransactionForm from '../hooks/useTransactionForm';
 import { UserNameList } from '../lib/types';
-import { Input } from '../components/ui/Input';
-import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
 
 interface FormProps {
   form: UseFormReturn<{ account: string; amount: number }, unknown, undefined>;
@@ -57,7 +57,7 @@ const TransactionPage = () => {
   const depositForm = useTransactionForm('deposit');
   const withdrawForm = useTransactionForm('withdraw');
 
-  const renderForm = (type:string,formProps: FormProps) => {
+  const renderForm = (type: string, formProps: FormProps) => {
     const {
       form,
       open,
@@ -141,7 +141,7 @@ const TransactionPage = () => {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                  <FormMessage/>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -169,7 +169,7 @@ const TransactionPage = () => {
           </CardContent>
           <CardFooter className="justify-center">
             <Button type="submit" disabled={isPending} className='bg-primaryBtn hover:bg-green-700  text-white'>
-            {`${isPending ? 'Loading...' : type === 'deposit' ? 'Deposit' : 'Withdraw'}`}
+              {`${isPending ? 'Loading...' : type === 'deposit' ? 'Deposit' : 'Withdraw'}`}
             </Button>
           </CardFooter>
         </form>
@@ -192,7 +192,7 @@ const TransactionPage = () => {
                 Add funds to your account easily and quickly.
               </CardDescription>
             </CardHeader>
-            {renderForm('deposit',depositForm)}
+            {renderForm('deposit', depositForm)}
           </Card>
         </TabsContent>
         <TabsContent value="withdraw">
@@ -203,7 +203,7 @@ const TransactionPage = () => {
                 Withdraw funds from your account securely and quickly.
               </CardDescription>
             </CardHeader>
-            {renderForm('withdraw',withdrawForm)}
+            {renderForm('withdraw', withdrawForm)}
           </Card>
         </TabsContent>
       </Tabs>
