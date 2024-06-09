@@ -2,14 +2,14 @@ import ListSkeleton from '@/components/ui/TableSkeleton';
 import ActionButton from '@/components/users/ActionButton';
 import { DataTable } from '@/components/users/DataTable';
 import UpdateUserModal from '@/components/users/UpdateUserModal';
-import { useFetchUser } from '@/hooks/useFetchUser';
 import { ColumnDef } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 import { UserForm } from '../lib/types';
 import { stateCodes, townshipCodes } from '@/lib/postal';
+import { useFetchUser } from '@/hooks/useFetchUser';
 
 const UserPage = () => {
-  const GetUser = useFetchUser<UserForm[]>();
+  const GetUser = useFetchUser<[]>();
   const [deactivatedUsers, setDeactivatedUsers] = useState<
     (string | null | undefined)[]
   >([]);
@@ -73,9 +73,9 @@ const UserPage = () => {
         cell: ({ row }) =>
           row.original.stateCode
             ? stateCodes.map((state) => {
-                if (state.StateCode === row.original.stateCode)
-                  return state.StateName;
-              })
+              if (state.StateCode === row.original.stateCode)
+                return state.StateName;
+            })
             : 'N/A',
       },
       {
@@ -127,8 +127,8 @@ const UserPage = () => {
                     ? 'activate'
                     : 'deactivate'
                   : row.original.isDeactivated
-                  ? 'activate'
-                  : 'deactivate'
+                    ? 'activate'
+                    : 'deactivate'
               }
               changeStatus={() => {
                 row.original.username &&

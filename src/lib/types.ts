@@ -80,6 +80,8 @@ export type UserForm = {
   };
 };
 
+// Type for transaction history
+
 type UserName = {
   name: string;
 };
@@ -108,6 +110,8 @@ export type TransactionHistory = {
 export type TranscationHistoryResponse = {
   data: TransactionHistory[];
 };
+
+//
 
 export type UserList = {
   admin?: UserName & AdminCode;
@@ -156,3 +160,12 @@ export type recent = {
     amount:number
   }
 }
+// type for login process
+export type LoginMutationParams = {
+  adminCode: string;
+  password: string;
+};
+
+export type LoginResponseType = {
+  data: string;
+};
