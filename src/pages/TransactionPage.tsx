@@ -168,23 +168,9 @@ const TransactionPage = () => {
             />
           </CardContent>
           <CardFooter className="justify-center">
-<<<<<<< HEAD
-            <Button
-              type="submit"
-              disabled={isPending}
-              className="bg-primaryBtn hover:bg-green-700  text-white"
-            >
-              {`${
-                isPending
-                  ? 'Loading...'
-                  : type === 'deposit'
-                  ? 'Deposit'
-                  : 'Withdraw'
-              }`}
-=======
             <Button type="submit" disabled={isPending} className='bg-primaryBtn hover:bg-green-700  text-white'>
               {`${isPending ? 'Loading...' : type === 'deposit' ? 'Deposit' : 'Withdraw'}`}
->>>>>>> 07de5a7c6149ae9675458fbbf6da49f59f3a3d72
+
             </Button>
           </CardFooter>
         </form>
