@@ -105,7 +105,7 @@ export type TransactionHistory = {
   admin?: UserName & AdminCode;
 };
 
-export type TranscationHistoryResponse = {
+export type TransactionHistoryResponse = {
   data: TransactionHistory[];
 };
 
