@@ -16,9 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from './Table';
-
 import { useState } from 'react';
-import { Button } from '../ui/Button';
+import { Button } from './Button';
 import { Input } from './Input';
 
 interface DataTableProps<TData, TValue> {

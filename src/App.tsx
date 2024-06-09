@@ -1,13 +1,9 @@
-import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import TransactionHistoryPage from './pages/TransactionHistoryPage';
 import DashboardLayout from './components/layouts/DashboardLayout';
 import TransferPage from './pages/TransferPage';
-import WithdrawPage from './pages/WithdrawPage';
-import DepositPage from './pages/DepositPage';
-
 import UserPage from './pages/UserPage';
 import ProtectedRoute from './components/layouts/ProtectedRoute';
 import TransactionPage from './pages/TransactionPage';

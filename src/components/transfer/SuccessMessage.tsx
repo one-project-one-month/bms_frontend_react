@@ -1,4 +1,3 @@
-import React from 'react';
 import moment from 'moment';
 
 const CheckIcon = () => (
@@ -23,7 +22,7 @@ function TransferSuccess({ data }) {
   return (
     <div className="w-full flex flex-col items-center justify-center gap-2">
       <div className="w-full flex items-center justify-center gap-2">
-        <CheckIcon/>
+        <CheckIcon />
         <p className=" text-primaryBtn font-semibold">Successful transfer</p>
       </div>
       {data?.time && (

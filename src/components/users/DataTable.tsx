@@ -1,11 +1,11 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
-  ColumnFiltersState,
   getFilteredRowModel,
   getPaginationRowModel,
+  useReactTable,
 } from '@tanstack/react-table';
 
 import {
@@ -17,9 +17,9 @@ import {
   TableRow,
 } from '../ui/Table';
 
-import { useState } from 'react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { useState } from 'react';
 import CreateUserModal from './CreateUserModal';
 
 interface DataTableProps<TData, TValue> {
@@ -50,11 +50,11 @@ export function DataTable<TData, TValue>({
     <div className="flex flex-col">
       <div className="flex flex-row mb-4 gap-x-5">
         <Input
-          placeholder="Filter by user Id..."
+          placeholder="Search by user Name..."
           className="basis-1/2"
-          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('id')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
         />
         <div className="basis-1/2">

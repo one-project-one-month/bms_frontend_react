@@ -1,6 +1,5 @@
 import Form from './UserForm';
 import { useUpdateUserMutation } from '@/hooks/useUserMutation';
-import { Button } from '../ui/Button';
 import {
   Dialog,
   DialogContent,
@@ -8,43 +7,59 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { UserForm } from '@/lib/types';
+import { UserData } from '@/lib/types';
+import { useState } from 'react';
+import { Button } from '../ui/Button';
+import { Spinner } from '../ui/spinner';
+import { toast } from 'react-toastify';
 
-const UpdateUserModal = ({ initialData }: { initialData: UserForm }) => {
-  const UpdateUserMutation = useUpdateUserMutation();
+const UpdateUserModal = ({ initialData }: { initialData: UserData }) => {
+  const [open, setOpen] = useState(false);
+  const {
+    mutateAsync: updateUser,
+    isSuccess,
+    isPending,
+  } = useUpdateUserMutation();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setOpen(false);
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
-    const balance = formData.get('balance') as unknown as number;
+    let balance = parseInt(formData.get('balance') as string);
     const stateCode = formData.get('stateCode') as string;
     const townshipCode = formData.get('townshipCode') as string;
 
-    UpdateUserMutation.mutate({
-      name,
-      email,
-      balance,
-      stateCode,
-      townshipCode,
-    });
+    if (initialData?.username) {
+      const res = await updateUser({
+        username: initialData?.username,
+        data: {
+          name,
+          email,
+          balance,
+          stateCode,
+          townshipCode,
+        },
+      });
+      if (res.data && res.status === 200) {
+        toast.success(`You have successfully updated user info.`);
+      } else {
+        toast.error(`Updating user failed!`);
+      }
+    }
   };
 
-  if (UpdateUserMutation.isError) {
-    return <span>Error: {UpdateUserMutation.error.message}</span>;
-  }
-
-  if (UpdateUserMutation.isSuccess) {
-    return <span>Post submitted!</span>;
-  }
-
-  // Getting error in form because their state and township code are not aligned with my format.
-
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button variant="outline">
+          {isPending && !isSuccess ? (
+            <Spinner className="mx-auto text-slate-400" />
+          ) : (
+            'Edit'
+          )}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

@@ -4,12 +4,11 @@ import { TransactionHistory } from '../../lib/types.js';
 import { columns } from '../TransactionHistory/column';
 import { RecentTable } from '../ui/recent-table.js';
 import ListSkeleton from '../ui/TableSkeleton.js';
-import { SliceData } from '../../lib/types.js';
 
 const RecentHistory = () => {
   const { data, error, isFetched } =
     useTransactionHistory<TransactionHistory>();
-  const [sliceData, setSliceData] = useState<SliceData[]>([]);
+  const [sliceData, setSliceData] = useState<TransactionHistory[]>([]);
 
   useEffect(() => {
     console.log(data?.data);
@@ -19,7 +18,7 @@ const RecentHistory = () => {
           return b.id > a.id ? -1 : 1;
         },
       );
-      const slicedData = sortedData.slice(0, 10);
+      const slicedData = sortedData.slice(0, 5);
       setSliceData(slicedData);
     }
   }, [data]);
@@ -28,7 +27,7 @@ const RecentHistory = () => {
       <h2 className="text-xl text-gray-400 mt-4">Recent Transcation History</h2>
       <div className="mt-2"></div>
       {isFetched ? (
-        <div className="w-[100%] overflow-y-scroll h-[300px] overflow-x-hidden">
+        <div>
           <RecentTable columns={columns} data={sliceData} error={error} />
         </div>
       ) : (

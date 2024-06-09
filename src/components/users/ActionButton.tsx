@@ -1,30 +1,36 @@
 import { Button } from '../ui/Button';
 import { useUserActionMutation } from '@/hooks/useUserMutation';
+import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'react-toastify';
 
 interface ActionButtonProps {
   username: string;
   process: string;
-  changeStatus?: () => void;
 }
 
-const ActionButton = ({
-  username,
-  process,
-  changeStatus,
-}: ActionButtonProps) => {
-  const UserActionMutation = useUserActionMutation();
+const ActionButton = ({ username, process }: ActionButtonProps) => {
+  const {
+    mutateAsync: userAction,
+    isPending,
+    isSuccess,
+  } = useUserActionMutation();
 
-  if (UserActionMutation.isSuccess) {
-    changeStatus && changeStatus();
-  }
-
-  return (
+  return isPending && !isSuccess ? (
+    <Spinner className="mx-auto text-slate-400" />
+  ) : (
     <Button
-      onClick={() => UserActionMutation.mutate({ username, process })}
+      onClick={async () => {
+        const res = await userAction({ username, process });
+        if (res.data && res.status === 200) {
+          toast.success(`You have successfully ${process}d the user.`);
+        } else {
+          toast.error(`${process} failed!`);
+        }
+      }}
       className={
         process === 'activate'
-          ? 'capitalize bg-green-700 hover:bg-green-800 text-white'
-          : 'capitalize bg-[#ed2929] hover:bg-[#df1818]'
+          ? 'capitalize bg-green-700 hover:bg-green-800 text-white mx-auto'
+          : 'capitalize bg-[#ed2929] hover:bg-[#df1818] mx-auto'
       }
     >
       {process}

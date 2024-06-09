@@ -12,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './Table';
+} from '../ui/table';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -20,7 +20,7 @@ interface DataTableProps<TData, TValue> {
   error?: Error | null;
 }
 
-export function RecentTable<TData, TValue>({
+export function RecentUserTable<TData, TValue>({
   columns,
   data,
   error,
@@ -35,12 +35,12 @@ export function RecentTable<TData, TValue>({
     <div className="flex flex-col">
       <div className="rounded-md border">
         <Table>
-          <TableHeader className="bg-green-200/60">
-            {table.getHeaderGroups().map((headerGroup, index) => (
-              <TableRow key={index}>
-                {headerGroup.headers.map((header, index) => {
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={index}>
+                    <TableHead key={header.id} className="bg-black text-white">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -55,10 +55,10 @@ export function RecentTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
-                <TableRow key={index}>
-                  {row.getVisibleCells().map((cell, index) => (
-                    <TableCell key={index}>
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
