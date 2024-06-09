@@ -15,10 +15,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+<<<<<<< HEAD
 } from '../ui/table.tsx';
 
 import { Button } from '../ui/button.tsx';
 import { Input } from '../ui/input.tsx';
+=======
+} from '../ui/table';
+
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+>>>>>>> 07de5a7c6149ae9675458fbbf6da49f59f3a3d72
 import { useState } from 'react';
 import CreateUserModal from './CreateUserModal';
 
@@ -73,9 +80,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}

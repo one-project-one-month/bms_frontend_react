@@ -12,7 +12,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+<<<<<<< HEAD
 } from './table.tsx';
+=======
+} from './table';
+>>>>>>> 07de5a7c6149ae9675458fbbf6da49f59f3a3d72
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,9 +48,9 @@ export function RecentTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
