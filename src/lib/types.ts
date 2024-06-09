@@ -111,26 +111,6 @@ export type TranscationHistoryResponse = {
   data: TransactionHistory[];
 };
 
-//
-
-export type UserList = {
-  admin?: UserName & AdminCode;
-  adminId: string;
-  balance: number;
-  email: string;
-  id: string;
-  isDeactivated: true | false;
-  isDeleted: true | false;
-  name: string;
-  stateCode: string;
-  townshipCode: string;
-  username: string;
-};
-
-export type UserListResponse = {
-  data: UserList[];
-};
-
 export type UserNameList = {
   value: string;
   label: string;
