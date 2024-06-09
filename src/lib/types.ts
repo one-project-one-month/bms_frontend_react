@@ -63,6 +63,8 @@ export type User = {
 };
 
 export type UserForm = {
+  sort(arg0: (a: { id: number; }, b: { id: number; }) => 1 | -1): unknown;
+  map: any;
   id?: string;
   name: string;
   username?: string;
@@ -142,3 +144,15 @@ export type transactionResponse = {
   data: object;
   status: number;
 };
+
+export type recentUser = {
+ id:string,
+ data:string[] | undefined
+}
+
+export type recent = {
+  data:{
+    name:string,
+    amount:number
+  }
+}

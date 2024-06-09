@@ -85,7 +85,7 @@ const UserPage = () => {
           row.original.townshipCode
             ? townshipCodes.map((township) => {
                 if (township.TownshipCode === row.original.townshipCode)
-                  return township.TownshipCode;
+                  return township.TownshipName;
               })
             : 'N/A',
       },
