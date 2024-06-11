@@ -61,9 +61,6 @@ const TransferPage = () => {
       }
     }, [users.data, users.isError, users.isSuccess, users.isPending]);
 
-    console.log(userData);
-    
-    
       const handleOnChange = (field: string, value: string): void => {
         setAccounts(prevAccounts => {
           const updatedAccounts = {
