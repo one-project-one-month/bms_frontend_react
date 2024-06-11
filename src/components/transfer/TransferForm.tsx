@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+
 interface AccountField {
   name: string;
   isTouched: boolean;
@@ -23,8 +23,8 @@ export default function TransferForm({
   isCompleted,
   clickHandler,
 }: TransferFormProps) {
-  
-     
+
+
   return (
     <>
       <div className="mb-12">
@@ -45,7 +45,7 @@ export default function TransferForm({
             onChange={(e) => handleOnChange(e.target.name, e.target.value)}
           />
         </div>
-         {accounts.sender.isTouched && accounts.sender.name.length == 0 && (
+        {accounts.sender.isTouched && accounts.sender.name.length == 0 && (
           <p className='text-red-500 text-xs italic ml-[266px] mt-2'>
             Incomplete information.Please try again
           </p>

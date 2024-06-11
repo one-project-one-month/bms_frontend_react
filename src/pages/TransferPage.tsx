@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import SuccessMessage, { TranscationData } from '../components/transfer/SuccessMessage';
 import TransferForm from '../components/transfer/TransferForm';
-import { Response, RequestBody } from '../lib/types';
+import { RequestBody } from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
 
 const NotAllowed = () => (
@@ -24,7 +24,7 @@ const TransferPage = () => {
 
   const [success, setSuccess] = useState(false)
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null || Error)
 
   const convertAmount = parseInt(accounts.amount.name, 10)
 
@@ -137,7 +137,7 @@ const TransferPage = () => {
       setLoading(true)
     } else if (submitTransactionMutation.isError) {
       console.log('Mutation Error:', submitTransactionMutation.error);
-      // setErrorMessage(submitTransactionMutation.error.response.data.message)
+      setErrorMessage(submitTransactionMutation.error)
       setLoading(false)
     }
   }, [
@@ -168,7 +168,7 @@ const TransferPage = () => {
             <div className='w-full flex items-center justify-center gap-2'>
               <NotAllowed />
               <p className='text-sm text-center text-deleteBtn'>
-                {errorMessage}
+                {errorMessage.message}
               </p>
             </div>
           )}
