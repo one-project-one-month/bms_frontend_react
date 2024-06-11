@@ -7,6 +7,7 @@ import TransferPage from './pages/TransferPage';
 import UserPage from './pages/UserPage';
 import ProtectedRoute from './components/layouts/ProtectedRoute';
 import TransactionPage from './pages/TransactionPage';
+import TransactionDetails from './components/TransactionHistory/TransactionDetails';
 
 const router = createBrowserRouter([
   {
@@ -35,8 +36,18 @@ const router = createBrowserRouter([
       },
       {
         path: 'transactionHistory',
-        element: <TransactionHistoryPage />,
+        children: [
+          {
+            index: true,
+            element: <TransactionHistoryPage />,
+          },
+          {
+            path: "detail",
+            element: <TransactionDetails />
+          }
+        ]
       },
+
     ],
   },
   {

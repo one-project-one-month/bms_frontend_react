@@ -103,7 +103,7 @@ export type SliceData = {
 };
 
 export type TransactionHistory = {
-  data: any;
+  data?: any;
   id: string;
   amount: number;
   sender?: UserName;

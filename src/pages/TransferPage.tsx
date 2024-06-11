@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import SuccessMessage from '../components/transfer/SuccessMessage';
+import SuccessMessage, { TranscationData } from '../components/transfer/SuccessMessage';
 import TransferForm from '../components/transfer/TransferForm';
 import { Response, RequestBody } from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
@@ -20,7 +20,7 @@ const TransferPage = () => {
     amount: { name: '', isTouched: false },
   })
 
-  const [data, setData] = useState<Response | null>(null)
+  const [data, setData] = useState<TranscationData | null>(null)
 
   const [success, setSuccess] = useState(false)
 
@@ -137,7 +137,7 @@ const TransferPage = () => {
       setLoading(true)
     } else if (submitTransactionMutation.isError) {
       console.log('Mutation Error:', submitTransactionMutation.error);
-      setErrorMessage(submitTransactionMutation.error.response.data.message)
+      // setErrorMessage(submitTransactionMutation.error.response.data.message)
       setLoading(false)
     }
   }, [
@@ -154,7 +154,7 @@ const TransferPage = () => {
           {!success && !errorMessage && !loading && <TransferForm accounts={accounts} handleOnChange={handleOnChange}
             isCompleted={isCompleted} clickHandler={clickHandler} />}
 
-          {success && <SuccessMessage data={data?.data} />}
+          {success && <SuccessMessage data={data} />}
 
           {loading && (
             <div className='w-full flex items-center justify-center gap-2'>

@@ -1,11 +1,27 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, Row } from '@tanstack/react-table';
 import { TransactionHistory } from '../../lib/types';
 import { cn } from '../../lib/utils';
+import { useNavigate } from 'react-router';
+
+const DetailComponent = (row: Row<TransactionHistory>) => {
+  const navigate = useNavigate()
+
+  return (
+    <p
+      className="underline cursor-pointer"
+      onClick={() => navigate(`/transactionHistory/detail`,
+        {
+          state: {
+            data: row.original
+          }
+        })}>detail</p>
+  )
+}
 
 export const columns: ColumnDef<TransactionHistory>[] = [
   {
     accessorKey: 'id',
-    header: 'AccoutNo',
+    header: 'TransactionId',
   },
   {
     accessorKey: 'adminName',
@@ -25,8 +41,8 @@ export const columns: ColumnDef<TransactionHistory>[] = [
     cell: ({ row }) => {
       const date = row.original.time;
       const formatData = new Date(date).toString();
-      const [day, month, dayOfMonth, year, time] = formatData.split(' ');
-      const result = `${day} ${month} ${dayOfMonth} ${year} ${time}`;
+      const [_, dayOfMonth, year, time] = formatData.split(' ');
+      const result = ` ${dayOfMonth} ${year} ${time}`;
       return result;
     },
   },
@@ -59,5 +75,20 @@ export const columns: ColumnDef<TransactionHistory>[] = [
   {
     accessorKey: 'amount',
     header: 'Amount',
+    cell: ({ row }) => (
+      <div className="text-right">
+        {row.original.amount
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        }
+      </div>
+    )
   },
+  {
+    accessorKey: "detail",
+    header: "Detail",
+    cell: ({ row }) => DetailComponent(row)
+  }
+
+
 ];

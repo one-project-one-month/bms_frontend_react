@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+
 const CheckIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -16,14 +17,39 @@ const CheckIcon = () => (
   </svg>
 );
 
+export type TranscationData = {
+  id: string
+  time: Date,
+  sender?: {
+    name: string
+  }
+  receiver?: {
+    name: string
+  },
+  user?: {
+    name: string
+  },
+  admin?: {
+    name: string
+  }
+  amount: number,
+  type: "transfer" | "deposit" | "withdraw"
+}
 
-function TransferSuccess({ data }) {
+
+export type TTranscationData = {
+  data: TranscationData | null
+}
+
+
+
+function TransferSuccess({ data }: TTranscationData) {
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-2">
       <div className="w-full flex items-center justify-center gap-2">
         <CheckIcon />
-        <p className=" text-primaryBtn font-semibold">Successful transfer</p>
+        <p className=" text-primaryBtn font-semibold">Payment Successfully</p>
       </div>
       {data?.time && (
         <p className="text-xs text-secondaryText">
@@ -32,17 +58,35 @@ function TransferSuccess({ data }) {
       )}
       <p className="text-xs text-secondaryText">Ref ID : {data?.id}</p>
       <div className="border-b border-secondaryBorderColor w-full"></div>
+      {(data?.type === "deposit" || data?.type === "withdraw") ? (
+        <>
+          <div className="w-full flex items-center justify-between mt-2">
+            <p>Username</p>
+            <p className=" font-semibold">
+              {data?.user?.name.toLocaleUpperCase()}
+            </p>
+          </div >
+        </>
+      ) : (
+        <>
+          <div className="w-full flex items-center justify-between mt-2">
+            <p>From</p>
+            <p className=" font-semibold">
+              {data?.sender?.name.toLocaleUpperCase()}
+            </p>
+          </div >
+          <div className="w-full flex items-center justify-between mt-2">
+            <p>To</p>
+            <p className="font-semibold">
+              {data?.receiver?.name.toLocaleUpperCase()}
+            </p>
+          </div>
+        </>
+      )}
+      <div className="border-b border-secondaryBorderColor mt-2 w-full"></div>
       <div className="w-full flex items-center justify-between mt-2">
-        <p>From</p>
-        <p className=" font-semibold">
-          {data?.sender.name.toLocaleUpperCase()}
-        </p>
-      </div>
-      <div className="w-full flex items-center justify-between mt-2">
-        <p>To</p>
-        <p className="font-semibold">
-          {data?.receiver.name.toLocaleUpperCase()}
-        </p>
+        <p>Payment Type</p>
+        <p className="font-semibold">{data?.type ? data.type : "transfer"}</p>
       </div>
       <div className="border-b border-secondaryBorderColor mt-2 w-full"></div>
       <div className="w-full flex items-center justify-between mt-2">
@@ -52,5 +96,8 @@ function TransferSuccess({ data }) {
     </div>
   );
 }
+
+
+
 
 export default TransferSuccess;
