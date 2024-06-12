@@ -41,9 +41,9 @@ export type TTranscationData = {
   data: TranscationData | null
 }
 
-
-
 function TransferSuccess({ data }: TTranscationData) {
+
+  console.log(data?.data?.amount);  
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-2">
@@ -51,12 +51,12 @@ function TransferSuccess({ data }: TTranscationData) {
         <CheckIcon />
         <p className=" text-primaryBtn font-semibold">Payment Successfully</p>
       </div>
-      {data?.time && (
-        <p className="text-xs text-secondaryText">
-          {moment(data.time).format('D MMMM YYYY')}
+      {data?.data?.time && (
+        <p className="text-xs text-black">
+          {moment(data?.data?.time).format('D MMMM YYYY')}
         </p>
       )}
-      <p className="text-xs text-secondaryText">Ref ID : {data?.id}</p>
+      <p className="text-xs text-secondaryText">Ref ID : {data?.data?.id}</p>
       <div className="border-b border-secondaryBorderColor w-full"></div>
       {(data?.type === "deposit" || data?.type === "withdraw") ? (
         <>
@@ -72,13 +72,13 @@ function TransferSuccess({ data }: TTranscationData) {
           <div className="w-full flex items-center justify-between mt-2">
             <p>From</p>
             <p className=" font-semibold">
-              {data?.sender?.name.toLocaleUpperCase()}
+              {data?.data?.sender?.name.toLocaleUpperCase()}
             </p>
           </div >
           <div className="w-full flex items-center justify-between mt-2">
             <p>To</p>
             <p className="font-semibold">
-              {data?.receiver?.name.toLocaleUpperCase()}
+              {data?.data?.receiver?.name.toLocaleUpperCase()}
             </p>
           </div>
         </>
@@ -91,7 +91,7 @@ function TransferSuccess({ data }: TTranscationData) {
       <div className="border-b border-secondaryBorderColor mt-2 w-full"></div>
       <div className="w-full flex items-center justify-between mt-2">
         <p>Amount</p>
-        <p className="font-semibold">{data?.amount}</p>
+        <p className="font-semibold">{data?.data?.amount}</p>
       </div>
     </div>
   );

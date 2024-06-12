@@ -17,6 +17,7 @@ export const responseSchema = z.object({
   data: ResponseDataSchema,
 });
 export type Response = z.infer<typeof responseSchema>;
+export type Res = z.infer <typeof ResponseDataSchema>;
 
 export const RequestBodySchema = z.object({
   process: z.literal('transfer'),

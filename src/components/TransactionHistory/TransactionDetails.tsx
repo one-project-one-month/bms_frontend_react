@@ -2,6 +2,7 @@
 import { useLocation } from 'react-router'
 import TransferSuccess from '../transfer/SuccessMessage'
 
+
 const TransactionDetails = () => {
     const location = useLocation()
     const { data } = location.state

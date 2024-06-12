@@ -40,8 +40,8 @@ import {
 } from '../components/ui/form';
 import useTransactionForm from '../hooks/useTransactionForm';
 import { UserNameList } from '../lib/types';
-import { Input } from '../components/ui/input';
-import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
 
 interface FormProps {
   form: UseFormReturn<{ account: string; amount: number }, unknown, undefined>;
