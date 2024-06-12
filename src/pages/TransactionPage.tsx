@@ -40,8 +40,9 @@ import {
 } from '../components/ui/form';
 import useTransactionForm from '../hooks/useTransactionForm';
 import { UserNameList } from '../lib/types';
-import { Input } from '../components/ui/Input';
-import { Button } from '../components/ui/Button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+
 
 interface FormProps {
   form: UseFormReturn<{ account: string; amount: number }, unknown, undefined>;
@@ -53,11 +54,11 @@ interface FormProps {
   handleSubmit: (values: { account: string; amount: number }) => void;
 }
 
-const formatNumber = (value:any) => {
+const formatNumber = (value: any) => {
   return new Intl.NumberFormat('en-US').format(value)
 }
 
-const parseNumber = (value:any) => {
+const parseNumber = (value: any) => {
   const cleanedValue = value.replace(/,/g, '');
   return isNaN(parseFloat(cleanedValue)) ? '' : parseFloat(cleanedValue);
 };

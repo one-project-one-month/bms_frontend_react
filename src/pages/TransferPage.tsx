@@ -32,6 +32,7 @@ const TransferPage = () => {
   });
 
   const [data, setData] = useState<TranscationData | null>(null);
+  console.log(data)
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
@@ -75,7 +76,7 @@ const TransferPage = () => {
   useEffect(() => {
     if (submitTransactionMutation.isSuccess && submitTransactionMutation.data) {
       console.log('Mutation Success Data:', submitTransactionMutation);
-      setData(submitTransactionMutation.data);
+      setData(submitTransactionMutation.data.data);
       setSuccess(true);
       setLoading(false);
     } else if (submitTransactionMutation.isPending) {
@@ -92,14 +93,14 @@ const TransferPage = () => {
   ]);
 
   const clickHandler = () => {
-    if(isCompleted) {
+    if (isCompleted) {
       submitTransactionMutation.mutate(body);
     }
   };
 
-  const isCompleted =  accounts.sender.isTouched && accounts.recipient.isTouched && accounts.amount.isTouched;
+  const isCompleted = accounts.sender.isTouched && accounts.recipient.isTouched && accounts.amount.isTouched;
   console.log(data);
-  
+
 
   return (
     <div className="w-full mx-auto h-screen">
