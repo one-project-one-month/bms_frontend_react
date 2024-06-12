@@ -147,7 +147,7 @@ export default function TransferForm({
           </div>
         )}
         {senderLoading &&  accounts.sender.name.length >= 1 && (
-          <div className="w-[100px] mx-auto ml-[182px] max-h-fit shadow z-50 bg-white border border-borderColor rounded px-2 py-1 top-[45px] absolute">
+          <div className="w-[400px] mx-auto ml-[182px] max-h-30 shadow z-50 bg-white border border-borderColor rounded px-2 py-1 top-[45px] absolute">
            <Spinner className="mx-auto text-slate-400 text-xs" />
           </div>
         )}
