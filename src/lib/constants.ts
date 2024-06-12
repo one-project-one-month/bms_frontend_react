@@ -24,6 +24,11 @@ export const navLinks = Object.freeze([
     routeName: 'Home',
   },
   {
+    route: '/users',
+    Icon: User,
+    routeName: 'Users',
+  },
+  {
     route: '/transfer',
     Icon: Forward,
     routeName: 'Transfer',
@@ -37,10 +42,5 @@ export const navLinks = Object.freeze([
     route: '/transactionHistory',
     Icon: History,
     routeName: 'TransactionHistory',
-  },
-  {
-    route: '/users',
-    Icon: User,
-    routeName: 'Users',
   },
 ]);

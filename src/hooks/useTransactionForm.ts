@@ -35,7 +35,7 @@ const useTransactionForm = (process: 'deposit' | 'withdraw') => {
             const nameList = data.filter(user => !user.isDeactivated && !user.isDeleted).map(user => (
               {
                 value: user.username!,
-                label: user.username!
+                label: user.name!
               }
             ))
             setUserNameList(nameList)
@@ -50,6 +50,7 @@ const useTransactionForm = (process: 'deposit' | 'withdraw') => {
 
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
         const { account, amount } = values;
+
        try{
         const response = await deposit({
             process,

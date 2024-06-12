@@ -27,9 +27,9 @@ const UpdateUserModal = ({ initialData }: { initialData: UserData }) => {
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
-    let balance = parseInt(formData.get('balance') as string);
     const stateCode = formData.get('stateCode') as string;
     const townshipCode = formData.get('townshipCode') as string;
+    const balance = initialData.balance;
 
     if (initialData?.username) {
       const res = await updateUser({
@@ -63,7 +63,7 @@ const UpdateUserModal = ({ initialData }: { initialData: UserData }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Update New User</DialogTitle>
+          <DialogTitle>Update User</DialogTitle>
         </DialogHeader>
         <Form submitFn={handleSubmit} initialData={initialData} />
       </DialogContent>

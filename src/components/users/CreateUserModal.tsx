@@ -63,7 +63,7 @@ const CreateUserModal = () => {
         <DialogHeader>
           <DialogTitle>Create New User</DialogTitle>
         </DialogHeader>
-        <Form submitFn={handleSubmit} />
+        <Form submitFn={handleSubmit} showBalance={true} />
       </DialogContent>
     </Dialog>
   );

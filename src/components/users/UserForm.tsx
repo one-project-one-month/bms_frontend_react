@@ -8,18 +8,23 @@ import {
   SelectValue,
 } from '../ui/select';
 import { stateCodes, townshipCodes } from '../../lib/postal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../ui/Button';
 
 interface FormProps {
   initialData?: UserData;
   submitFn: (e: React.FormEvent<HTMLFormElement>) => void;
+  showBalance?: Boolean;
 }
 
-const Form = ({ initialData, submitFn }: FormProps) => {
+const Form = ({ initialData, submitFn, showBalance }: FormProps) => {
   const [currentStateCode, setCurrentStateCode] = useState(
     initialData?.stateCode,
   );
+
+  useEffect(() => {
+    console.log('its running');
+  }, []);
 
   return (
     <form className="container  mx-auto space-y-3  m-4" onSubmit={submitFn}>
@@ -49,19 +54,21 @@ const Form = ({ initialData, submitFn }: FormProps) => {
               className="h-[35px] appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline border-secondaryBorderColor"
             />
           </div>
-          <div>
-            <Label htmlFor="balance">Balance</Label>
-            <input
-              type="number"
-              id="balance"
-              name="balance"
-              defaultValue={initialData?.balance ? initialData?.balance : 0}
-              placeholder="Enter Balance"
-              required
-              className="h-[35px] appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline border-secondaryBorderColor"
-              min={initialData?.username ? '1' : '0'}
-            />
-          </div>
+          {showBalance ? (
+            <div>
+              <Label htmlFor="balance">Balance</Label>
+              <input
+                type="number"
+                id="balance"
+                name="balance"
+                defaultValue={initialData?.balance ? initialData?.balance : 0}
+                placeholder="Enter Balance"
+                required
+                className="h-[35px] appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline border-secondaryBorderColor"
+                min={initialData?.username ? '1' : '0'}
+              />
+            </div>
+          ) : null}
         </div>
         <div className="space-y-3 flex flex-col">
           <div>
@@ -76,11 +83,13 @@ const Form = ({ initialData, submitFn }: FormProps) => {
                 <SelectValue placeholder="State" />
               </SelectTrigger>
               <SelectContent id="stateCode" className="h-[230px]">
-                {stateCodes.map((state) => (
-                  <SelectItem key={state.StateId} value={state.StateCode}>
-                    {state.StateName}
-                  </SelectItem>
-                ))}
+                {stateCodes
+                  .sort((a, b) => a.StateName.localeCompare(b.StateName))
+                  .map((state) => (
+                    <SelectItem key={state.StateId} value={state.StateCode}>
+                      {state.StateName}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
@@ -96,17 +105,21 @@ const Form = ({ initialData, submitFn }: FormProps) => {
               </SelectTrigger>
               <SelectContent id="townshipCode" className="h-[200px]">
                 {currentStateCode ? (
-                  townshipCodes.map(
-                    (township) =>
-                      township.StateCode === currentStateCode && (
-                        <SelectItem
-                          key={township.TownshipId}
-                          value={township.TownshipCode}
-                        >
-                          {township.TownshipName}
-                        </SelectItem>
-                      ),
-                  )
+                  townshipCodes
+                    .sort((a, b) =>
+                      a.TownshipName.localeCompare(b.TownshipName),
+                    )
+                    .map(
+                      (township) =>
+                        township.StateCode === currentStateCode && (
+                          <SelectItem
+                            key={township.TownshipId}
+                            value={township.TownshipCode}
+                          >
+                            {township.TownshipName}
+                          </SelectItem>
+                        ),
+                    )
                 ) : (
                   <SelectItem value="0">
                     You have to choose a State first.

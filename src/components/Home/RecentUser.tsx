@@ -2,7 +2,7 @@ import { useFetchUser } from '@/hooks/useFetchUser';
 import { UserData } from '@/lib/types';
 import RecentCart from './RecentCart.js';
 import { useState, useEffect } from 'react';
-import { LoaderIcon } from 'lucide-react';
+import { Spinner } from '../ui/spinner.js';
 
 export default function RecentUser() {
   const { data, error, isFetched } = useFetchUser<UserData>();
@@ -30,7 +30,7 @@ export default function RecentUser() {
         </div>
       ) : (
         <div className="flex items-center justify-center">
-          <LoaderIcon size={32} />
+          <Spinner className="mx-auto text-slate-400" />
         </div>
       )}
     </div>

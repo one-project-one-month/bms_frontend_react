@@ -17,6 +17,7 @@ export const responseSchema = z.object({
   data: ResponseDataSchema,
 });
 export type Response = z.infer<typeof responseSchema>;
+export type Res = z.infer <typeof ResponseDataSchema>;
 
 export const RequestBodySchema = z.object({
   process: z.literal('transfer'),
@@ -65,7 +66,7 @@ export type User = {
 export type UserFormData = {
   name: string;
   email: string;
-  balance: number;
+  balance?: number;
   stateCode: string;
   townshipCode: string;
 };
@@ -103,7 +104,7 @@ export type SliceData = {
 };
 
 export type TransactionHistory = {
-  data: any;
+  data?: any;
   id: string;
   amount: number;
   sender?: UserName;
@@ -115,7 +116,7 @@ export type TransactionHistory = {
   admin?: UserName & AdminCode;
 };
 
-export type TranscationHistoryResponse = {
+export type TransactionHistoryResponse = {
   data: TransactionHistory[];
 };
 

@@ -106,6 +106,8 @@ export default function TransferForm({
     setRecipientBalance(gg.balance)
     setIsShowed(false)
   }
+  console.log(senderBalance);
+  
   
   return (
     <>
@@ -224,7 +226,7 @@ export default function TransferForm({
         {accounts.amount.isTouched && accounts.amount.name.length == 0 && (
           <p className="text-red-500 text-xs italic ml-[183px] mt-2">Please enter amount</p>
         )}
-        {senderBalance <= 0 && senders.length > 0 && (
+        {senderBalance == 0 && senders.length > 0 && !isOpened && (
           <p className='text-red-500 text-xs ml-[183px] mt-2'>Insufficient balance.Please select another account.</p>
         )}
       </div>

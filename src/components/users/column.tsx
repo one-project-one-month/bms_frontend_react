@@ -6,8 +6,10 @@ import { UserData } from '../../lib/types';
 
 export const columns: ColumnDef<UserData>[] = [
   {
-    accessorKey: 'id',
-    header: 'Id',
+    accessorKey: 'username',
+    header: 'Username',
+    cell: ({ row }) => (row.original.username ? row.original.username : 'N/A'),
+    filterFn: 'includesString',
   },
   {
     accessorKey: 'name',
@@ -45,7 +47,16 @@ export const columns: ColumnDef<UserData>[] = [
   {
     accessorKey: 'balance',
     header: 'Balance',
-    cell: ({ row }) => (row.original.balance ? row.original.balance : 'N/A'),
+    cell: ({ row }) => (
+      <div className="text-right">
+        {row.original.balance
+          ? row.original.balance
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          : '0'}
+      </div>
+    ),
+
   },
   {
     header: 'Action',
