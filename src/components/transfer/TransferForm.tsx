@@ -1,5 +1,9 @@
 import { UserData } from "@/lib/types";
 import { useEffect, useState } from "react";
+import { Spinner } from "../ui/spinner";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from "@/store";
+import { setSenderUsername,setRecipientUsername } from "@/store/slices/usernamesSlice";
 
 interface AccountField {
   name: string;
@@ -32,73 +36,77 @@ export default function TransferForm({
   const[isShowed,setIsShowed] = useState (false)
   const[senders,setSenders] = useState <UserData[]>  ([])
   const[recipients,setRecipients] = useState <UserData[]>  ([])
-  const[senderUsername,setSenderUsername] = useState ('')
-  const[recipientUsername,setRecipientUsername] = useState<UserData> ()
   const[senderBalance,setSenderBalance] = useState (0)
   const[recipientBalance,setRecipientBalance] = useState (0)
-
+  const [lastValue, setLastValue] = useState<string>('');
+  const [senderLoading,setSenderLoading] = useState (false)
+  const [recipientLoading,setRecipientoading] = useState (false)
+  const dispatch: AppDispatch = useDispatch();
+  
   function findSenderByName(users: UserData[], name: string): UserData[] {
     return users.filter(user => user.name === name && (user.isDeactivated == false && user.isDeleted==false));
   }
 
-  // const senders = findSenderByName(userData, accounts.sender.name);
-
-  function findRecipientByName(users: UserData[], name: string): UserData[] {
+  function findRecipientByName (users: UserData[], name: string): UserData[] {
     return users.filter(user => user.name === name && (user.isDeactivated == false && user.isDeleted==false));
   }
-  
-  // const recipients = findRecipientByName(userData, accounts.recipient.name);
 
-
-  // useEffect(()=>{
-  //   if (accounts.sender.name.length > 0 ) {
-  //   setIsOpened(true);
-  //  }
-  // },[accounts.sender.name])
 
   useEffect(() => {
     if (accounts.sender.name.length > 0) {
       setIsOpened(true);
-
-      const filteredSenders = findSenderByName(userData, accounts.sender.name);
-      setSenders(filteredSenders);
+      setSenderLoading(true); 
+      const timeoutId = setTimeout(() => {
+        const filteredSenders = findSenderByName(userData, accounts.sender.name);
+        setSenders(filteredSenders);
+        setSenderLoading(false);
+      }, 1000); 
+      return () => clearTimeout(timeoutId);
     } else {
       setIsOpened(false);
       setSenders([]);
     }
   }, [accounts.sender.name, userData]);
 
-  // useEffect(()=>{
-  //   if (recipients.length > 0 && !recipientUsername) {
-  //     setIsShowed(true);
-  //  } 
-  // },[recipients,recipientUsername])
-
   useEffect(() => {
     if (accounts.recipient.name.length > 0) {
-     setIsShowed(true);
-
-      const filteredRecipients = findRecipientByName(userData, accounts.recipient.name);
-      setRecipients(filteredRecipients);
+      setIsShowed(true);
+      setRecipientoading(true); 
+      const timeoutId = setTimeout(() => {
+        const filteredRecipients = findRecipientByName(userData, accounts.recipient.name);
+        setRecipients(filteredRecipients);
+        setRecipientoading(false);
+      }, 1000); 
+      return () => clearTimeout(timeoutId);
     } else {
       setIsShowed(false);
       setRecipients([]);
     }
   }, [accounts.recipient.name, userData]);
 
-  const fuck = (gg : UserData ) => {
+  const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.target.type = 'number';
+    event.target.value = lastValue || '';
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.target.type = 'text';
+    setLastValue(event.target.value);
+    event.target.value = event.target.value === '' ? '' : (+event.target.value).toLocaleString();
+  };
+
+  const getSenderUsername = (gg : UserData ) => {
     setSenderBalance(gg.balance)
-    setSenderUsername(gg.username ?? '') 
+    dispatch(setSenderUsername(gg.username ?? '') )
     setIsOpened(false)
   }
 
-  const yuck = (gg :UserData) => {
-    setRecipientUsername(gg) 
+  const getRecipientUsername = (gg :UserData) => {
+    dispatch(setRecipientUsername(gg.username ?? '') )
     setRecipientBalance(gg.balance)
     setIsShowed(false)
   }
-console.log(recipients );
-
+  
   return (
     <>
       <div className="mb-12 relative">
@@ -118,11 +126,11 @@ console.log(recipients );
             value={accounts.sender.name}
             onChange={(e) => handleOnChange(e.target.name, e.target.value)}
           />
-          {isOpened && senders.length > 0 && (
+          {isOpened && senders.length > 0 && !senderLoading && (
           <div className="w-[400px] ml-[182px] max-h-30 overflow-y-auto shadow z-50 bg-white border border-borderColor rounded p-2 top-[45px] absolute">
-            {senders.length > 0 && senders.map((sender: UserData) => (
+            {senders.length > 0 && !senderLoading && senders.map((sender: UserData) => (
               <div key={sender.id} className='text-left'>
-                <p className="text-sm hover:bg-slate-100 p-1 rounded-sm cursor-pointer" onClick={()=>fuck(sender)}>{` ${sender.name} (${sender.username})`}</p>
+                <p className="text-sm hover:bg-slate-100 p-1 rounded-sm cursor-pointer" onClick={()=>getSenderUsername(sender)}>{` ${sender.name} (${sender.username})`}</p>
               </div>
             ))}
           </div>
@@ -133,9 +141,14 @@ console.log(recipients );
             Incomplete information.Please try again
           </p>
         )}
-        {accounts.sender.isTouched  && accounts.sender.name.length >= 1 && senders.length == 0 && (
+        {accounts.sender.isTouched  && accounts.sender.name.length >= 1 && senders.length == 0 && !senderLoading && (
           <div className="w-fit mx-auto ml-[182px] max-h-30 overflow-y-auto shadow z-50 bg-white border border-borderColor rounded p-2 top-[45px] absolute">
             <p className='text-red-500 text-xs'>No senders found</p>
+          </div>
+        )}
+        {senderLoading &&  accounts.sender.name.length >= 1 && (
+          <div className="w-[100px] mx-auto ml-[182px] max-h-fit shadow z-50 bg-white border border-borderColor rounded px-2 py-1 top-[45px] absolute">
+           <Spinner className="mx-auto text-slate-400 text-xs" />
           </div>
         )}
         {senderBalance >= 0 && senders.length > 0 && (
@@ -159,11 +172,11 @@ console.log(recipients );
             value={accounts.recipient.name}
             onChange={(e) => handleOnChange(e.target.name, e.target.value)}
           />
-          {isShowed && recipients.length > 0 && (
+          {isShowed && recipients.length > 0 && !recipientLoading && (
           <div className="w-[400px] ml-[182px] max-h-30 overflow-y-auto shadow bg-white border border-borderColor rounded p-2 top-[45px] absolute">
-            {recipients.length > 0 && recipients.map((recipient: UserData) => (
+            {recipients.length > 0 && !recipientLoading && recipients.map((recipient: UserData) => (
               <div key={recipient.id} className='text-left'>
-                <p className="text-sm hover:bg-slate-100 p-1 rounded-sm cursor-pointer" onClick={()=>yuck(recipient)}>{` ${recipient.name} (${recipient.username})`}</p>
+                <p className="text-sm hover:bg-slate-100 p-1 rounded-sm cursor-pointer" onClick={()=>getRecipientUsername(recipient)}>{` ${recipient.name} (${recipient.username})`}</p>
               </div>
             ))}
           </div>
@@ -175,11 +188,16 @@ console.log(recipients );
               Incomplete information.Please try again
             </p>
           )}
-           {accounts.recipient.isTouched  && accounts.recipient.name.length >= 1 && recipients.length == 0 && (
+           {accounts.recipient.isTouched  && accounts.recipient.name.length >= 1 && recipients.length == 0 && !recipientLoading && (
             <div className="w-fit mx-auto ml-[182px] max-h-30 overflow-y-auto shadow z-50 bg-white border border-borderColor rounded p-2 top-[45px] absolute">
               <p className='text-red-500 text-xs'>No recipients found</p>
             </div>
             )}
+          {recipientLoading &&  accounts.recipient.name.length >= 1 && (
+          <div className="w-[100px] mx-auto ml-[182px] max-h-fit shadow z-50 bg-white border border-borderColor rounded px-2 py-1 top-[45px] absolute">
+           <Spinner className="mx-auto text-slate-400 text-xs" />
+          </div>
+        )}
           {recipientBalance >= 0 && recipients.length>0 && (
           <p className='text-slate-500 text-xs ml-[183px] mt-2'>Total Balance : {recipientBalance}</p>
         )}
@@ -196,14 +214,18 @@ console.log(recipients );
             className={`appearance-none border rounded w-full py-2 px-3 ${accounts.amount.isTouched && accounts.amount.name.length == 0 ? 'border-red-500 ' : 'border-secondaryBorderColor'} text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             name="amount"
             id="amount"
-            type="number"
+            type="text"
             placeholder="0.00"
-            value={accounts.amount.name}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             onChange={(e) => handleOnChange(e.target.name, e.target.value)}
           />
         </div>
         {accounts.amount.isTouched && accounts.amount.name.length == 0 && (
           <p className="text-red-500 text-xs italic ml-[183px] mt-2">Please enter amount</p>
+        )}
+        {senderBalance <= 0 && senders.length > 0 && (
+          <p className='text-red-500 text-xs ml-[183px] mt-2'>Insufficient balance.Please select another account.</p>
         )}
       </div>
       <div className="w-full text-right">

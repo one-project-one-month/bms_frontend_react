@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterSlice, userSlice } from './slices';
-
+import { counterSlice, userSlice,usernamesSlice } from './slices';
 // create a store with no reducers
 export const store = configureStore({
   reducer: {
     // reducer list
     [userSlice.name]: userSlice.reducer,
     [counterSlice.name]: counterSlice.reducer,
+    [usernamesSlice.name] : usernamesSlice.reducer
   },
 });
 
