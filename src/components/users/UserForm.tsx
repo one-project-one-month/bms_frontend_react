@@ -9,7 +9,7 @@ import {
 } from '../ui/select';
 import { stateCodes, townshipCodes } from '../../lib/postal';
 import { useEffect, useState } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 
 interface FormProps {
   initialData?: UserData;
