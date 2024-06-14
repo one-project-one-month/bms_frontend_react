@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { UserData } from '@/lib/types';
 import { useState } from 'react';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { Spinner } from '../ui/spinner';
 import { toast } from 'react-toastify';
 

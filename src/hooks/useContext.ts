@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, FC } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the structure of your context state and functions
 interface Account {
@@ -36,7 +36,7 @@ interface MyContextProviderProps {
   children: ReactNode;
 }
 
-export const MyContextProvider = ({ children }) => {
+export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [accounts, setAccounts] = useState<AccountsState>({
     sender: { name: '', isPressed: false },
     recipient: { name: '', isPressed: false },
@@ -65,9 +65,9 @@ export const MyContextProvider = ({ children }) => {
   };
 
   return (
-    <MyContext.Provider value={{ accounts, updateSender, updateRecipient, updateAmount }}>
-    {children}
-  </MyContext.Provider>
+    <MyContext.Provider value={{ accounts, updateSender, updateRecipient, updateAmount }} >
+      {children}
+    </MyContext.Provider>
   );
 };
 

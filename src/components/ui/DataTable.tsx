@@ -15,11 +15,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './Table';
+} from './table';
 import { useState } from 'react';
-import { Button } from './Button';
-import { Input } from './Input';
-
+import { Button } from './button';
+import { Input } from './input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,9 +66,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
