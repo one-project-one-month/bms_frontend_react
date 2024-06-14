@@ -50,7 +50,7 @@ function TransferSuccess({ data }: TTranscationData) {
     <div className="w-full flex flex-col items-center justify-center gap-2">
       <div className="w-full flex items-center justify-center gap-2">
         <CheckIcon />
-        <p className=" text-primaryBtn font-semibold">Payment Successfully</p>
+        <p className=" text-primaryBtn font-semibold">Successful transfer</p>
       </div>
       {data?.time && (
         <p className="text-xs text-black">

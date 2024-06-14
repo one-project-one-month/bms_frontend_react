@@ -36,13 +36,13 @@ export default function DashboardLayout() {
       <div className="w-4/5 flex flex-col">
         {/* navbar */}
         {token && (
-          <div className="w-full flex justify-end items-center gap-3 p-3 bg-gray-300">
+          <div className="w-full flex justify-end items-center gap-3 p-3 bg-slate-100">
             <p>Admin</p>
             <button
-              className="bg-red-500 text-white px-3 py-1 rounded"
+              className="border border-green-500 text-green-500 px-3 py-1 rounded"
               onClick={logOutHandler}
             >
-              Logout
+              Log out
             </button>
           </div>
         )}
