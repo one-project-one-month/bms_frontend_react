@@ -43,7 +43,7 @@ export default function TransferForm({
   const [recipientLoading,setRecipientoading] = useState (false)
   const dispatch: AppDispatch = useDispatch();
   
-  function findSenderByName(users: UserData[], name: string): UserData[] {
+  function findSenderByName(users: UserData[], name: string): UserData[] { 
     return users.filter(user => user.name === name && (user.isDeactivated == false && user.isDeleted==false));
   }
 
@@ -106,8 +106,6 @@ export default function TransferForm({
     setRecipientBalance(gg.balance)
     setIsShowed(false)
   }
-  console.log(senderBalance);
-  
   
   return (
     <>
