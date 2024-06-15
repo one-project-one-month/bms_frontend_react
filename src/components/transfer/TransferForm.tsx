@@ -132,8 +132,21 @@ export default function TransferForm({
     setIsShowed(false)
   }
 
-  console.log(senders.length);
+  useEffect(() => {
+    if(accounts.sender.name.length == 0) {
+      setSelectSender(true)
+    }
+
+  }, [accounts.sender.name])
+
+  useEffect(() => {
+    if(accounts.recipient.name.length == 0) {
+      setSelectRecipient(true)
+    }
+
+  }, [accounts.recipient.name])
   
+  console.log(senders.length);
   
   return (
     <>
@@ -169,7 +182,7 @@ export default function TransferForm({
             Incomplete information.Please try again
           </p>
         )}
-        {accounts.sender.isTouched  && accounts.sender.name.length >= 1 && senders.length == 0 && !senderLoading && !senderBalance.toLocaleString().length && (
+        {accounts.sender.isTouched  && accounts.sender.name.length >= 1 && senders.length == 0 && !senderLoading &&  (
           <div className="w-fit mx-auto ml-[182px] max-h-30 overflow-y-auto shadow z-50 bg-white border border-borderColor rounded p-2 top-[45px] absolute">
             <p className='text-red-500 text-xs'>No senders found</p>
           </div>
@@ -179,7 +192,7 @@ export default function TransferForm({
            <Spinner className="mx-auto text-slate-400 text-xs" />
           </div>
         )}
-        {senderBalance >= 0 && accounts.sender.name.length > 0 &&  (
+        {senderBalance >= 0 && accounts.sender.name.length > 0 && senders.length>0 &&  (
           <p className='text-slate-500 text-xs ml-[183px] mt-2'>Total Balance : {senderBalance}</p>
         )}
       </div>

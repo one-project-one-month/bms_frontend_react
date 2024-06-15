@@ -7,8 +7,6 @@ import { RequestBody } from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
 import { useFetchUser } from '@/hooks/useFetchUser';
 import { UserData } from '../lib/types';
-import { useSelector } from 'react-redux';
-import { selectUsernames } from '@/store';
 
 // Icons components
 const NotAllowed = () => (
@@ -60,12 +58,11 @@ const TransferPage = () => {
 
   const [data, setData] = useState<TranscationData | null>(null);
   const [success, setSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<Error | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const users = useFetchUser<UserData>();
   const [userData, setUserData] = useState<UserData[]>([]);
-  const { senderUsername, recipientUsername } = useSelector(selectUsernames);
 
   useEffect(() => {
     if (users.isSuccess && users.data) {
@@ -89,26 +86,18 @@ const TransferPage = () => {
       },
     }));
   };
-  
-  // Example array of objects
-let arrayOfObjects = [
-  { name: "John", age: 30 },
-  { name: "Alice", age: 25 },
-  { name: "Bob", age: 35 }
-];
 
-// Sort array of objects by 'name' property alphabetically
-arrayOfObjects.sort((a, b) => a.name.localeCompare(b.name));
 
-// Output the sorted array
-console.log(arrayOfObjects);
+  const getSenderUsername : string = userData.find(user => user.name === accounts.sender.name)?.username ?? '';
+
+  const getRecipientUsername : string = userData.find(user => user.name === accounts.recipient.name)?.username ?? '';
 
   
   const body: RequestBody = {
     process: 'transfer',
     data: {
-      sender: senderUsername,
-      receiver: recipientUsername,
+      sender: getSenderUsername,
+      receiver: getRecipientUsername,
       transferAmount: convertAmount,
     },
   };
@@ -124,8 +113,8 @@ console.log(arrayOfObjects);
     } else if (submitTransactionMutation.isPending) {
       setLoading(true);
     } else if (submitTransactionMutation.isError) {
-      console.log('Mutation Error:', submitTransactionMutation.error);
-      setErrorMessage(submitTransactionMutation.error);
+      console.log('Mutation Error:', submitTransactionMutation.error.response.data.message);
+      setErrorMessage(submitTransactionMutation.error.response.data.message);
       setLoading(false);
     }
   }, [
@@ -143,7 +132,7 @@ console.log(arrayOfObjects);
   const isCompleted =
     accounts.sender.isTouched &&
     accounts.recipient.isTouched &&
-    accounts.amount.isTouched;
+    accounts.amount.isTouched;  
 
   return (
     <div className="w-full mx-auto h-screen">
@@ -164,7 +153,7 @@ console.log(arrayOfObjects);
           {errorMessage && (
             <div className="w-full flex items-center justify-center gap-2">
               <NotAllowed />
-              <p className="text-sm text-center text-deleteBtn">{errorMessage.message}</p>
+              <p className="text-sm text-center text-deleteBtn">{errorMessage}</p>
             </div>
           )}
         </form>
