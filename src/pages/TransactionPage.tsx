@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseFormReturn } from 'react-hook-form';
 import {
   Tabs,
@@ -43,7 +44,6 @@ import { UserNameList } from '../lib/types';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
-
 interface FormProps {
   form: UseFormReturn<{ account: string; amount: number }, unknown, undefined>;
   open: boolean;
@@ -55,8 +55,8 @@ interface FormProps {
 }
 
 const formatNumber = (value: any) => {
-  return new Intl.NumberFormat('en-US').format(value)
-}
+  return new Intl.NumberFormat('en-US').format(value);
+};
 
 const parseNumber = (value: any) => {
   const cleanedValue = value.replace(/,/g, '');
@@ -101,11 +101,15 @@ const TransactionPage = () => {
                           )}
                         >
                           {field.value
-                            ? `${userNameList.find(
-                              (name) => name.value === field.value,
-                            )?.label}(${userNameList.find(
-                              (name) => name.value === field.value,
-                            )?.value})`
+                            ? `${
+                                userNameList.find(
+                                  (name) => name.value === field.value,
+                                )?.label
+                              }(${
+                                userNameList.find(
+                                  (name) => name.value === field.value,
+                                )?.value
+                              })`
                             : 'Select User Name'}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
@@ -121,9 +125,7 @@ const TransactionPage = () => {
                             </p>
                           ) : (
                             <>
-                              <CommandEmpty>
-                                No User Name found.
-                              </CommandEmpty>
+                              <CommandEmpty>No User Name found.</CommandEmpty>
                               <CommandGroup>
                                 {userNameList.map((name) => (
                                   <CommandItem
@@ -181,9 +183,18 @@ const TransactionPage = () => {
             />
           </CardContent>
           <CardFooter className="justify-center">
-            <Button type="submit" disabled={isPending} className='bg-primaryBtn hover:bg-green-700  text-white'>
-              {`${isPending ? 'Loading...' : type === 'deposit' ? 'Deposit' : 'Withdraw'}`}
-
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="bg-primaryBtn hover:bg-green-700  text-white"
+            >
+              {`${
+                isPending
+                  ? 'Loading...'
+                  : type === 'deposit'
+                  ? 'Deposit'
+                  : 'Withdraw'
+              }`}
             </Button>
           </CardFooter>
         </form>

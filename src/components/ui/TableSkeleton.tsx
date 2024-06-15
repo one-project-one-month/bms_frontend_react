@@ -2,7 +2,6 @@ import { cn } from '../../lib/utils';
 
 import { Skeleton } from './Skeleton';
 
-
 export default function ListSkeleton({ className }: { className: string }) {
   return (
     <div className={cn('w-full flex flex-col gap-8 h-[90vh]', className)}>

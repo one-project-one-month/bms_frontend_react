@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import SuccessMessage, { TranscationData } from '../components/transfer/SuccessMessage';
+import SuccessMessage, {
+  TranscationData,
+} from '../components/transfer/SuccessMessage';
 import TransferForm from '../components/transfer/TransferForm';
 import { RequestBody } from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
@@ -10,17 +12,42 @@ import { selectUsernames } from '@/store';
 
 // Icons components
 const NotAllowed = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
-    <path fill="#f44336" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z" />
-    <path fill="#fff" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z" />
-    <path fill="#fff" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 48 48"
+    width="24px"
+    height="24px"
+  >
+    <path
+      fill="#f44336"
+      d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+    />
+    <path
+      fill="#fff"
+      d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"
+    />
+    <path
+      fill="#fff"
+      d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"
+    />
   </svg>
 );
 
 const InfoIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
-    <path fill="#2196f3" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z" />
-    <path fill="#fff" d="M22 22h4v11h-4V22zM26.5 16.5c0 1.379-1.121 2.5-2.5 2.5s-2.5-1.121-2.5-2.5S22.621 14 24 14s2.5 1.121 2.5 2.5z" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 48 48"
+    width="24px"
+    height="24px"
+  >
+    <path
+      fill="#2196f3"
+      d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+    />
+    <path
+      fill="#fff"
+      d="M22 22h4v11h-4V22zM26.5 16.5c0 1.379-1.121 2.5-2.5 2.5s-2.5-1.121-2.5-2.5S22.621 14 24 14s2.5 1.121 2.5 2.5z"
+    />
   </svg>
 );
 
@@ -32,7 +59,6 @@ const TransferPage = () => {
   });
 
   const [data, setData] = useState<TranscationData | null>(null);
-  console.log(data)
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
@@ -43,7 +69,9 @@ const TransferPage = () => {
 
   useEffect(() => {
     if (users.isSuccess && users.data) {
-      const sortedData = users.data.sort((a: { id: number }, b: { id: number }) => (a.id < b.id ? -1 : 1));
+      const sortedData = users.data.sort(
+        (a: { id: number }, b: { id: number }) => (a.id < b.id ? -1 : 1),
+      );
       setUserData(sortedData);
     } else if (users.isError) {
       console.log(users.error);
@@ -53,7 +81,7 @@ const TransferPage = () => {
   const convertAmount = parseInt(accounts.amount.name, 10);
 
   const handleOnChange = (field: string, value: string): void => {
-    setAccounts(prevAccounts => ({
+    setAccounts((prevAccounts) => ({
       ...prevAccounts,
       [field]: {
         name: value,
@@ -61,7 +89,21 @@ const TransferPage = () => {
       },
     }));
   };
+  
+  // Example array of objects
+let arrayOfObjects = [
+  { name: "John", age: 30 },
+  { name: "Alice", age: 25 },
+  { name: "Bob", age: 35 }
+];
 
+// Sort array of objects by 'name' property alphabetically
+arrayOfObjects.sort((a, b) => a.name.localeCompare(b.name));
+
+// Output the sorted array
+console.log(arrayOfObjects);
+
+  
   const body: RequestBody = {
     process: 'transfer',
     data: {
@@ -72,7 +114,7 @@ const TransferPage = () => {
   };
 
   const submitTransactionMutation = useSubmitTransaction();
-
+  
   useEffect(() => {
     if (submitTransactionMutation.isSuccess && submitTransactionMutation.data) {
       console.log('Mutation Success Data:', submitTransactionMutation);
@@ -98,16 +140,17 @@ const TransferPage = () => {
     }
   };
 
-  const isCompleted = accounts.sender.isTouched && accounts.recipient.isTouched && accounts.amount.isTouched;
-  console.log(data);
-
+  const isCompleted =
+    accounts.sender.isTouched &&
+    accounts.recipient.isTouched &&
+    accounts.amount.isTouched;
 
   return (
     <div className="w-full mx-auto h-screen">
       <div className={`max-w-2xl ${success || errorMessage || loading ? 'mx-auto mt-20 max-w-sm' : 'mt-8'}`}>
         <form className="bg-PrimaryBg border border-secondaryBorderColor rounded-md px-8 pt-6 pb-6">
           {!success && !errorMessage && !loading && (
-            <TransferForm accounts={accounts} handleOnChange={handleOnChange} isCompleted={isCompleted} clickHandler={clickHandler} userData={userData} />
+            <TransferForm accounts={accounts} handleOnChange={handleOnChange} isCompleted={isCompleted} clickHandler={clickHandler} userData={userData} setAccounts ={setAccounts} />
           )}
 
           {success && <SuccessMessage data={data} />}
