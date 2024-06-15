@@ -7,8 +7,6 @@ import { RequestBody } from '../lib/types';
 import useSubmitTransaction from '../hooks/useTransfer';
 import { useFetchUser } from '@/hooks/useFetchUser';
 import { UserData } from '../lib/types';
-import { useSelector } from 'react-redux';
-import { selectUsernames } from '@/store';
 
 // Icons components
 const NotAllowed = () => (
@@ -59,14 +57,12 @@ const TransferPage = () => {
   });
 
   const [data, setData] = useState<TranscationData | null>(null);
-  console.log(data);
   const [success, setSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<Error | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const users = useFetchUser<UserData>();
   const [userData, setUserData] = useState<UserData[]>([]);
-  const { senderUsername, recipientUsername } = useSelector(selectUsernames);
 
   useEffect(() => {
     if (users.isSuccess && users.data) {
@@ -91,17 +87,23 @@ const TransferPage = () => {
     }));
   };
 
+
+  const getSenderUsername : string = userData.find(user => user.name === accounts.sender.name)?.username ?? '';
+
+  const getRecipientUsername : string = userData.find(user => user.name === accounts.recipient.name)?.username ?? '';
+
+  
   const body: RequestBody = {
     process: 'transfer',
     data: {
-      sender: senderUsername,
-      receiver: recipientUsername,
+      sender: getSenderUsername,
+      receiver: getRecipientUsername,
       transferAmount: convertAmount,
     },
   };
 
   const submitTransactionMutation = useSubmitTransaction();
-
+  
   useEffect(() => {
     if (submitTransactionMutation.isSuccess && submitTransactionMutation.data) {
       console.log('Mutation Success Data:', submitTransactionMutation);
@@ -111,8 +113,8 @@ const TransferPage = () => {
     } else if (submitTransactionMutation.isPending) {
       setLoading(true);
     } else if (submitTransactionMutation.isError) {
-      console.log('Mutation Error:', submitTransactionMutation.error);
-      setErrorMessage(submitTransactionMutation.error);
+      console.log('Mutation Error:', submitTransactionMutation.error.response.data.message);
+      setErrorMessage(submitTransactionMutation.error.response.data.message);
       setLoading(false);
     }
   }, [
@@ -130,25 +132,14 @@ const TransferPage = () => {
   const isCompleted =
     accounts.sender.isTouched &&
     accounts.recipient.isTouched &&
-    accounts.amount.isTouched;
-  console.log(data);
+    accounts.amount.isTouched;  
 
   return (
-    <div className="w-full flex justify-center h-screen">
-      <div
-        className={`max-w-2xl ${
-          success || errorMessage || loading ? 'mx-auto mt-20 max-w-sm' : 'mt-8'
-        }`}
-      >
+    <div className="w-full mx-auto h-screen">
+      <div className={`max-w-2xl ${success || errorMessage || loading ? 'mx-auto mt-20 max-w-sm' : 'mt-8'}`}>
         <form className="bg-PrimaryBg border border-secondaryBorderColor rounded-md px-8 pt-6 pb-6">
           {!success && !errorMessage && !loading && (
-            <TransferForm
-              accounts={accounts}
-              handleOnChange={handleOnChange}
-              isCompleted={isCompleted}
-              clickHandler={clickHandler}
-              userData={userData}
-            />
+            <TransferForm accounts={accounts} handleOnChange={handleOnChange} isCompleted={isCompleted} clickHandler={clickHandler} userData={userData} setAccounts ={setAccounts} />
           )}
 
           {success && <SuccessMessage data={data} />}
@@ -162,9 +153,7 @@ const TransferPage = () => {
           {errorMessage && (
             <div className="w-full flex items-center justify-center gap-2">
               <NotAllowed />
-              <p className="text-sm text-center text-deleteBtn">
-                {errorMessage.message}
-              </p>
+              <p className="text-sm text-center text-deleteBtn">{errorMessage}</p>
             </div>
           )}
         </form>

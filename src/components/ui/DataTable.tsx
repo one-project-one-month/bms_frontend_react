@@ -15,10 +15,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './table';
+} from './Table';
 import { useState } from 'react';
-import { Button } from './button';
-import { Input } from './input';
+
+import { Button } from './Button';
+import { Input } from './Input';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

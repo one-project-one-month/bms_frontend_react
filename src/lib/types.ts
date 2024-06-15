@@ -38,7 +38,7 @@ const errorSchema = z.object({
 
 // Define TypeScript types for request and response using the zod schemas
 export type RequestBody = z.infer<typeof RequestBodySchema>;
-export type error = z.infer<typeof errorSchema>;
+export type Error = z.infer<typeof errorSchema>;
 
 export type ResponseDataType<T> = {
   status: string;
