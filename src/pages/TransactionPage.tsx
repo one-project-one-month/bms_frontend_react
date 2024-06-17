@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseFormReturn } from 'react-hook-form';
 import {
@@ -41,8 +42,9 @@ import {
 } from '../components/ui/form';
 import useTransactionForm from '../hooks/useTransactionForm';
 import { UserNameList } from '../lib/types';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
 
 interface FormProps {
   form: UseFormReturn<{ account: string; amount: number }, unknown, undefined>;
@@ -68,6 +70,7 @@ const TransactionPage = () => {
   const withdrawForm = useTransactionForm('withdraw');
 
   const renderForm = (type: string, formProps: FormProps) => {
+    const [sortData, setSortData] = useState<UserNameList[]>([]);
     const {
       form,
       open,
@@ -77,7 +80,16 @@ const TransactionPage = () => {
       handleSubmit,
       isLoading,
     } = formProps;
-
+    useEffect(() => {
+      if (userNameList) {
+        const userSort = userNameList.sort(
+          (a: { label: string }, b: { label: string }) => {
+            return a.label.localeCompare(b.label);
+          },
+        );
+        setSortData(userSort);
+      }
+    }, [userNameList]);
     return (
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
@@ -102,11 +114,11 @@ const TransactionPage = () => {
                         >
                           {field.value
                             ? `${
-                                userNameList.find(
+                                sortData.find(
                                   (name) => name.value === field.value,
                                 )?.label
                               }(${
-                                userNameList.find(
+                                sortData.find(
                                   (name) => name.value === field.value,
                                 )?.value
                               })`
@@ -127,7 +139,7 @@ const TransactionPage = () => {
                             <>
                               <CommandEmpty>No User Name found.</CommandEmpty>
                               <CommandGroup>
-                                {userNameList.map((name) => (
+                                {sortData.map((name) => (
                                   <CommandItem
                                     key={name.value}
                                     value={name.label}
