@@ -73,7 +73,7 @@ const TransferPage = () => {
     } else if (users.isError) {
       console.log(users.error);
     }
-  }, [users.data, users.isError, users.isSuccess]);
+  }, [users.data, users.error, users.isError, users.isSuccess]);
 
   const convertAmount = parseInt(accounts.amount.name, 10);
 
@@ -87,12 +87,13 @@ const TransferPage = () => {
     }));
   };
 
+  const getSenderUsername: string =
+    userData.find((user) => user.name === accounts.sender.name)?.username ?? '';
 
-  const getSenderUsername : string = userData.find(user => user.name === accounts.sender.name)?.username ?? '';
+  const getRecipientUsername: string =
+    userData.find((user) => user.name === accounts.recipient.name)?.username ??
+    '';
 
-  const getRecipientUsername : string = userData.find(user => user.name === accounts.recipient.name)?.username ?? '';
-
-  
   const body: RequestBody = {
     process: 'transfer',
     data: {
@@ -103,7 +104,7 @@ const TransferPage = () => {
   };
 
   const submitTransactionMutation = useSubmitTransaction();
-  
+
   useEffect(() => {
     if (submitTransactionMutation.isSuccess && submitTransactionMutation.data) {
       console.log('Mutation Success Data:', submitTransactionMutation);
@@ -113,7 +114,10 @@ const TransferPage = () => {
     } else if (submitTransactionMutation.isPending) {
       setLoading(true);
     } else if (submitTransactionMutation.isError) {
-      console.log('Mutation Error:', submitTransactionMutation.error.response.data.message);
+      console.log(
+        'Mutation Error:',
+        submitTransactionMutation.error.response.data.message,
+      );
       setErrorMessage(submitTransactionMutation.error.response.data.message);
       setLoading(false);
     }
@@ -121,6 +125,7 @@ const TransferPage = () => {
     submitTransactionMutation.isError,
     submitTransactionMutation.isSuccess,
     submitTransactionMutation.isPending,
+    submitTransactionMutation,
   ]);
 
   const clickHandler = () => {
@@ -132,14 +137,25 @@ const TransferPage = () => {
   const isCompleted =
     accounts.sender.isTouched &&
     accounts.recipient.isTouched &&
-    accounts.amount.isTouched;  
+    accounts.amount.isTouched;
 
   return (
-    <div className="w-full mx-auto h-screen">
-      <div className={`max-w-2xl ${success || errorMessage || loading ? 'mx-auto mt-20 max-w-sm' : 'mt-8'}`}>
+    <div className="w-full flex justify-center mt-12 h-screen">
+      <div
+        className={`max-w-2xl ${
+          success || errorMessage || loading ? 'mx-auto mt-20 max-w-sm' : 'mt-8'
+        }`}
+      >
         <form className="bg-PrimaryBg border border-secondaryBorderColor rounded-md px-8 pt-6 pb-6">
           {!success && !errorMessage && !loading && (
-            <TransferForm accounts={accounts} handleOnChange={handleOnChange} isCompleted={isCompleted} clickHandler={clickHandler} userData={userData} setAccounts ={setAccounts} />
+            <TransferForm
+              accounts={accounts}
+              handleOnChange={handleOnChange}
+              isCompleted={isCompleted}
+              clickHandler={clickHandler}
+              userData={userData}
+              setAccounts={setAccounts}
+            />
           )}
 
           {success && <SuccessMessage data={data} />}
@@ -153,7 +169,9 @@ const TransferPage = () => {
           {errorMessage && (
             <div className="w-full flex items-center justify-center gap-2">
               <NotAllowed />
-              <p className="text-sm text-center text-deleteBtn">{errorMessage}</p>
+              <p className="text-sm text-center text-deleteBtn">
+                {errorMessage}
+              </p>
             </div>
           )}
         </form>
