@@ -14,11 +14,9 @@ const TransactionHistoryPage = () => {
 
   useEffect(() => {
     if (GetTransactionQuery.isSuccess && GetTransactionQuery.data) {
-      const sortedData = GetTransactionQuery.data.data.sort(
-        (a, b) => {
-          return new Date(b.time).valueOf() - new Date(a.time).valueOf();
-        },
-      );
+      const sortedData = GetTransactionQuery.data.data.sort((a, b) => {
+        return new Date(b.time).valueOf() - new Date(a.time).valueOf();
+      });
       setTransactionData(sortedData);
     } else if (GetTransactionQuery.isError) {
       console.log(GetTransactionQuery.error);
@@ -27,6 +25,8 @@ const TransactionHistoryPage = () => {
     GetTransactionQuery.isError,
     GetTransactionQuery.isSuccess,
     GetTransactionQuery.isPending,
+    GetTransactionQuery.data,
+    GetTransactionQuery.error,
   ]);
 
   return (

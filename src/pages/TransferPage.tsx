@@ -58,7 +58,7 @@ const TransferPage = () => {
 
   const [data, setData] = useState<TranscationData | null>(null);
   const [success, setSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const users = useFetchUser<UserData>();
@@ -114,11 +114,7 @@ const TransferPage = () => {
     } else if (submitTransactionMutation.isPending) {
       setLoading(true);
     } else if (submitTransactionMutation.isError) {
-      console.log(
-        'Mutation Error:',
-        submitTransactionMutation.error.response.data.message,
-      );
-      setErrorMessage(submitTransactionMutation.error.response.data.message);
+      console.log('Mutation Error:', submitTransactionMutation.error);
       setLoading(false);
     }
   }, [
